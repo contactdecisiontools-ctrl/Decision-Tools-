@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Helper - Find Your Method</title>
+    <style>
+        :root {
+            --primary: #2c5530;
+            --secondary: #4a7c59;
+            --accent: #8fbc8f;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --card-bg: #ffffff;
+            --shadow: 0 3px 10px rgba(0,0,0,0.08);
+            --border: #d1d9e6;
+            --page-bg: #f5f7fa;
+            --input-border: #c8d1e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: var(--page-bg);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* HEADER */
+        .header {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .title {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .subtitle {
+            color: var(--gray);
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .method-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        /* PROGRESS INDICATOR */
+        .progress-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .progress-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--light-gray);
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+
+        .progress-step {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--gray);
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: white;
+        }
+
+        .step-label {
+            position: absolute;
+            top: 45px;
+            font-size: 0.8rem;
+            color: var(--gray);
+            white-space: nowrap;
+        }
+
+        /* SECTIONS */
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            display: none;
+            border: 1px solid var(--border);
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-title {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        /* INPUT STYLES */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .input-group textarea,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .input-group textarea:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(143, 188, 143, 0.1);
+        }
+
+        .input-group textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        /* BUTTONS */
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+        }
+
+        .btn-secondary {
+            background: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background: #dee2e6;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        /* SHARE BUTTON */
+        .share-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin: 5px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .share-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-1px);
+        }
+
+        .share-btn:active {
+            transform: translateY(0);
+        }
+
+        .share-btn.copied {
+            background: #28a745;
+        }
+
+        /* KIT DISPLAY */
+        .kit-result {
+            background: #f0f7f0;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 4px solid var(--accent);
+            border: 1px solid var(--border);
+        }
+
+        .kit-name {
+            color: var(--primary);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .kit-description {
+            color: var(--dark);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .prompt-output {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+            border: 1px solid var(--input-border);
+        }
+
+        .prompt-text {
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #e9ecef;
+        }
+
+        .copy-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-1px);
+        }
+
+        .copy-btn.copied {
+            background: #28a745;
+        }
+
+        .copy-btn:active {
+            transform: translateY(0);
+        }
+
+        /* SUPPORT SECTION */
+        .support-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .availability-notice {
+            background: #f0f7f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+
+        .principles-list {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--border);
+        }
+
+        .principles-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .principles-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .principles-list li:before {
+            content: "•";
+            color: var(--accent);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* DISCLAIMER */
+        .disclaimer {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+            font-size: 0.9rem;
+            border: 1px solid #ffeaa7;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .title {
+                font-size: 1.8rem;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1 class="title">Decision Helper</h1>
+        <p class="subtitle">Find the right method for your situation</p>
+        <div class="method-badge">Observe → Pattern → Choose</div>
+    </div>
+
+    <!-- PROGRESS INDICATOR -->
+    <div class="progress-container">
+        <div class="progress-step active" id="step1">
+            1
+            <div class="step-label">Describe</div>
+        </div>
+        <div class="progress-step" id="step2">
+            2
+            <div class="step-label">Patterns</div>
+        </div>
+        <div class="progress-step" id="step3">
+            3
+            <div class="step-label">Get Method</div>
+        </div>
+    </div>
+
+    <!-- STEP 1: DESCRIBE SITUATION -->
+    <div class="section active" id="section1">
+        <h2 class="section-title">Step 1: Describe Your Situation</h2>
+        <p style="margin-bottom: 20px; color: var(--gray);">
+            Briefly describe what's happening. Focus on facts you can observe, not interpretations.
+        </p>
+        
+        <div class="input-group">
+            <label for="situation">What situation are you facing?</label>
+            <textarea id="situation" placeholder="Example: I've been having headaches in the afternoons at work, especially after long meetings..."></textarea>
+            <p style="font-size: 0.9em; color: var(--secondary); margin-top: 5px;">
+                <em>Tip: More details = better guidance. Include timing, frequency, who's involved, and specific examples.</em>
+            </p>
+        </div>
+        
+        <div class="button-group">
+            <button class="btn" onclick="nextStep()">Continue to Step 2</button>
+        </div>
+    </div>
+
+    <!-- STEP 2: REVIEW PATTERNS -->
+    <div class="section" id="section2">
+        <h2 class="section-title">Step 2: Identify Patterns</h2>
+        <p style="margin-bottom: 20px; color: var(--gray);">
+            Based on your description, what patterns might be important?
+        </p>
+        
+        <div class="input-group">
+            <label for="patterns">What seems to repeat or trigger the situation?</label>
+            <textarea id="patterns" placeholder="Example: The headaches happen around 3 PM, after back-to-back meetings, when I haven't had water..."></textarea>
+            <p style="font-size: 0.9em; color: var(--secondary); margin-top: 5px;">
+                <em>Tip: Look for repetitions. What happens before/after? What makes it better/worse?</em>
+            </p>
+        </div>
+        
+        <div class="input-group">
+            <label for="category">What area does this mainly involve?</label>
+            <select id="category">
+                <option value="">Select the main category...</option>
+                <option value="medical">Health & Symptoms</option>
+                <option value="work">Work & Professional</option>
+                <option value="financial">Financial & Spending</option>
+                <option value="forms">Paperwork & Administration</option>
+                <option value="care">Care & Support</option>
+                <option value="education">Education & School</option>
+                <option value="housing">Housing & Living</option>
+                <option value="local">Community & Local Issues</option>
+                <option value="support">Relationships & Boundaries</option>
+                <option value="parenting">Parenting & Communication</option>
+                <option value="business">Business & Professional</option>
+                <option value="routine">Daily Routine & Habits</option>
+            </select>
+        </div>
+        
+        <div class="button-group">
+            <button class="btn-secondary" onclick="prevStep()">Back to Step 1</button>
+            <button class="btn" onclick="analyzeAndProceed()">Find My Method</button>
+        </div>
+    </div>
+
+    <!-- STEP 3: GET METHOD -->
+    <div class="section" id="section3">
+        <h2 class="section-title">Step 3: Your Recommended Method</h2>
+        <p style="margin-bottom: 20px; color: var(--gray);">
+            Based on your input, here's the specific method for your situation:
+        </p>
+        
+        <div class="kit-result" id="kitResult">
+            <!-- Kit will be inserted here -->
+        </div>
+        
+        <div class="button-group">
+            <button class="btn-secondary" onclick="prevStep()">Back to Step 2</button>
+            <button class="btn" onclick="startOver()">Start Over with New Situation</button>
+        </div>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <div class="disclaimer">
+        <strong>Note:</strong> These methods help you organize your own observations. They are not professional advice. For medical, legal, or financial matters, consult appropriate professionals. Your judgment guides all decisions.
+    </div>
+
+    <!-- SUPPORT SECTION -->
+    <div class="support-section">
+        <h2 class="section-title">How This Stays Available</h2>
+        
+        <div class="availability-notice">
+            <h4>Current Status:</h4>
+            <p><strong>✓ Free to use</strong> • <strong>✓ No accounts needed</strong> • <strong>✓ Your copy to keep</strong></p>
+            
+            <p style="margin-top: 15px;">
+                <em>Tool development in progress.<br>
+                Optional support options coming in future updates.</em>
+            </p>
+        </div>
+        
+        <div class="principles-list">
+            <h4>How This Tool Works:</h4>
+            <ul>
+                <li>Builds on what you can actually observe and track</li>
+                <li>Respects your specific situation and choices</li>
+                <li>Includes clear "stop if" safety conditions</li>
+                <li>You maintain control and can adjust anytime</li>
+                <li>No one excluded by inability to contribute</li>
+            </ul>
+        </div>
+        
+        <p style="margin-top: 20px; font-size: 0.9em; color: var(--gray);">
+            <em>For now: Use it. Adapt it. Share it. That's support enough.</em>
+        </p>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>Decision Helper Tools | Methods for independent thinking</p>
+        <p style="margin-top: 8px; font-size: 0.9em;">Your observations • Your patterns • Your decisions</p>
+        
+        <!-- SHARE BUTTON -->
+        <div style="margin: 20px 0;">
+            <button class="share-btn" onclick="shareSite()">
+                <span>🔗 Share This Tool</span>
+            </button>
+            <p style="margin-top: 8px; font-size: 0.8em; color: var(--gray);">
+                <em>Share with someone who could use clearer decision methods</em>
+            </p>
+        </div>
+        
+        <p style="margin-top: 15px; font-style: italic; color: var(--secondary);">
+            Clear notes create clear choices. Track what matters.
+        </p>
+        
+        <!-- VISITOR COUNTER -->
+        <p style="margin-top: 10px; font-size: 0.8em; color: var(--gray);">
+            Version 1.0 • Decision Tools
+        </p>
+        <p style="font-size: 0.7em; color: var(--gray); margin-top: 5px;">
+            Page loaded <span id="viewCount">0</span> times on this device
+        </p>
+    </div>
+
+</div>
+
+<script>
+// Initialize view counter
+try {
+    let views = localStorage.getItem('decisionToolsViews') || 0;
+    views = parseInt(views) + 1;
+    localStorage.setItem('decisionToolsViews', views);
+    // Update counter display after page loads
+    setTimeout(() => {
+        const counterElement = document.getElementById('viewCount');
+        if (counterElement) {
+            counterElement.textContent = views.toLocaleString();
+        }
+    }, 100);
+} catch(e) {
+    // If localStorage fails, show generic text
+    setTimeout(() => {
+        const counterElement = document.getElementById('viewCount');
+        if (counterElement) {
+            counterElement.textContent = 'many';
+        }
+    }, 100);
+}
+
+// Kit database - matches to categories
+const kitDatabase = {
+    medical: {
+        name: "Symptom Tracking Method",
+        description: "Track symptoms, identify patterns, make informed healthcare choices based on your observations.",
+        category: "Health",
+        promptTemplate: `I need help tracking and understanding my symptoms. Here's my situation: [SITUATION]
+
+I've noticed these patterns: [PATTERNS]
+
+Please guide me through:
+1. What specific observations should I track for the next 3 days? (Ask for timing, intensity scale 1-5, context)
+2. After I provide my observations, help me identify what patterns emerge
+3. Based on my patterns, suggest clear options with "stop if" conditions
+
+Important: Ask one step at a time. Don't give medical advice. Help me track my own observations so I can make informed decisions.`
+    },
+    work: {
+        name: "Work Situation Method",
+        description: "Document workplace facts, recognize patterns, choose professional responses that work for you.",
+        category: "Professional",
+        promptTemplate: `I need help navigating a work situation. Here's what's happening: [SITUATION]
+
+Patterns I've noticed: [PATTERNS]
+
+Please guide me through:
+1. What specific workplace interactions should I document for the next week? (Ask for dates, what happened, who involved, my responses)
+2. After I provide my observations, help me identify what patterns emerge in workplace dynamics
+3. Based on my patterns, suggest professional response options with clear "stop if" conditions
+
+Important: Ask one step at a time. Focus on factual documentation, not emotional reactions.`
+    },
+    financial: {
+        name: "Spending Pattern Method",
+        description: "Track where money goes, see spending patterns, make financial choices aligned with your priorities.",
+        category: "Financial",
+        promptTemplate: `I need help understanding my spending patterns. Here's my situation: [SITUATION]
+
+Patterns I've noticed: [PATTERNS]
+
+Please guide me through:
+1. What specific spending should I track for the next week? (Ask for amounts, what for, necessary vs optional)
+2. After I provide my spending observations, help me identify where money actually goes vs where I want it to go
+3. Based on my patterns, suggest adjustment options with clear "stop if" conditions
+
+Important: Ask one step at a time. Focus on observable spending, not judgments about worth.`
+    },
+    forms: {
+        name: "Form Process Method",
+        description: "Gather requirements, track submissions, navigate paperwork systematically using your own notes.",
+        category: "Administrative",
+        promptTemplate: `I need help with paperwork or forms. Here's my situation: [SITUATION]
+
+Patterns I've noticed: [PATTERNS]
+
+Please guide me through:
+1. What specific steps and requirements should I document for this process? (Ask for deadlines, required documents, submission methods)
+2. After I document the process, help me identify sticking points or unclear requirements
+3. Based on my documentation, suggest next-step options with clear "stop if" conditions
+
+Important: Ask one step at a time. Focus on factual requirements, not assumptions.`
+    },
+    care: {
+        name: "Care Coordination Method",
+        description: "Assess needs, track support, maintain sustainable care arrangements based on actual resources.",
+        category: "Family",
+        promptTemplate: `I need help coordinating care or support. Here's my situation: [SITUATION]
+
+Patterns I've noticed: [PATTERNS]
+
+Please guide me through:
+1. What specific care needs and support should I track for the next week? (Ask for daily needs, who helps, time required, energy levels)
+2. After I provide my observations, help me identify what's working sustainably vs what's draining resources
+3. Based on my patterns, suggest adjustment options with clear "stop if" conditions
+
+Important: Ask one step at a time. Focus on observable needs and actual support, not idealized arrangements.`
+    },
+    education: {
+        name: "Education Concern Method",
+        description: "Document school concerns, track communications, advocate effectively using your recorded facts.",
+        category: "Education",
+        promptTemplate: `I need help with an education-related concern. Here's my situation: [SITUATION]
+
+Patterns I've noticed: [PATTERNS]
+
+Please guide me through:
+1. What specific concerns and communications should I document? (Ask for dates, who spoke with, what was said, outcomes)
+2. After I provide my documentation, help me identify what communication methods work vs don't work
+3. Based on my patterns, suggest advocacy options with clear "stop if" conditions
+
+Important: Ask one step at a time. Focus on factual communications, not emotional responses.`
+    },
+    housing: {
+        name: "Housing Situation Method",
+        description: "Document housing interactions, understand patterns, maintain housing security with clear records.",
+        category: "Housing",
+        promptTemplate: `I need help with a housing situation. Here's what's happening: [SITUATION]
+
+Patterns I've noticed: [PATTERNS]
+
+Please guide me through:
+1. What specific housing interactions should I document? (Ask for dates, issues discussed, agreements made, who involved)
+2. After I provide my documentation, help me identify what agreements are kept vs broken
+3. Based on my patterns, suggest response options with clear "stop if" conditions
+
+Important: Ask one step at a time. Focus on factual interactions and agreements, not opinions.`
+    },
+    local: {
+        name: "Local Issue Method",
+        description: "Understand local systems, track engagement, take effective civic action based on researched facts.",
+        category: "Community",
+        promptTemplate: `I need help with a local community issue. Here's my situation: [SITUATION]
+
+Patterns I've noticed: [PATTERNS]
+
+Please guide me through:
+1. What specific facts and decision-makers should I research? (Ask for key facts, timelines, who makes decisions, how decisions are made)
+2. After I provide my research, help me identify effective vs ineffective engagement methods
+3. Based on my research, suggest action options with clear "stop if" conditions
+
+Important: Ask one step at a time. Focus on verifiable facts and decision processes, not opinions.`
+    },
+    support: {
+        name: "Support Role Method",
+        description: "Define your role, track interactions, maintain healthy boundaries based on what actually works.",
+        category: "Relationships",
+        promptTemplate: `I need help with a support role or relationship boundaries. Here's my situation: [SITUATION]
+
+Patterns I've noticed: [PATTERNS]
+
+Please guide me through:
+1. What specific support interactions should I track? (Ask for what I did, time spent, outcomes, how I felt afterwards)
+2. After I provide my observations, help me identify what support is effective vs draining
+3. Based on my patterns, suggest boundary options with clear "stop if" conditions
+
+Important: Ask one step at a time. Focus on observable interactions and outcomes, not relationship judgments.`
+    },
+    parenting: {
+        name: "Parenting Communication Method",
+        description: "Log communications, identify patterns, maintain child-focused approach using documented interactions.",
+        category: "Parenting",
+        promptTemplate: `I need help with parenting communication. Here's my situation: [SITUATION]
+
+Patterns I've noticed: [PATTERNS]
+
+Please guide me through:
+1. What specific parenting communications should I document? (Ask for dates, topics, what was communicated, child's needs addressed)
+2. After I provide my documentation, help me identify what communication methods work for the child vs cause conflict
+3. Based on my patterns, suggest communication options with clear "stop if" conditions
+
+Important: Ask one step at a time. Focus on child's needs and factual communications, not parental conflict.`
+    },
+    business: {
+        name: "Business Interaction Method",
+        description: "Document business facts, track agreements, protect professional interests with clear records.",
+        category: "Business",
+        promptTemplate: `I need help with a business or professional interaction. Here's my situation: [SITUATION]
+
+Patterns I've noticed: [PATTERNS]
+
+Please guide me through:
+1. What specific business interactions should I document? (Ask for dates, who involved, what discussed, agreements made)
+2. After I provide my documentation, help me identify what agreements are kept vs problematic patterns
+3. Based on my patterns, suggest professional response options with clear "stop if" conditions
+
+Important: Ask one step at a time. Focus on factual business interactions, not emotional reactions.`
+    },
+    routine: {
+        name: "Daily Pattern Method",
+        description: "Observe natural routines, build on existing patterns, create sustainable daily stability.",
+        category: "Personal",
+        promptTemplate: `I need help with daily routines or habits. Here's my situation: [SITUATION]
+
+Patterns I've noticed: [PATTERNS]
+
+Please guide me through:
+1. What specific daily activities and energy levels should I track for a week? (Ask for times, activities, interruptions, energy 1-5 scale)
+2. After I provide my observations, help me identify natural productive times vs disruptive patterns
+3. Based on my patterns, suggest routine adjustment options with clear "stop if" conditions
+
+Important: Ask one step at a time. Focus on observable patterns, not idealized schedules.`
+    }
+};
+
+// Current step tracking
+let currentStep = 1;
+let generatedPrompt = '';
+
+// Update progress indicators
+function updateProgress() {
+    // Reset all steps
+    document.querySelectorAll('.progress-step').forEach(step => {
+        step.classList.remove('active');
+    });
+    
+    // Activate current and previous steps
+    for (let i = 1; i <= currentStep; i++) {
+        document.getElementById('step' + i).classList.add('active');
+    }
+    
+    // Show/hide sections
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
+    document.getElementById('section' + currentStep).classList.add('active');
+}
+
+// Navigation functions
+function nextStep() {
+    if (currentStep < 3) {
+        currentStep++;
+        updateProgress();
+        // Scroll to top of new section
+        document.getElementById('section' + currentStep).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+function prevStep() {
+    if (currentStep > 1) {
+        currentStep--;
+        updateProgress();
+        document.getElementById('section' + currentStep).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// Analyze situation and recommend kit
+function analyzeAndProceed() {
+    const situation = document.getElementById('situation').value.trim();
+    const patterns = document.getElementById('patterns').value.trim();
+    const category = document.getElementById('category').value;
+    
+    if (!situation) {
+        alert("Please describe your situation in Step 1.");
+        prevStep();
+        document.getElementById('situation').focus();
+        return;
+    }
+    
+    if (!category) {
+        alert("Please select a category in Step 2.");
+        document.getElementById('category').focus();
+        return;
+    }
+    
+    // Get the recommended kit
+    const kit = kitDatabase[category];
+    if (!kit) {
+        alert("Please select a valid category.");
+        return;
+    }
+    
+    // Generate the custom prompt
+    generatedPrompt = kit.promptTemplate
+        .replace('[SITUATION]', situation)
+        .replace('[PATTERNS]', patterns || "I haven't identified clear patterns yet.");
+    
+    // Display the result
+    const kitResult = document.getElementById('kitResult');
+    kitResult.innerHTML = `
+        <div class="kit-name">${kit.name}</div>
+        <div class="kit-description">${kit.description}</div>
+        <div style="margin: 15px 0; padding: 10px; background: white; border-radius: 4px;">
+            <strong>Category:</strong> ${kit.category}
+        </div>
+        
+        <h4 style="margin: 20px 0 10px 0; color: var(--primary);">Your Custom AI Prompt:</h4>
+        <div class="prompt-output">
+            <div class="prompt-text" id="promptTextDisplay">${generatedPrompt}</div>
+            <button class="copy-btn" onclick="copyPromptToClipboard()" id="copyPromptBtn">
+                <span>Copy Prompt to Clipboard</span>
+            </button>
+            <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
+                <strong>How to use this prompt:</strong><br>
+                1. Click "Copy Prompt to Clipboard" above<br>
+                2. Open ChatGPT, Claude, or any AI assistant<br>
+                3. Paste the prompt and follow the AI's questions<br>
+                4. Your observations will guide your decisions
+            </p>
+            <p style="margin-top: 10px; font-size: 0.85em; color: var(--secondary);">
+                <em>Mobile tip: Take screenshot or scan page with phone camera for later use.</em>
+            </p>
+        </div>
+        
+        <div style="margin-top: 25px; padding: 15px; background: rgba(143, 188, 143, 0.1); border-radius: 6px; font-size: 0.9em;">
+            <strong>Next Steps:</strong><br>
+            • Use the prompt above with any AI assistant<br>
+            • Follow the three-step method: Observe → Pattern → Choose<br>
+            • Each option includes "stop if" conditions for safety<br>
+            • Your observations create your solutions
+        </div>
+    `;
+    
+    // Proceed to step 3
+    nextStep();
+}
+
+// Copy prompt to clipboard
+function copyPromptToClipboard() {
+    if (!generatedPrompt) {
+        alert("No prompt generated yet. Please complete Steps 1 and 2 first.");
+        return;
+    }
+    
+    const copyBtn = document.getElementById('copyPromptBtn');
+    const btnText = copyBtn.querySelector('span');
+    
+    // Create a temporary textarea element
+    const textarea = document.createElement('textarea');
+    textarea.value = generatedPrompt;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    
+    try {
+        // Select and copy
+        textarea.select();
+        textarea.setSelectionRange(0, 99999); // For mobile devices
+        
+        const successful = document.execCommand('copy');
+        
+        if (successful) {
+            // Visual feedback
+            btnText.textContent = 'Copied!';
+            copyBtn.classList.add('copied');
+            
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                btnText.textContent = 'Copy Prompt to Clipboard';
+                copyBtn.classList.remove('copied');
+            }, 2000);
+        } else {
+            throw new Error('execCommand failed');
+        }
+    } catch (err) {
+        // Fallback to Clipboard API
+        navigator.clipboard.writeText(generatedPrompt).then(() => {
+            btnText.textContent = 'Copied!';
+            copyBtn.classList.add('copied');
+            
+            setTimeout(() => {
+                btnText.textContent = 'Copy Prompt to Clipboard';
+                copyBtn.classList.remove('copied');
+            }, 2000);
+        }).catch(fallbackErr => {
+            console.error('Clipboard copy failed:', fallbackErr);
+            btnText.textContent = 'Failed to copy';
+            setTimeout(() => {
+                btnText.textContent = 'Copy Prompt to Clipboard';
+            }, 2000);
+            
+            // Last resort: alert with prompt
+            alert("Could not copy automatically. Please manually copy the text above.");
+        });
+    } finally {
+        // Clean up
+        document.body.removeChild(textarea);
+    }
+}
+
+// Share site function
+function shareSite() {
+    const url = window.location.href;
+    const title = 'Decision Helper - Find the right method for your situation';
+    const text = 'A tool that helps you find the right decision-making method for any situation using the Observe → Pattern → Choose framework.';
+    const shareBtn = document.querySelector('.share-btn span');
+    
+    // Check if Web Share API is available (mobile)
+    if (navigator.share) {
+        navigator.share({
+            title: title,
+            text: text,
+            url: url,
+        })
+        .then(() => {
+            // Visual feedback on success
+            shareBtn.textContent = 'Shared!';
+            setTimeout(() => {
+                shareBtn.textContent = '🔗 Share This Tool';
+            }, 2000);
+        })
+        .catch(err => {
+            // User cancelled or error
+            console.log('Share cancelled or failed:', err);
+        });
+    } else {
+        // Fallback: Copy URL to clipboard
+        navigator.clipboard.writeText(url + '\n\n' + title + '\n' + text)
+            .then(() => {
+                shareBtn.textContent = 'Link Copied!';
+                document.querySelector('.share-btn').classList.add('copied');
+                
+                setTimeout(() => {
+                    shareBtn.textContent = '🔗 Share This Tool';
+                    document.querySelector('.share-btn').classList.remove('copied');
+                }, 2000);
+            })
+            .catch(err => {
+                // Last resort: prompt to copy
+                prompt('Copy this link to share:', url);
+            });
+    }
+}
+
+// Start over
+function startOver() {
+    // Reset form
+    document.getElementById('situation').value = '';
+    document.getElementById('patterns').value = '';
+    document.getElementById('category').selectedIndex = 0;
+    
+    // Reset to step 1
+    currentStep = 1;
+    updateProgress();
+    generatedPrompt = '';
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('situation').focus();
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    updateProgress();
+    
+    // Add keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.ctrlKey) {
+            if (currentStep === 1) nextStep();
+            else if (currentStep === 2) analyzeAndProceed();
+        }
+        if (e.key === 'Escape' && currentStep === 3) {
+            startOver();
+        }
+    });
+    
+    // Auto-focus first textarea
+    document.getElementById('situation').focus();
+});
+</script>
+</body>
+  </html>
