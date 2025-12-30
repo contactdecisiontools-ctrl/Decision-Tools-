@@ -1030,13 +1030,18 @@ function copyPromptToClipboard() {
     }
 }
 
-// Share site function
+// WORKING Share site function
 function shareSite() {
     const url = 'https://decisiontools.ca';
-    const title = 'Decision Helper - Find the right method for your situation';
-    const text = 'A tool that helps you find the right decision-making method using the Observe → Pattern → Choose framework. No accounts needed.';
+    const title = 'Decision Helper Tool';
+    const text = 'A practical method for structured decision-making. No accounts needed.';
+    
     const shareBtn = document.querySelector('.share-btn span');
     
+    // Create the full share text
+    const fullText = `${title}\n\n${text}\n\n${url}`;
+    
+    // Try Web Share API first (mobile)
     if (navigator.share) {
         navigator.share({
             title: title,
@@ -1044,20 +1049,48 @@ function shareSite() {
             url: url,
         })
         .then(() => {
+            // Success
             shareBtn.textContent = 'Shared! ✓';
             setTimeout(() => {
-                shareBtn.textContent = '📱 Share via Message/Email';
+                shareBtn.textContent = '📱 Share';
             }, 2000);
         })
-        .catch(err => {
-            console.log('Share cancelled or failed:', err);
-            copyToClipboard(url, shareBtn);
+        .catch(() => {
+            // User cancelled or failed - fallback to clipboard
+            copyToClipboard(fullText, shareBtn);
         });
     } else {
-        copyToClipboard(url, shareBtn);
+        // No share API - use clipboard
+        copyToClipboard(fullText, shareBtn);
     }
 }
 
+// Simple clipboard function
+function copyToClipboard(text, buttonElement) {
+    // Create temporary element
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    
+    try {
+        const success = document.execCommand('copy');
+        if (success) {
+            buttonElement.textContent = 'Copied! ✓';
+            buttonElement.parentElement.classList.add('copied');
+            
+            setTimeout(() => {
+                buttonElement.textContent = '📱 Share';
+                buttonElement.parentElement.classList.remove('copied');
+            }, 2000);
+        }
+    } catch (err) {
+        // Fallback
+        alert('Please copy this link:\n\n' + text);
+    }
+    
+    document.body.removeChild(textarea);
+}
 // Helper function for clipboard copy
 function copyToClipboard(text, buttonElement) {
     navigator.clipboard.writeText(text + '\n\nDecision Helper Tool\n' + 
