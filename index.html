@@ -317,6 +317,36 @@
             transform: translateY(0);
         }
 
+        /* SHARE SECTION */
+        .share-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .share-section .section-title {
+            text-align: center;
+            border-bottom: none;
+            margin-bottom: 10px;
+        }
+
+        #qrCodeDisplay {
+            min-height: 220px;
+            min-width: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
         /* SUPPORT SECTION */
         .support-section {
             background: white;
@@ -403,6 +433,15 @@
             
             .button-group {
                 flex-direction: column;
+            }
+            
+            .share-section {
+                padding: 20px;
+            }
+            
+            #qrCodeDisplay {
+                min-height: 180px;
+                min-width: 180px;
             }
         }
     </style>
@@ -516,6 +555,53 @@
         <strong>Note:</strong> These methods help you organize your own observations. They are not professional advice. For medical, legal, or financial matters, consult appropriate professionals. Your judgment guides all decisions.
     </div>
 
+    <!-- SHARE SECTION -->
+    <div class="share-section">
+        <h2 class="section-title">Share This Tool</h2>
+        
+        <div style="text-align: center; margin: 25px 0;">
+            <p style="margin-bottom: 20px; font-size: 1.1em;">
+                <strong>Show the QR code below to someone in person:</strong><br>
+                They can scan it with their phone camera
+            </p>
+            
+            <!-- QR Code Placeholder - REPLACE WITH YOUR QR CODE IMAGE -->
+            <div id="qrCodeDisplay">
+                <p style="color: var(--gray); margin-bottom: 10px;">[Your QR Code Here]</p>
+                <p style="font-size: 0.9em; color: var(--secondary);">
+                    Add your QR code image for:<br>
+                    <strong>https://decisiontools.ca</strong>
+                </p>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <p><strong>Direct link to share:</strong></p>
+                <div style="background: var(--light-gray); padding: 12px; border-radius: 6px; margin: 15px 0; word-break: break-all;">
+                    https://decisiontools.ca
+                </div>
+                
+                <div class="button-group" style="justify-content: center;">
+                    <button class="share-btn" onclick="shareSite()" style="padding: 12px 25px; font-size: 1em;">
+                        <span>📱 Share via Message/Email</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 25px; padding: 20px; background: #f0f7f0; border-radius: 8px;">
+            <h4 style="color: var(--primary); margin-bottom: 10px;">How to Share:</h4>
+            <ol style="padding-left: 20px;">
+                <li><strong>In person:</strong> Show QR code on your screen for others to scan</li>
+                <li><strong>Digitally:</strong> Share the link above via message or email</li>
+                <li><strong>No accounts needed:</strong> Anyone can use it immediately</li>
+                <li><strong>Works globally:</strong> Browser translation available</li>
+            </ol>
+            <p style="margin-top: 15px; font-style: italic; color: var(--secondary);">
+                Share with someone facing a decision who could use clearer thinking methods.
+            </p>
+        </div>
+    </div>
+
     <!-- SUPPORT SECTION -->
     <div class="support-section">
         <h2 class="section-title">How This Stays Available</h2>
@@ -523,6 +609,8 @@
         <div class="availability-notice">
             <h4>Current Status:</h4>
             <p><strong>✓ Free to use</strong> • <strong>✓ No accounts needed</strong> • <strong>✓ Your copy to keep</strong></p>
+            <p><strong>✓ Official domain:</strong> decisiontools.ca</p>
+            <p><strong>✓ Contact:</strong> contact@decisiontools.ca</p>
             
             <p style="margin-top: 15px;">
                 <em>Tool development in progress.<br>
@@ -538,6 +626,7 @@
                 <li>Includes clear "stop if" safety conditions</li>
                 <li>You maintain control and can adjust anytime</li>
                 <li>No one excluded by inability to contribute</li>
+                <li><strong>Privacy-first:</strong> Use your browser or preferred tool for translation</li>
             </ul>
         </div>
         
@@ -548,7 +637,7 @@
 
     <!-- FOOTER -->
     <div class="footer">
-        <p>Decision Helper Tools | Methods for independent thinking</p>
+        <p>Decision Tools | decisiontools.ca</p>
         <p style="margin-top: 8px; font-size: 0.9em;">Your observations • Your patterns • Your decisions</p>
         
         <!-- SHARE BUTTON -->
@@ -567,7 +656,7 @@
         
         <!-- VISITOR COUNTER -->
         <p style="margin-top: 10px; font-size: 0.8em; color: var(--gray);">
-            Version 1.0 • Decision Tools
+            Version 1.0 • Decision Tools • contact@decisiontools.ca
         </p>
         <p style="font-size: 0.7em; color: var(--gray); margin-top: 5px;">
             Page loaded <span id="viewCount">0</span> times on this device
@@ -582,7 +671,6 @@ try {
     let views = localStorage.getItem('decisionToolsViews') || 0;
     views = parseInt(views) + 1;
     localStorage.setItem('decisionToolsViews', views);
-    // Update counter display after page loads
     setTimeout(() => {
         const counterElement = document.getElementById('viewCount');
         if (counterElement) {
@@ -590,7 +678,6 @@ try {
         }
     }, 100);
 } catch(e) {
-    // If localStorage fails, show generic text
     setTimeout(() => {
         const counterElement = document.getElementById('viewCount');
         if (counterElement) {
@@ -789,17 +876,14 @@ let generatedPrompt = '';
 
 // Update progress indicators
 function updateProgress() {
-    // Reset all steps
     document.querySelectorAll('.progress-step').forEach(step => {
         step.classList.remove('active');
     });
     
-    // Activate current and previous steps
     for (let i = 1; i <= currentStep; i++) {
         document.getElementById('step' + i).classList.add('active');
     }
     
-    // Show/hide sections
     document.querySelectorAll('.section').forEach(section => {
         section.classList.remove('active');
     });
@@ -811,7 +895,6 @@ function nextStep() {
     if (currentStep < 3) {
         currentStep++;
         updateProgress();
-        // Scroll to top of new section
         document.getElementById('section' + currentStep).scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
@@ -843,19 +926,16 @@ function analyzeAndProceed() {
         return;
     }
     
-    // Get the recommended kit
     const kit = kitDatabase[category];
     if (!kit) {
         alert("Please select a valid category.");
         return;
     }
     
-    // Generate the custom prompt
     generatedPrompt = kit.promptTemplate
         .replace('[SITUATION]', situation)
         .replace('[PATTERNS]', patterns || "I haven't identified clear patterns yet.");
     
-    // Display the result
     const kitResult = document.getElementById('kitResult');
     kitResult.innerHTML = `
         <div class="kit-name">${kit.name}</div>
@@ -891,7 +971,6 @@ function analyzeAndProceed() {
         </div>
     `;
     
-    // Proceed to step 3
     nextStep();
 }
 
@@ -905,7 +984,6 @@ function copyPromptToClipboard() {
     const copyBtn = document.getElementById('copyPromptBtn');
     const btnText = copyBtn.querySelector('span');
     
-    // Create a temporary textarea element
     const textarea = document.createElement('textarea');
     textarea.value = generatedPrompt;
     textarea.style.position = 'fixed';
@@ -913,18 +991,15 @@ function copyPromptToClipboard() {
     document.body.appendChild(textarea);
     
     try {
-        // Select and copy
         textarea.select();
-        textarea.setSelectionRange(0, 99999); // For mobile devices
+        textarea.setSelectionRange(0, 99999);
         
         const successful = document.execCommand('copy');
         
         if (successful) {
-            // Visual feedback
             btnText.textContent = 'Copied!';
             copyBtn.classList.add('copied');
             
-            // Reset button after 2 seconds
             setTimeout(() => {
                 btnText.textContent = 'Copy Prompt to Clipboard';
                 copyBtn.classList.remove('copied');
@@ -933,7 +1008,6 @@ function copyPromptToClipboard() {
             throw new Error('execCommand failed');
         }
     } catch (err) {
-        // Fallback to Clipboard API
         navigator.clipboard.writeText(generatedPrompt).then(() => {
             btnText.textContent = 'Copied!';
             copyBtn.classList.add('copied');
@@ -949,23 +1023,20 @@ function copyPromptToClipboard() {
                 btnText.textContent = 'Copy Prompt to Clipboard';
             }, 2000);
             
-            // Last resort: alert with prompt
             alert("Could not copy automatically. Please manually copy the text above.");
         });
     } finally {
-        // Clean up
         document.body.removeChild(textarea);
     }
 }
 
 // Share site function
 function shareSite() {
-    const url = window.location.href;
+    const url = 'https://decisiontools.ca';
     const title = 'Decision Helper - Find the right method for your situation';
-    const text = 'A tool that helps you find the right decision-making method for any situation using the Observe → Pattern → Choose framework.';
+    const text = 'A tool that helps you find the right decision-making method using the Observe → Pattern → Choose framework. No accounts needed.';
     const shareBtn = document.querySelector('.share-btn span');
     
-    // Check if Web Share API is available (mobile)
     if (navigator.share) {
         navigator.share({
             title: title,
@@ -973,48 +1044,49 @@ function shareSite() {
             url: url,
         })
         .then(() => {
-            // Visual feedback on success
-            shareBtn.textContent = 'Shared!';
+            shareBtn.textContent = 'Shared! ✓';
             setTimeout(() => {
-                shareBtn.textContent = '🔗 Share This Tool';
+                shareBtn.textContent = '📱 Share via Message/Email';
             }, 2000);
         })
         .catch(err => {
-            // User cancelled or error
             console.log('Share cancelled or failed:', err);
+            copyToClipboard(url, shareBtn);
         });
     } else {
-        // Fallback: Copy URL to clipboard
-        navigator.clipboard.writeText(url + '\n\n' + title + '\n' + text)
-            .then(() => {
-                shareBtn.textContent = 'Link Copied!';
-                document.querySelector('.share-btn').classList.add('copied');
-                
-                setTimeout(() => {
-                    shareBtn.textContent = '🔗 Share This Tool';
-                    document.querySelector('.share-btn').classList.remove('copied');
-                }, 2000);
-            })
-            .catch(err => {
-                // Last resort: prompt to copy
-                prompt('Copy this link to share:', url);
-            });
+        copyToClipboard(url, shareBtn);
     }
+}
+
+// Helper function for clipboard copy
+function copyToClipboard(text, buttonElement) {
+    navigator.clipboard.writeText(text + '\n\nDecision Helper Tool\n' + 
+        'A practical method for structured decision-making.\n' +
+        'https://decisiontools.ca')
+        .then(() => {
+            buttonElement.textContent = 'Link Copied! ✓';
+            buttonElement.parentElement.classList.add('copied');
+            
+            setTimeout(() => {
+                buttonElement.textContent = '📱 Share via Message/Email';
+                buttonElement.parentElement.classList.remove('copied');
+            }, 2000);
+        })
+        .catch(err => {
+            prompt('Copy this link to share:', text);
+        });
 }
 
 // Start over
 function startOver() {
-    // Reset form
     document.getElementById('situation').value = '';
     document.getElementById('patterns').value = '';
     document.getElementById('category').selectedIndex = 0;
     
-    // Reset to step 1
     currentStep = 1;
     updateProgress();
     generatedPrompt = '';
     
-    // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
     document.getElementById('situation').focus();
 }
@@ -1023,7 +1095,6 @@ function startOver() {
 document.addEventListener('DOMContentLoaded', function() {
     updateProgress();
     
-    // Add keyboard navigation
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && e.ctrlKey) {
             if (currentStep === 1) nextStep();
@@ -1034,9 +1105,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Auto-focus first textarea
     document.getElementById('situation').focus();
 });
 </script>
 </body>
-  </html>
+</html>
