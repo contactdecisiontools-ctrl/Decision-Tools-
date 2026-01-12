@@ -1,252 +1,294 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html><html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Decision Tools - Structured Decision Maker</title>
-<style>
-body{font-family:Georgia,serif;margin:20px;background:#f5f7f2;color:#2F4F4F}
-.container{max-width:1100px;margin:0 auto;background:#fff;padding:30px;border-radius:12px;box-shadow:0 5px 15px rgba(0,0,0,0.08);border:1px solid #ddd}
-.header{text-align:center;padding-bottom:25px;margin-bottom:25px;border-bottom:2px solid #4A7C59}
-.title{color:#2E7D32;font-size:32px;margin-bottom:8px}
-.subtitle{color:#8B7355;font-size:18px;font-style:italic}
-.gate-title{color:#1B5E20;font-size:24px;margin-bottom:12px;text-align:center}
-.gate-description{color:#666;margin-bottom:30px;text-align:center;max-width:800px;margin-left:auto;margin-right:auto}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px;margin-bottom:35px}
-@media(max-width:700px){.cards{grid-template-columns:1fr;gap:20px}}
-.card{background:#fff;border:2px solid #D4B483;border-radius:10px;padding:25px;text-align:center;transition:all 0.3s}
-.card:hover{transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,0.1);border-color:#4A7C59}
-.card-icon{font-size:40px;margin-bottom:20px}
-.card-title{color:#4A7C59;font-size:22px;margin-bottom:15px}
-.card-description{color:#666;font-size:16px;margin-bottom:25px;line-height:1.5}
-.card-button{background:#4A7C59;color:#fff;border:none;padding:12px 25px;border-radius:8px;font-size:16px;cursor:pointer;width:100%;max-width:220px}
-.card-button:hover{background:#3F5E44;transform:translateY(-2px)}
-.section{display:none;background:#fff;border:2px solid #D4B483;border-radius:10px;padding:30px;margin-top:20px}
-.section.active{display:block;border-color:#4A7C59;box-shadow:0 5px 15px rgba(0,0,0,0.08)}
-.section-title{color:#4A7C59;font-size:24px;margin-bottom:25px;padding-bottom:15px;border-bottom:2px solid #f0f0f0}
-.form-group{margin-bottom:25px}
-label{display:block;margin-bottom:10px;font-weight:bold;color:#333;font-size:18px}
-textarea,select{width:100%;padding:14px;border:2px solid #ddd;border-radius:8px;font-size:16px;background:#f9f9f9;font-family:Georgia,serif}
-textarea:focus,select:focus{outline:none;border-color:#4A7C59;background:#fff;box-shadow:0 0 0 3px rgba(74,124,89,0.1)}
-textarea{min-height:140px;resize:vertical;line-height:1.5}
-.form-tip{font-size:14px;color:#777;margin-top:8px;font-style:italic}
-.button-group{display:flex;gap:15px;margin-top:30px}
-@media(max-width:600px){.button-group{flex-direction:column}}
-.btn{background:#4A7C59;color:#fff;border:none;padding:14px 28px;border-radius:8px;font-size:16px;cursor:pointer;transition:all 0.3s}
-.btn:hover{background:#3F5E44;transform:translateY(-2px);box-shadow:0 5px 10px rgba(0,0,0,0.1)}
-.btn-secondary{background:#f5f5f5;color:#333;border:2px solid #ddd}
-.btn-secondary:hover{background:#e9e9e9;border-color:#bbb}
-.result-box{background:#f9f9f9;padding:25px;border-radius:8px;margin:25px 0;border:1px solid #ddd}
-.result-content{white-space:pre-wrap;font-family:'Courier New',monospace;font-size:15px;padding:20px;background:#fff;border-radius:6px;border:1px solid #ccc;max-height:400px;overflow-y:auto}
-.pattern-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin:30px 0}
-@media(max-width:600px){.pattern-grid{grid-template-columns:1fr}}
-.pattern-card{background:#fff;border:1px solid #ddd;border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:all 0.3s}
-.pattern-card:hover{transform:translateY(-3px);box-shadow:0 5px 15px rgba(0,0,0,0.08);border-color:#4A7C59}
-.pattern-title{color:#4A7C59;font-size:18px;margin-bottom:10px;font-weight:600}
-.pattern-desc{color:#666;font-size:14px;line-height:1.4}
-.footer{margin-top:40px;padding-top:20px;border-top:1px solid #eee;text-align:center;color:#777}
-.note{background:#f8f9f7;padding:15px;border-radius:8px;margin:20px 0;border-left:4px solid #4A7C59;font-size:15px;color:#555}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Tools</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(to bottom, #8FBC8F 0%, #FAF3E0 100%);
+            color: #2F4F4F;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border: 2px solid #8B7355;
+        }
+
+        h1 {
+            color: #4A7C59;
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        .tagline {
+            color: #8B7355;
+            text-align: center;
+            font-style: italic;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #2F4F4F;
+            font-size: 1.2rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 180px;
+            padding: 20px;
+            border: 2px solid #D4B483;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            font-family: 'Georgia', serif;
+            background: #FAF3E0;
+            resize: vertical;
+            margin-bottom: 30px;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #4A7C59;
+            background: white;
+        }
+
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        button {
+            background-color: #4A7C59;
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+        }
+
+        button:hover {
+            background-color: #3F5E44;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            display: none;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px dashed #4A7C59;
+        }
+
+        .result.active {
+            display: block;
+        }
+
+        .result h2 {
+            color: #4A7C59;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .prompt-box {
+            background: #FAF3E0;
+            padding: 30px;
+            border-radius: 10px;
+            border: 2px solid #D4B483;
+            margin: 25px 0;
+        }
+
+        .prompt-text {
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #A9A9A9;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .copy-btn {
+            background: #4A7C59;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .copy-btn:hover {
+            background: #3F5E44;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #A9A9A9;
+            text-align: center;
+            color: #A9A9A9;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            textarea {
+                min-height: 150px;
+                padding: 15px;
+            }
+
+            button {
+                padding: 15px 30px;
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-<div class="header">
-<h1 class="title">Decision Tools</h1>
-<p class="subtitle">Structured Decision Maker • Three Approaches</p>
-</div>
+    <div class="container">
+        <h1>Decision Tools</h1>
+        <p class="tagline">A structured decision-making assistant</p>
 
-<div id="mainGate">
-<h2 class="gate-title">🎯 Choose Your Decision Path</h2>
-<p class="gate-description">Select the approach that fits your situation and timeline. All paths respect clear thinking and preserve your options.</p>
-<div class="cards">
-<div class="card">
-<div class="card-icon">🚀</div>
-<h3 class="card-title">Quick Decision Path</h3>
-<p class="card-description">Urgent situations • 60-second framework • Immediate actions</p>
-<button class="card-button" id="quickBtn">Enter Quick Mode</button>
-</div>
-<div class="card">
-<div class="card-icon">📚</div>
-<h3 class="card-title">Decision Pattern Library</h3>
-<p class="card-description">Common scenarios • Pre-built frameworks • Proven approaches</p>
-<button class="card-button" id="patternBtn">Browse Patterns</button>
-</div>
-<div class="card">
-<div class="card-icon">🔍</div>
-<h3 class="card-title">Deep Decision Analysis</h3>
-<p class="card-description">Complex situations • Custom mapping • Full scenario audit</p>
-<button class="card-button" id="deepBtn">Start Deep Analysis</button>
-</div>
-</div>
-<div class="note"><strong>Decision Principle:</strong> You choose the tool that fits your needs. The framework adapts to your situation.</div>
-</div>
+        <label for="situation">Describe your decision situation...</label>
+        <textarea id="situation" placeholder="Example: 'Need to choose between two job offers...', 'Facing a major purchase decision...', 'Navigating a complex family situation...'"></textarea>
 
-<div class="section" id="quickSection">
-<h2 class="section-title">🚀 Quick Decision Path</h2>
-<div class="form-group">
-<label for="quickInput">What's the urgent situation?</label>
-<textarea id="quickInput" placeholder="Example: Need to decide on a job offer by tomorrow..."></textarea>
-<p class="form-tip">Brief description of what needs immediate attention.</p>
-</div>
-<div class="form-group">
-<label for="quickPriority">What's your immediate priority?</label>
-<select id="quickPriority">
-<option value="">Choose priority...</option>
-<option value="resources">Protect resources</option>
-<option value="relationships">Maintain relationships</option>
-<option value="options">Preserve future options</option>
-<option value="alternatives">Build alternatives</option>
-<option value="values">Align with core values</option>
-</select>
-</div>
-<div class="button-group">
-<button class="btn btn-secondary" id="backQuickBtn">Back to Choices</button>
-<button class="btn" id="generateQuickBtn">Generate Action Plan</button>
-</div>
-</div>
+        <div class="button-container">
+            <button id="generateBtn">Generate Decision Framework</button>
+        </div>
 
-<div class="section" id="patternSection">
-<h2 class="section-title">📚 Decision Pattern Library</h2>
-<p style="margin-bottom:20px;color:#666">Browse common situations with pre-analyzed decision frameworks.</p>
-<div class="pattern-grid">
-<div class="pattern-card" data-pattern="digital">
-<div class="pattern-title">🛡️ Digital Decisions</div>
-<p class="pattern-desc">Platform choices, privacy, data management</p>
-</div>
-<div class="pattern-card" data-pattern="financial">
-<div class="pattern-title">💰 Financial Decisions</div>
-<p class="pattern-desc">Budget choices, investments, major purchases</p>
-</div>
-<div class="pattern-card" data-pattern="housing">
-<div class="pattern-title">🏠 Housing Decisions</div>
-<p class="pattern-desc">Rent/buy choices, location, housing arrangements</p>
-</div>
-<div class="pattern-card" data-pattern="legal">
-<div class="pattern-title">⚖️ Legal & Paperwork</div>
-<p class="pattern-desc">Forms, contracts, compliance decisions</p>
-</div>
-<div class="pattern-card" data-pattern="work">
-<div class="pattern-title">💼 Work Decisions</div>
-<p class="pattern-desc">Career moves, job offers, professional boundaries</p>
-</div>
-<div class="pattern-card" data-pattern="relationships">
-<div class="pattern-title">👥 Relationship Decisions</div>
-<p class="pattern-desc">Family matters, boundaries, communication choices</p>
-</div>
-</div>
-<div class="button-group">
-<button class="btn btn-secondary" id="backPatternBtn">Back to Choices</button>
-</div>
-</div>
+        <div class="result" id="resultSection">
+            <h2>Your Decision Framework</h2>
 
-<div class="section" id="deepSection">
-<h2 class="section-title">🔍 Deep Decision Analysis</h2>
-<div class="form-group">
-<label for="deepInput">What's the complex situation?</label>
-<textarea id="deepInput" placeholder="Detailed observation of what's happening..."></textarea>
-<p class="form-tip">Focus on observable facts: timing, frequency, specific examples.</p>
-</div>
-<div class="form-group">
-<label for="deepCategory">Which area does this involve?</label>
-<select id="deepCategory">
-<option value="">Choose area...</option>
-<option value="health">Health</option>
-<option value="work">Work</option>
-<option value="financial">Financial</option>
-<option value="housing">Housing</option>
-<option value="relationships">Relationships</option>
-<option value="education">Education</option>
-</select>
-</div>
-<div class="button-group">
-<button class="btn btn-secondary" id="backDeepBtn">Back to Choices</button>
-<button class="btn" id="generateDeepBtn">Create Custom Framework</button>
-</div>
-</div>
+            <div class="prompt-box">
+                <pre class="prompt-text" id="promptOutput"></pre>
+                <button class="copy-btn" id="copyBtn">Copy Framework</button>
+            </div>
+        </div>
 
-<div class="section" id="resultSection">
-<h2 class="section-title">🛠️ Your Decision Framework</h2>
-<div id="resultContent"></div>
-<div class="button-group">
-<button class="btn btn-secondary" id="backResultBtn">Back to Choices</button>
-<button class="btn" id="copyBtn">Copy Framework</button>
-</div>
-</div>
+        <footer>
+            <p>A tool sponsored by the Green Field Project.</p>
+        </footer>
+    </div>
 
-<div class="footer">
-<p>Decision Tools • Three Structured Approaches</p>
-<p style="margin-top:10px;color:#888;font-size:14px">Clear thinking applied to decision making</p>
-</div>
-</div>
+    <script>
+        document.getElementById('generateBtn').addEventListener('click', function() {
+            const situation = document.getElementById('situation').value.trim();
 
-<script>
-let currentTool='';
-function showMain(){
-document.getElementById('mainGate').style.display='block';
-document.querySelectorAll('.section').forEach(s=>{s.style.display='none';s.classList.remove('active')});
-}
-function showSection(sectionId){
-document.getElementById('mainGate').style.display='none';
-document.querySelectorAll('.section').forEach(s=>{s.style.display='none';s.classList.remove('active')});
-var section=document.getElementById(sectionId);
-section.style.display='block';
-section.classList.add('active');
-window.scrollTo(0,0);
-}
-document.getElementById('quickBtn').onclick=function(){showSection('quickSection')};
-document.getElementById('patternBtn').onclick=function(){showSection('patternSection')};
-document.getElementById('deepBtn').onclick=function(){showSection('deepSection')};
-document.getElementById('backQuickBtn').onclick=showMain;
-document.getElementById('backPatternBtn').onclick=showMain;
-document.getElementById('backDeepBtn').onclick=showMain;
-document.getElementById('backResultBtn').onclick=showMain;
-document.querySelectorAll('.pattern-card').forEach(function(card){
-card.onclick=function(){
-var pattern=this.getAttribute('data-pattern');
-var patterns={
-digital:"DIGITAL DECISION FRAMEWORK\n\nI need to navigate a digital decision.\n\nSITUATION: [Your situation]\n\nPlease help me:\n1. What options exist?\n2. What are the trade-offs?\n3. What are my actual choices?\n\nFor each option:\n• Short vs long-term impact\n• Clear 'reconsider if' conditions\n• How to maintain flexibility",
-financial:"FINANCIAL DECISION FRAMEWORK\n\nI need to navigate a financial decision.\n\nSITUATION: [Your situation]\n\nPlease help me:\n1. What are the exact terms?\n2. Timeline and consequences?\n3. All possible approaches?\n\nFor each option:\n• Immediate vs long-term\n• Clear 'reconsider if' conditions\n• Alternative resources",
-housing:"HOUSING DECISION FRAMEWORK\n\nI need to navigate a housing decision.\n\nSITUATION: [Your situation]\n\nPlease help me:\n1. What are the requirements?\n2. Legal framework and timeline?\n3. All possible approaches?\n\nFor each option:\n• Stability vs flexibility\n• Clear 'reconsider if' conditions\n• Local resources",
-legal:"LEGAL & PAPERWORK FRAMEWORK\n\nI need to navigate legal/paperwork.\n\nSITUATION: [Your situation]\n\nPlease help me:\n1. What are requirements/deadlines?\n2. Minimum compliance needed?\n3. Actual consequences?\n\nFor each option:\n• Compliance vs flexibility\n• Clear 'reconsider if' conditions\n• Professional support",
-work:"WORK DECISION FRAMEWORK\n\nI need to navigate a work decision.\n\nSITUATION: [Your situation]\n\nPlease help me:\n1. What are expectations?\n2. Professional considerations?\n3. All possible approaches?\n\nFor each option:\n• Professional vs personal\n• Clear 'reconsider if' conditions\n• Alternative career paths",
-relationships:"RELATIONSHIP DECISION FRAMEWORK\n\nI need to navigate a relationship decision.\n\nSITUATION: [Your situation]\n\nPlease help me:\n1. What dynamics are at play?\n2. What boundaries matter?\n3. All possible approaches?\n\nFor each option:\n• Relationship vs personal needs\n• Clear 'reconsider if' conditions\n• Communication strategies"
-};
-currentTool=patterns[pattern]||"Pattern not found.";
-document.getElementById('resultContent').innerHTML='<div class="result-box"><pre class="result-content">'+currentTool+'</pre><p style="margin-top:15px;color:#666">Copy this framework and paste into your AI tool.</p></div>';
-showSection('resultSection');
-};
-});
-document.getElementById('generateQuickBtn').onclick=function(){
-var situation=document.getElementById('quickInput').value.trim();
-var priority=document.getElementById('quickPriority').value;
-if(!situation){alert("Please describe the urgent situation.");return;}
-if(!priority){alert("Please select your immediate priority.");return;}
-var priorityText="Protect resources";if(priority=="relationships")priorityText="Maintain relationships";if(priority=="options")priorityText="Preserve future options";if(priority=="alternatives")priorityText="Build alternatives";if(priority=="values")priorityText="Align with core values";
-currentTool="URGENT DECISION ACTION PLAN\n\nSituation: "+situation+"\n\nPrimary Priority: "+priorityText+"\n\nIMMEDIATE ACTIONS (Next 24 hours):\n1. Document all relevant facts\n2. Identify what CAN wait vs CANNOT wait\n3. Reach out to trusted person\n4. Secure essential information\n\nCRITICAL QUESTIONS:\n1. What's the actual deadline?\n2. Who has decision authority?\n3. Minimum acceptable outcome?\n4. Backup plan if this fails?\n\nRECONSIDER IF:\n• Core values compromised\n• Future options eliminated\n• Pressure unreasonable\n• Information withheld\n\nRemember: Clear thinking under pressure. Keep options open.";
-document.getElementById('resultContent').innerHTML='<div class="result-box"><pre class="result-content">'+currentTool+'</pre></div>';
-showSection('resultSection');
-};
-document.getElementById('generateDeepBtn').onclick=function(){
-var situation=document.getElementById('deepInput').value.trim();
-var category=document.getElementById('deepCategory').value;
-if(!situation){alert("Please describe your situation.");return;}
-var categoryText=category?("\nArea: "+document.getElementById('deepCategory').options[document.getElementById('deepCategory').selectedIndex].text):"";
-currentTool="DEEP ANALYSIS FRAMEWORK"+categoryText+"\n\nSituation: "+situation+"\n\nSTEP 1: OBSERVATION (3-7 days)\nTrack daily:\n• What happens? (Facts only)\n• When? (Timing, triggers)\n• Who involved?\n• What makes better/worse?\n\nSTEP 2: PATTERN IDENTIFICATION\nAfter tracking:\n1. What patterns emerged?\n2. Significant triggers?\n3. Resources that helped/hindered?\n4. Assumptions confirmed/challenged?\n\nSTEP 3: OPTION MAPPING\nFor each path:\n• Short-term impact (30 days)\n• Long-term consequences (6-12 mo)\n• Resource requirements\n• Flexibility preserved/lost\n\nSTEP 4: DECISION CRITERIA\nEstablish:\n• Proceed if: [Specific conditions]\n• Reconsider if: [Warning signs]\n• Stop if: [Non-negotiable boundaries]\n\nTrack first, decide second.";
-document.getElementById('resultContent').innerHTML='<div class="result-box"><pre class="result-content">'+currentTool+'</pre></div>';
-showSection('resultSection');
-};
-document.getElementById('copyBtn').onclick=function(){
-if(!currentTool){alert("No framework to copy.");return;}
-var textarea=document.createElement('textarea');
-textarea.value=currentTool;
-textarea.style.position='fixed';
-textarea.style.opacity='0';
-document.body.appendChild(textarea);
-textarea.select();
-try{document.execCommand('copy');this.textContent='Copied!';setTimeout(()=>{this.textContent='Copy Framework';},2000);}
-catch(err){navigator.clipboard.writeText(currentTool).then(()=>{this.textContent='Copied!';setTimeout(()=>{this.textContent='Copy Framework';},2000);});}
-finally{document.body.removeChild(textarea);}
-};
-showMain();
-</script>
+            if (!situation) {
+                alert('Please describe your decision situation.');
+                document.getElementById('situation').focus();
+                return;
+            }
+
+            this.textContent = 'Generating...';
+            this.disabled = true;
+
+            setTimeout(() => {
+                const framework = `DECISION FRAMEWORK
+
+Situation: ${situation}
+
+Step 1: Clarify the Core Decision
+• What exactly needs to be decided?
+• What's the timeline for this decision?
+• Who else is affected by this decision?
+
+Step 2: Identify Your Criteria
+• What matters most in this situation? (List 3-5 priorities)
+• What would a "good outcome" look like?
+• What would a "bad outcome" look like?
+
+Step 3: Map Your Options
+• Option A: [Describe first possible path]
+• Option B: [Describe second possible path]
+• Option C: [Describe third possible path or "status quo"]
+
+Step 4: Evaluate Each Option
+For each option above, consider:
+• How well does it meet your criteria?
+• What are the potential risks?
+• What resources would it require?
+• How reversible is this choice?
+
+Step 5: Next Actions
+• What information do you still need?
+• Who could you consult for perspective?
+• What small step could you take today to test an option?
+
+Remember: Good decisions come from clear thinking, not perfect information.`;
+
+                document.getElementById('promptOutput').textContent = framework;
+                document.getElementById('resultSection').classList.add('active');
+
+                this.textContent = 'Generate Decision Framework';
+                this.disabled = false;
+
+                document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+            }, 800);
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const frameworkText = document.getElementById('promptOutput').textContent;
+            const copyBtn = this;
+
+            if (!frameworkText || frameworkText === '') {
+                alert('No framework generated yet.');
+                return;
+            }
+
+            navigator.clipboard.writeText(frameworkText).then(() => {
+                copyBtn.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy Framework';
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy failed:', err);
+                alert('Copy failed. Please select and copy the text manually.');
+            });
+        });
+
+        document.getElementById('situation').addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                document.getElementById('generateBtn').click();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('situation').focus();
+        });
+    </script>
 </body>
 </html>
