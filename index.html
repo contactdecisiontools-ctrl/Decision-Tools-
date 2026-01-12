@@ -1,620 +1,1323 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decision Helper - Find Your Method</title>
+    <title>Decision Tools – Structured Decision Maker</title>
     <style>
-        /* SIMPLE CSS - NO VARIABLES, NO COMPLEX SYNTAX */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f7fa;
-            color: #343a40;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
+        :root {
+            --earth: #8B7355;
+            --field: #4A7C59;
+            --sky: #8FBC8F;
+            --path: #D4B483;
+            --stone: #A9A9A9;
+            --text: #2F4F4F;
+            --light: #FAF3E0;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --deep-green: #3F5E44;
+            --accent: #2E7D32;
+            --accent-light: #4CAF50;
+            --accent-dark: #1B5E20;
+            --warning: #f4a261;
+            --danger: #e63946;
         }
 
-        .container {
-            max-width: 800px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        body {
+            background: linear-gradient(to bottom, var(--sky) 0%, var(--light) 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 15px;
+            font-size: 18px;
+        }
+
+        .gate-container {
+            max-width: 1000px;
             margin: 0 auto;
             background: white;
-            border-radius: 10px;
+            border-radius: 15px;
             padding: 30px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-            border: 1px solid #d1d9e6;
+            box-shadow: 0 8px 20px var(--shadow);
+            border: 2px solid var(--earth);
         }
 
-        .header {
-            background: white;
-            border-radius: 10px;
-            padding: 30px;
-            margin-bottom: 30px;
+        .text-logo {
             text-align: center;
-            border: 1px solid #d1d9e6;
+            padding: 15px 0 25px 0;
+            border-bottom: 2px solid var(--field);
+            margin-bottom: 25px;
         }
 
-        .title {
-            color: #2c5530;
-            font-size: 2rem;
+        .text-logo h1 {
+            font-size: 2.5rem;
+            color: var(--deep-green);
             margin-bottom: 10px;
-            font-weight: 400;
+            font-weight: normal;
+            letter-spacing: 1px;
+            line-height: 1.2;
         }
 
-        .subtitle {
-            color: #6c757d;
-            font-size: 1rem;
-            margin-bottom: 15px;
+        .text-logo p {
+            font-size: 1.1rem;
+            color: var(--earth);
+            font-style: italic;
         }
 
-        .method-badge {
+        .forger-header {
+            text-align: center;
+            padding: 25px 15px;
+            border-bottom: 3px dashed var(--field);
+            margin-bottom: 30px;
+        }
+
+        .forger-header h1 {
+            color: var(--deep-green);
+            font-size: 2.2rem;
+            font-weight: normal;
+            margin-bottom: 10px;
+        }
+
+        .forger-method {
             display: inline-block;
-            background: #8fbc8f;
+            background: var(--field);
             color: white;
-            padding: 5px 15px;
+            padding: 8px 20px;
             border-radius: 20px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            font-weight: 600;
             margin-top: 10px;
         }
 
-        .progress-container {
-            display: flex;
-            justify-content: space-between;
-            margin: 30px 0;
-            position: relative;
-        }
-
-        .progress-container::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: #e9ecef;
-            z-index: 1;
-            transform: translateY(-50%);
-        }
-
-        .progress-step {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
+        /* DECISION PATH GATE */
+        .decision-path-gate {
             background: white;
-            border: 2px solid #e9ecef;
+            border: 2px solid var(--field);
+            border-radius: 10px;
+            padding: 40px 30px;
+            margin: 30px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .decision-path-gate h3 {
+            color: var(--accent-dark);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .decision-path-gate p {
+            color: var(--earth);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .path-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .path-card {
+            background: white;
+            border: 2px solid var(--path);
+            border-radius: 10px;
+            padding: 30px 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #6c757d;
-            position: relative;
-            z-index: 2;
         }
 
-        .progress-step.active {
-            border-color: #8fbc8f;
-            background: #8fbc8f;
+        .path-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px var(--shadow);
+            border-color: var(--field);
+        }
+
+        .path-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .path-card h4 {
+            color: var(--field);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .path-card p {
+            color: var(--earth);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        .path-button {
+            background-color: var(--field);
             color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            width: 100%;
+            max-width: 200px;
         }
 
-        .step-label {
-            position: absolute;
-            top: 45px;
-            font-size: 0.8rem;
-            color: #6c757d;
-            white-space: nowrap;
+        .path-button:hover {
+            background-color: var(--deep-green);
+            transform: translateY(-2px);
         }
 
+        .decision-note {
+            margin-top: 25px;
+            padding: 15px;
+            background: var(--light);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            font-size: 0.95rem;
+            color: var(--earth);
+        }
+
+        /* SECTIONS */
         .section {
             background: white;
+            border: 2px solid var(--path);
             border-radius: 10px;
             padding: 30px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             display: none;
-            border: 1px solid #d1d9e6;
         }
 
         .section.active {
             display: block;
+            box-shadow: 0 4px 12px var(--shadow);
+            border-color: var(--field);
         }
 
         .section-title {
-            color: #2c5530;
-            font-size: 1.5rem;
+            color: var(--field);
+            font-size: 1.6rem;
             margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #8fbc8f;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light);
+            font-weight: normal;
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 600;
-            color: #343a40;
+            color: var(--text);
+            font-size: 1.1rem;
         }
 
         .input-group textarea,
         .input-group select {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #c8d1e0;
-            border-radius: 6px;
+            padding: 15px;
+            border: 2px solid var(--path);
+            border-radius: 8px;
             font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+            background: var(--light);
         }
 
         .input-group textarea:focus,
         .input-group select:focus {
             outline: none;
-            border-color: #8fbc8f;
-            box-shadow: 0 0 0 3px rgba(143, 188, 143, 0.1);
+            border-color: var(--field);
+            background: white;
         }
 
         .input-group textarea {
             min-height: 120px;
             resize: vertical;
+            line-height: 1.5;
+        }
+
+        .input-tip {
+            font-size: 0.9rem;
+            color: var(--earth);
+            margin-top: 8px;
+            font-style: italic;
         }
 
         .btn {
-            background: #2c5530;
+            background-color: var(--field);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 6px;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: bold;
             font-size: 1rem;
             cursor: pointer;
-            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px var(--shadow);
+            font-family: 'Georgia', serif;
         }
 
         .btn:hover {
-            background: #4a7c59;
+            background-color: var(--deep-green);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px var(--shadow);
         }
 
         .btn-secondary {
-            background: #e9ecef;
-            color: #343a40;
+            background: var(--light);
+            color: var(--text);
+            border: 2px solid var(--path);
         }
 
         .btn-secondary:hover {
-            background: #dee2e6;
+            background: #f0e6d6;
+            border-color: var(--earth);
         }
 
         .button-group {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             margin-top: 30px;
         }
 
-        .kit-result {
-            background: #f0f7f0;
-            border-radius: 8px;
-            padding: 25px;
+        .tool-result {
+            background: white;
+            border: 2px solid var(--field);
+            border-radius: 10px;
+            padding: 30px;
             margin: 25px 0;
-            border-left: 4px solid #8fbc8f;
-            border: 1px solid #d1d9e6;
         }
 
-        .kit-name {
-            color: #2c5530;
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .kit-description {
-            color: #343a40;
+        .tool-name {
+            color: var(--field);
+            font-size: 1.8rem;
+            font-weight: normal;
             margin-bottom: 15px;
-            line-height: 1.5;
         }
 
         .prompt-output {
-            background: white;
-            padding: 20px;
-            border-radius: 6px;
-            margin: 20px 0;
-            border: 1px solid #c8d1e0;
+            background: var(--light);
+            padding: 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--path);
         }
 
         .prompt-text {
             white-space: pre-wrap;
             word-break: break-word;
             font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-            line-height: 1.5;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 4px;
-            border: 1px solid #e9ecef;
+            font-size: 1rem;
+            line-height: 1.6;
+            padding: 20px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid var(--stone);
+            max-height: 400px;
+            overflow-y: auto;
         }
 
         .copy-btn {
-            background: #8fbc8f;
+            background: var(--field);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
+            padding: 12px 24px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 0.95em;
+            font-size: 1rem;
             font-weight: 600;
-            margin-top: 10px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
         }
 
         .copy-btn:hover {
-            background: #4a7c59;
+            background: var(--deep-green);
+            transform: translateY(-2px);
         }
 
-        .share-btn {
-            background: #8fbc8f;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
+        .copy-btn.copied {
+            background: #4A7C59;
+        }
+
+        .tool-guidance {
+            background: #f8f9f7;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border: 1px solid var(--stone);
+            border-left: 4px solid var(--accent);
+        }
+
+        .gate-footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--stone);
+            text-align: center;
+            color: var(--stone);
+            font-size: 0.85rem;
+        }
+
+        .pattern-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .pattern-category {
+            background: white;
+            border: 1px solid var(--path);
+            border-radius: 8px;
+            padding: 20px;
             cursor: pointer;
-            font-size: 0.9em;
-            font-weight: 600;
-            margin: 5px;
+            transition: all 0.2s;
+            text-align: center;
         }
 
-        .share-btn:hover {
-            background: #4a7c59;
+        .pattern-category:hover {
+            border-color: var(--field);
+            transform: translateY(-3px);
         }
 
+        .pattern-category h4 {
+            color: var(--field);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* MOBILE OPTIMIZATIONS */
         @media (max-width: 768px) {
-            .container {
+            body {
+                padding: 10px;
+                font-size: 16px;
+            }
+
+            .gate-container {
+                padding: 20px 15px;
+                margin: 0;
+                border-radius: 12px;
+            }
+
+            .text-logo {
+                padding: 10px 0 15px 0;
+                margin-bottom: 20px;
+            }
+
+            .text-logo h1 {
+                font-size: 1.8rem;
+                margin-bottom: 5px;
+            }
+
+            .text-logo p {
+                font-size: 0.95rem;
+            }
+
+            .forger-header {
+                padding: 15px 10px;
+                margin-bottom: 20px;
+            }
+
+            .forger-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .forger-method {
+                font-size: 0.85rem;
+                padding: 6px 15px;
+            }
+
+            /* DECISION PATH GATE - Mobile Optimized */
+            .decision-path-gate {
+                padding: 25px 15px;
+                margin: 20px 0;
+            }
+
+            .decision-path-gate h3 {
+                font-size: 1.4rem;
+                margin-bottom: 8px;
+            }
+
+            .decision-path-gate p {
+                font-size: 0.95rem;
+                margin-bottom: 20px;
+            }
+
+            .path-options {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+
+            .path-card {
+                padding: 20px 15px;
+                margin: 0;
+            }
+
+            .path-icon {
+                font-size: 2rem;
+                margin-bottom: 15px;
+            }
+
+            .path-card h4 {
+                font-size: 1.2rem;
+                margin-bottom: 10px;
+            }
+
+            .path-card p {
+                font-size: 0.85rem;
+                margin-bottom: 20px;
+                line-height: 1.4;
+            }
+
+            .path-button {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+                max-width: 180px;
+            }
+
+            .decision-note {
+                font-size: 0.85rem;
+                padding: 12px;
+                margin-top: 20px;
+            }
+
+            /* SECTIONS - Mobile Optimized */
+            .section {
+                padding: 20px 15px;
+                margin-bottom: 20px;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+                margin-bottom: 15px;
+                padding-bottom: 10px;
+            }
+
+            .input-group {
+                margin-bottom: 20px;
+            }
+
+            .input-group label {
+                font-size: 1rem;
+                margin-bottom: 8px;
+            }
+
+            .input-group textarea,
+            .input-group select {
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+
+            .input-group textarea {
+                min-height: 100px;
+            }
+
+            .input-tip {
+                font-size: 0.8rem;
+            }
+
+            /* BUTTONS - Mobile Optimized */
+            .button-group {
+                flex-direction: column;
+                gap: 12px;
+                margin-top: 25px;
+            }
+
+            .btn, .btn-secondary {
+                width: 100%;
+                padding: 14px 20px;
+                font-size: 0.95rem;
+            }
+
+            /* PATTERN LIBRARY - Mobile Optimized */
+            .pattern-categories {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                margin: 20px 0;
+            }
+
+            .pattern-category {
                 padding: 15px;
             }
 
-            .title {
+            .pattern-category h4 {
+                font-size: 1rem;
+                margin-bottom: 8px;
+            }
+
+            .pattern-category p {
+                font-size: 0.85rem;
+                line-height: 1.4;
+            }
+
+            /* TOOL RESULT - Mobile Optimized */
+            .tool-result {
+                padding: 20px;
+                margin: 15px 0;
+            }
+
+            .tool-name {
+                font-size: 1.4rem;
+                margin-bottom: 12px;
+            }
+
+            .prompt-output {
+                padding: 15px;
+                margin: 15px 0;
+            }
+
+            .prompt-text {
+                padding: 15px;
+                font-size: 0.9rem;
+                max-height: 300px;
+            }
+
+            .copy-btn {
+                padding: 12px 20px;
+                font-size: 0.95rem;
+                width: 100%;
+                margin-top: 15px;
+            }
+
+            .tool-guidance {
+                padding: 15px;
+                margin: 20px 0;
+                font-size: 0.9rem;
+            }
+
+            .tool-guidance h4 {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+
+            /* FOOTER - Mobile Optimized */
+            .gate-footer {
+                margin-top: 30px;
+                padding-top: 15px;
+                font-size: 0.8rem;
+            }
+
+            .gate-footer p:last-child {
+                font-size: 0.75rem;
+                margin-top: 8px;
+            }
+        }
+
+        /* EXTRA SMALL DEVICES (Phones in portrait) */
+        @media (max-width: 480px) {
+            .text-logo h1 {
+                font-size: 1.6rem;
+            }
+
+            .forger-header h1 {
+                font-size: 1.4rem;
+            }
+
+            .decision-path-gate h3 {
+                font-size: 1.3rem;
+            }
+
+            .path-card {
+                padding: 18px 12px;
+            }
+
+            .path-icon {
                 font-size: 1.8rem;
             }
 
-            .header, .section {
-                padding: 20px;
+            .section-title {
+                font-size: 1.2rem;
             }
 
-            .button-group {
-                flex-direction: column;
+            .pattern-category {
+                padding: 12px;
             }
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-
-    <!-- HEADER -->
-    <div class="header">
-        <h1 class="title">Decision Helper</h1>
-        <p class="subtitle">Find the right method for your situation</p>
-        <div class="method-badge">Observe → Pattern → Choose</div>
-    </div>
-
-    <!-- PROGRESS INDICATOR -->
-    <div class="progress-container">
-        <div class="progress-step active" id="step1">
-            1
-            <div class="step-label">Describe</div>
+    <div class="gate-container">
+        <div class="text-logo">
+            <h1>Decision Tools</h1>
+            <p>Structured Decision Maker • Three Approaches</p>
         </div>
-        <div class="progress-step" id="step2">
-            2
-            <div class="step-label">Patterns</div>
-        </div>
-        <div class="progress-step" id="step3">
-            3
-            <div class="step-label">Get Method</div>
-        </div>
-    </div>
 
-    <!-- STEP 1: DESCRIBE SITUATION -->
-    <div class="section active" id="section1">
-        <h2 class="section-title">Step 1: Describe Your Situation</h2>
-        <p style="margin-bottom: 20px; color: #6c757d;">
-            Briefly describe what's happening. Focus on facts you can observe, not interpretations.
-        </p>
+        <section class="forger-header">
+            <h1>Build Your Decision Framework</h1>
+            <div class="forger-method">Choose Your Decision Path</div>
+        </section>
 
-        <div class="input-group">
-            <label for="situation">What situation are you facing?</label>
-            <textarea id="situation" placeholder="Example: I've been having headaches in the afternoons at work, especially after long meetings..."></textarea>
-            <p style="font-size: 0.9em; color: #4a7c59; margin-top: 5px;">
-                <em>Tip: More details = better guidance. Include timing, frequency, who's involved, and specific examples.</em>
+        <!-- DECISION PATH GATE -->
+        <div class="decision-path-gate" id="choiceGate">
+            <h3>🎯 Choose Your Decision Path</h3>
+            <p>Select the approach that fits your situation and timeline.</p>
+
+            <div class="path-options">
+                <!-- OPTION 1: QUICK DECISION -->
+                <div class="path-card">
+                    <div class="path-icon">🚀</div>
+                    <h4>Quick Decision Path</h4>
+                    <p>Urgent situations • 60-second framework • Immediate actions</p>
+                    <button class="path-button" id="quickPathBtn">Enter Quick Mode</button>
+                </div>
+
+                <!-- OPTION 2: PATTERN LIBRARY -->
+                <div class="path-card">
+                    <div class="path-icon">📚</div>
+                    <h4>Decision Pattern Library</h4>
+                    <p>Common scenarios • Pre-built frameworks • Proven approaches</p>
+                    <button class="path-button" id="patternPathBtn">Browse Patterns</button>
+                </div>
+
+                <!-- OPTION 3: DEEP ANALYSIS -->
+                <div class="path-card">
+                    <div class="path-icon">🔍</div>
+                    <h4>Deep Decision Analysis</h4>
+                    <p>Complex situations • Custom mapping • Full scenario audit</p>
+                    <button class="path-button" id="deepPathBtn">Start Deep Analysis</button>
+                </div>
+            </div>
+
+            <p class="decision-note">
+                <strong>Decision Principle:</strong> You choose the tool that fits your needs. All paths respect clear thinking and preserve your options.
             </p>
         </div>
 
-        <div class="button-group">
-            <button class="btn" onclick="nextStep()">Continue to Step 2</button>
+        <!-- QUICK MODE SECTION -->
+        <div class="section" id="quickMode">
+            <h2 class="section-title">🚀 Quick Decision Path</h2>
+
+            <div class="input-group">
+                <label for="quickSituation">What's the urgent situation?</label>
+                <textarea id="quickSituation" placeholder="Example: Need to decide on a job offer by tomorrow..."></textarea>
+                <p class="input-tip">Brief description of what needs immediate attention.</p>
+            </div>
+
+            <div class="input-group">
+                <label for="quickPriority">What's your immediate priority?</label>
+                <select id="quickPriority">
+                    <option value="">Choose priority...</option>
+                    <option value="resources">Protect resources</option>
+                    <option value="relationships">Maintain relationships</option>
+                    <option value="options">Preserve future options</option>
+                    <option value="alternatives">Build alternatives</option>
+                    <option value="values">Align with core values</option>
+                </select>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-secondary" id="backFromQuickBtn">Back to Choices</button>
+                <button class="btn" id="generateQuickBtn">Generate Action Plan</button>
+            </div>
         </div>
-    </div>
 
-    <!-- STEP 2: REVIEW PATTERNS -->
-    <div class="section" id="section2">
-        <h2 class="section-title">Step 2: Identify Patterns</h2>
-        <p style="margin-bottom: 20px; color: #6c757d;">
-            Based on your description, what patterns might be important?
-        </p>
+        <!-- PATTERN LIBRARY SECTION -->
+        <div class="section" id="patternLibrary">
+            <h2 class="section-title">📚 Decision Pattern Library</h2>
+            <p style="margin-bottom: 20px; color: var(--earth);">
+                Browse common situations with pre-analyzed decision frameworks.
+            </p>
 
-        <div class="input-group">
-            <label for="patterns">What seems to repeat or trigger the situation?</label>
-            <textarea id="patterns" placeholder="Example: The headaches happen around 3 PM, after back-to-back meetings, when I haven't had water..."></textarea>
-            <p style="font-size: 0.9em; color: #4a7c59; margin-top: 5px;">
-                <em>Tip: Look for repetitions. What happens before/after? What makes it better/worse?</em>
+            <div class="pattern-categories">
+                <div class="pattern-category" data-pattern="digital">
+                    <h4>🛡️ Digital Decisions</h4>
+                    <p>Platform choices, privacy, data management</p>
+                </div>
+                <div class="pattern-category" data-pattern="financial">
+                    <h4>💰 Financial Decisions</h4>
+                    <p>Budget choices, investments, major purchases</p>
+                </div>
+                <div class="pattern-category" data-pattern="housing">
+                    <h4>🏠 Housing Decisions</h4>
+                    <p>Rent/buy choices, location, housing arrangements</p>
+                </div>
+                <div class="pattern-category" data-pattern="legal">
+                    <h4>⚖️ Legal & Paperwork</h4>
+                    <p>Forms, contracts, compliance decisions</p>
+                </div>
+                <div class="pattern-category" data-pattern="work">
+                    <h4>💼 Work Decisions</h4>
+                    <p>Career moves, job offers, professional boundaries</p>
+                </div>
+                <div class="pattern-category" data-pattern="relationships">
+                    <h4>👥 Relationship Decisions</h4>
+                    <p>Family matters, boundaries, communication choices</p>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-secondary" id="backFromPatternBtn">Back to Choices</button>
+            </div>
+        </div>
+
+        <!-- DEEP ANALYSIS SECTION -->
+        <div class="section" id="deepAnalysis">
+            <h2 class="section-title">🔍 Deep Decision Analysis</h2>
+
+            <div class="input-group">
+                <label for="deepSituation">What's the complex situation?</label>
+                <textarea id="deepSituation" placeholder="Detailed observation of what's happening..."></textarea>
+                <p class="input-tip">Focus on observable facts: timing, frequency, specific examples.</p>
+            </div>
+
+            <div class="input-group">
+                <label for="deepPatterns">What patterns have you noticed?</label>
+                <textarea id="deepPatterns" placeholder="What repeats? What triggers changes? What makes things better/worse?"></textarea>
+            </div>
+
+            <div class="input-group">
+                <label for="deepCategory">Which area does this involve?</label>
+                <select id="deepCategory">
+                    <option value="">Choose area...</option>
+                    <option value="health">Health</option>
+                    <option value="work">Work</option>
+                    <option value="spending">Spending</option>
+                    <option value="forms">Forms & Paperwork</option>
+                    <option value="care">Care & Support</option>
+                    <option value="education">Education</option>
+                    <option value="housing">Housing</option>
+                    <option value="community">Community</option>
+                    <option value="relationships">Relationships</option>
+                    <option value="parenting">Parenting</option>
+                    <option value="business">Business</option>
+                    <option value="daily">Daily Routine</option>
+                </select>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-secondary" id="backFromDeepBtn">Back to Choices</button>
+                <button class="btn" id="generateDeepBtn">Create Custom Framework</button>
+            </div>
+        </div>
+
+        <!-- TOOL RESULT SECTION -->
+        <div class="section" id="toolResultSection">
+            <h2 class="section-title">🛠️ Your Decision Framework</h2>
+
+            <div id="toolResultContent">
+                <!-- Tool will be inserted here -->
+            </div>
+
+            <div class="button-group">
+                <button class="btn-secondary" id="backFromResultBtn">Back to Choices</button>
+                <button class="btn" id="copyToolBtn">Copy Framework</button>
+            </div>
+        </div>
+
+        <div class="gate-footer">
+            <p>Decision Tools • Three Structured Approaches</p>
+            <p style="margin-top: 10px; color: var(--earth); font-size: 0.85rem;">
+                Clear thinking applied to decision making • No tracking
             </p>
         </div>
-
-        <div class="input-group">
-            <label for="category">What area does this mainly involve?</label>
-            <select id="category">
-                <option value="">Select the main category...</option>
-                <option value="medical">Health & Symptoms</option>
-                <option value="work">Work & Professional</option>
-                <option value="financial">Financial & Spending</option>
-                <option value="forms">Paperwork & Administration</option>
-                <option value="care">Care & Support</option>
-                <option value="education">Education & School</option>
-                <option value="housing">Housing & Living</option>
-                <option value="local">Community & Local Issues</option>
-                <option value="support">Relationships & Boundaries</option>
-                <option value="parenting">Parenting & Communication</option>
-                <option value="business">Business & Professional</option>
-                <option value="routine">Daily Routine & Habits</option>
-            </select>
-        </div>
-
-        <div class="button-group">
-            <button class="btn-secondary" onclick="prevStep()">Back to Step 1</button>
-            <button class="btn" onclick="analyzeAndProceed()">Find My Method</button>
-        </div>
     </div>
 
-    <!-- STEP 3: GET METHOD -->
-    <div class="section" id="section3">
-        <h2 class="section-title">Step 3: Your Recommended Method</h2>
-        <p style="margin-bottom: 20px; color: #6c757d;">
-            Based on your input, here's the specific method for your situation:
-        </p>
+    <script>
+        // State management
+        let currentMode = '';
+        let currentTool = '';
 
-        <div class="kit-result" id="kitResult">
-            <!-- Kit will be inserted here -->
-        </div>
+        // Pattern library database
+        const patternLibrary = {
+            digital: {
+                name: "Digital Decision Framework",
+                description: "For platform choices, privacy, or data management situations.",
+                prompt: `I need to navigate a digital decision situation.
 
-        <div class="button-group">
-            <button class="btn-secondary" onclick="prevStep()">Back to Step 2</button>
-            <button class="btn" onclick="startOver()">Start Over with New Situation</button>
-        </div>
-    </div>
+SITUATION: [Brief description of platform choice, privacy concern, or data management issue]
 
-    <!-- DISCLAIMER -->
-    <div style="background: #fff3cd; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #ffc107; font-size: 0.9rem; border: 1px solid #ffeaa7;">
-        <strong>Note:</strong> These methods help you organize your own observations. They are not professional advice. For medical, legal, or financial matters, consult appropriate professionals. Your judgment guides all decisions.
-    </div>
+Please help me:
+1. What specific options or requirements are involved?
+2. What are the stated benefits and drawbacks of each option?
+3. What are my actual choices (not just the ones presented)?
 
-</div>
+For each option, include:
+• Short-term vs long-term implications
+• Clear "reconsider if" conditions
+• How to maintain flexibility
+• What documentation to keep
 
-<script>
-// SIMPLIFIED JAVASCRIPT - NO DUPLICATE FUNCTIONS
+Focus on factual analysis, not opinions.`
+            },
+            financial: {
+                name: "Financial Decision Framework",
+                description: "For budget choices, investments, or major purchases.",
+                prompt: `I need to navigate a financial decision situation.
 
-// Initialize view counter
-try {
-    let views = localStorage.getItem('decisionToolsViews') || 0;
-    views = parseInt(views) + 1;
-    localStorage.setItem('decisionToolsViews', views);
-    setTimeout(() => {
-        const counterElement = document.getElementById('viewCount');
-        if (counterElement) {
-            counterElement.textContent = views.toLocaleString();
+SITUATION: [Brief description of financial choice, investment, or purchase decision]
+
+Please help me:
+1. What are the exact financial terms/requirements?
+2. What's the timeline and consequences of different choices?
+3. What are all possible approaches (including unconventional)?
+
+For each option, include:
+• Immediate vs long-term impact
+• Clear "reconsider if" conditions
+• Documentation needed
+• Alternative resource options
+
+Focus on factual analysis, not opinions.`
+            },
+            housing: {
+                name: "Housing Decision Framework",
+                description: "For rent/buy choices, location decisions, or housing arrangements.",
+                prompt: `I need to navigate a housing decision situation.
+
+SITUATION: [Brief description of housing choice]
+
+Please help me:
+1. What are the exact housing terms/requirements?
+2. What's the legal framework and timeline?
+3. What are all possible approaches (including temporary solutions)?
+
+For each option, include:
+• Stability vs flexibility tradeoffs
+• Clear "reconsider if" conditions
+• Documentation and evidence needed
+• Local resource connections
+
+Focus on factual analysis, not opinions.`
+            },
+            legal: {
+                name: "Legal & Paperwork Framework",
+                description: "For forms, contracts, or compliance decisions.",
+                prompt: `I need to navigate a legal/paperwork decision situation.
+
+SITUATION: [Brief description of forms, contracts, or compliance issues]
+
+Please help me:
+1. What are the exact requirements/deadlines?
+2. What's the minimum compliance needed?
+3. What are the actual consequences of various approaches?
+
+For each option, include:
+• Compliance vs flexibility balance
+• Clear "reconsider if" conditions
+• Documentation strategy
+• Professional support options
+
+Focus on factual analysis, not opinions.`
+            },
+            work: {
+                name: "Work Decision Framework",
+                description: "For career moves, job offers, or professional boundaries.",
+                prompt: `I need to navigate a work decision situation.
+
+SITUATION: [Brief description of work choice]
+
+Please help me:
+1. What are the exact requirements/expectations?
+2. What's the professional context and considerations?
+3. What are all possible professional approaches?
+
+For each option, include:
+• Professional impact vs personal priorities
+• Clear "reconsider if" conditions
+• Documentation approach
+• Alternative career considerations
+
+Focus on factual analysis, not opinions.`
+            },
+            relationships: {
+                name: "Relationship Decision Framework",
+                description: "For family matters, boundaries, or communication choices.",
+                prompt: `I need to navigate a relationship decision situation.
+
+SITUATION: [Brief description of relationship choice]
+
+Please help me:
+1. What are the relationship dynamics at play?
+2. What boundaries or values are being considered?
+3. What are all possible relationship-preserving approaches?
+
+For each option, include:
+• Relationship preservation vs personal needs
+• Clear "reconsider if" conditions
+• Communication strategies
+• Support network considerations
+
+Focus on factual analysis, not opinions.`
+            }
+        };
+
+        // Deep analysis tools database
+        const deepTools = {
+            health: {
+                name: "Health Tracking Framework",
+                description: "Track symptoms and patterns for clearer health decisions.",
+                prompt: `I'm tracking health patterns. Here's what I've observed: [SITUATION]
+
+Patterns I've noticed: [PATTERNS]
+
+Please help me:
+1. What should I track for the next 3 days? (Ask for timing, intensity 1-5, context)
+2. After I provide my observations, help me see what patterns emerge
+3. Based on my patterns, suggest clear options with "reconsider if" conditions
+
+Ask one step at a time. Help me track my own observations.`
+            },
+            work: {
+                name: "Work Documentation Framework",
+                description: "Document workplace situations for clearer professional choices.",
+                prompt: `I'm navigating a work situation. Here's what's happening: [SITUATION]
+
+Patterns I've noticed: [PATTERNS]
+
+Please help me:
+1. What workplace interactions should I document this week? (Ask for dates, what happened, who involved)
+2. After I provide my documentation, help me identify patterns
+3. Based on my patterns, suggest professional options with clear "reconsider if" conditions
+
+Ask one step at a time. Focus on factual documentation.`
+            },
+            spending: {
+                name: "Spending Tracking Framework",
+                description: "Track where money goes for clearer financial choices.",
+                prompt: `I'm understanding my spending patterns. Here's my situation: [SITUATION]
+
+Patterns I've noticed: [PATTERNS]
+
+Please help me:
+1. What spending should I track this week? (Ask for amounts, purposes, necessary vs optional)
+2. After I provide my spending observations, help me see where money goes
+3. Based on my patterns, suggest adjustment options with clear "reconsider if" conditions
+
+Ask one step at a time. Focus on observable spending.`
+            },
+            forms: {
+                name: "Paperwork Navigation Framework",
+                description: "Navigate paperwork systematically with clear tracking.",
+                prompt: `I'm dealing with paperwork or forms. Here's my situation: [SITUATION]
+
+Patterns I've noticed: [PATTERNS]
+
+Please help me:
+1. What steps and requirements should I document? (Ask for deadlines, required documents, submission methods)
+2. After I document the process, help me identify sticking points
+3. Based on my documentation, suggest next-step options with clear "reconsider if" conditions
+
+Ask one step at a time. Focus on factual requirements.`
+            },
+            care: {
+                name: "Care Coordination Framework",
+                description: "Track care needs and support for sustainable arrangements.",
+                prompt: `I'm coordinating care or support. Here's my situation: [SITUATION]
+
+Patterns I've noticed: [PATTERNS]
+
+Please help me:
+1. What care needs and support should I track this week? (Ask for daily needs, who helps, time required)
+2. After I provide my observations, help me identify what's working
+3. Based on my patterns, suggest adjustment options with clear "reconsider if" conditions
+
+Ask one step at a time. Focus on observable needs and actual support.`
+            },
+            housing: {
+                name: "Housing Documentation Framework",
+                description: "Document housing situations for clearer responses.",
+                prompt: `I'm dealing with a housing situation. Here's what's happening: [SITUATION]
+
+Patterns I've noticed: [PATTERNS]
+
+Please help me:
+1. What housing interactions should I document? (Ask for dates, issues discussed, agreements made)
+2. After I provide my documentation, help me identify agreement patterns
+3. Based on my patterns, suggest response options with clear "reconsider if" conditions
+
+Ask one step at a time. Focus on factual interactions.`
+            }
+        };
+
+        // Navigation functions
+        function showChoiceGate() {
+            document.querySelectorAll('.section').forEach(s => {
+                s.classList.remove('active');
+            });
+            document.getElementById('choiceGate').style.display = 'block';
+            currentMode = '';
+            currentTool = '';
         }
-    }, 100);
-} catch(e) {
-    // Ignore errors
-}
 
-// Kit database
-const kitDatabase = {
-    medical: {
-        name: "Symptom Tracking Method",
-        description: "Track symptoms, identify patterns, make informed healthcare choices based on your observations.",
-        category: "Health",
-        promptTemplate: `I need help tracking and understanding my symptoms. Here's my situation: [SITUATION]
+        function hideChoiceGate() {
+            document.getElementById('choiceGate').style.display = 'none';
+        }
 
-I've noticed these patterns: [PATTERNS]
+        function showSection(sectionId) {
+            hideChoiceGate();
+            document.querySelectorAll('.section').forEach(s => {
+                s.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
 
-Please guide me through:
-1. What specific observations should I track for the next 3 days? (Ask for timing, intensity scale 1-5, context)
-2. After I provide my observations, help me identify what patterns emerge
-3. Based on my patterns, suggest clear options with "stop if" conditions
-
-Important: Ask one step at a time. Don't give medical advice. Help me track my own observations so I can make informed decisions.`
-    },
-    work: {
-        name: "Work Situation Method",
-        description: "Document workplace facts, recognize patterns, choose professional responses that work for you.",
-        category: "Professional",
-        promptTemplate: `I need help navigating a work situation. Here's what's happening: [SITUATION]
-
-Patterns I've noticed: [PATTERNS]
-
-Please guide me through:
-1. What specific workplace interactions should I document for the next week? (Ask for dates, what happened, who involved, my responses)
-2. After I provide my observations, help me identify what patterns emerge in workplace dynamics
-3. Based on my patterns, suggest professional response options with clear "stop if" conditions
-
-Important: Ask one step at a time. Focus on factual documentation, not emotional reactions.`
-    },
-    financial: {
-        name: "Spending Pattern Method",
-        description: "Track where money goes, see spending patterns, make financial choices aligned with your priorities.",
-        category: "Financial",
-        promptTemplate: `I need help understanding my spending patterns. Here's my situation: [SITUATION]
-
-Patterns I've noticed: [PATTERNS]
-
-Please guide me through:
-1. What specific spending should I track for the next week? (Ask for amounts, what for, necessary vs optional)
-2. After I provide my spending observations, help me identify where money actually goes vs where I want it to go
-3. Based on my patterns, suggest adjustment options with clear "stop if" conditions
-
-Important: Ask one step at a time. Focus on observable spending, not judgments about worth.`
-    },
-    forms: {
-        name: "Form Process Method",
-        description: "Gather requirements, track submissions, navigate paperwork systematically using your own notes.",
-        category: "Administrative",
-        promptTemplate: `I need help with paperwork or forms. Here's my situation: [SITUATION]
-
-Patterns I've noticed: [PATTERNS]
-
-Please guide me through:
-1. What specific steps and requirements should I document for this process? (Ask for deadlines, required documents, submission methods)
-2. After I document the process, help me identify sticking points or unclear requirements
-3. Based on my documentation, suggest next-step options with clear "stop if" conditions
-
-Important: Ask one step at a time. Focus on factual requirements, not assumptions.`
-    }
-};
-
-// Current step tracking
-let currentStep = 1;
-let generatedPrompt = '';
-
-// Update progress indicators
-function updateProgress() {
-    document.querySelectorAll('.progress-step').forEach(step => {
-        step.classList.remove('active');
-    });
-
-    for (let i = 1; i <= currentStep; i++) {
-        document.getElementById('step' + i).classList.add('active');
-    }
-
-    document.querySelectorAll('.section').forEach(section => {
-        section.classList.remove('active');
-    });
-    document.getElementById('section' + currentStep).classList.add('active');
-}
-
-// Navigation functions
-function nextStep() {
-    if (currentStep < 3) {
-        currentStep++;
-        updateProgress();
-        document.getElementById('section' + currentStep).scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-}
-
-function prevStep() {
-    if (currentStep > 1) {
-        currentStep--;
-        updateProgress();
-        document.getElementById('section' + currentStep).scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-}
-
-// Analyze situation and recommend kit
-function analyzeAndProceed() {
-    const situation = document.getElementById('situation').value.trim();
-    const patterns = document.getElementById('patterns').value.trim();
-    const category = document.getElementById('category').value;
-
-    if (!situation) {
-        alert("Please describe your situation in Step 1.");
-        prevStep();
-        document.getElementById('situation').focus();
-        return;
-    }
-
-    if (!category) {
-        alert("Please select a category in Step 2.");
-        document.getElementById('category').focus();
-        return;
-    }
-
-    const kit = kitDatabase[category];
-    if (!kit) {
-        alert("Please select a valid category.");
-        return;
-    }
-
-    generatedPrompt = kit.promptTemplate
-        .replace('[SITUATION]', situation)
-        .replace('[PATTERNS]', patterns || "I haven't identified clear patterns yet.");
-
-    const kitResult = document.getElementById('kitResult');
-    kitResult.innerHTML = `
-        <div class="kit-name">${kit.name}</div>
-        <div class="kit-description">${kit.description}</div>
-        <div style="margin: 15px 0; padding: 10px; background: white; border-radius: 4px;">
-            <strong>Category:</strong> ${kit.category}
-        </div>
-
-        <h4 style="margin: 20px 0 10px 0; color: #2c5530;">Your Custom AI Prompt:</h4>
-        <div class="prompt-output">
-            <div class="prompt-text">${generatedPrompt}</div>
-            <button class="copy-btn" onclick="copyPromptToClipboard()">
-                Copy Prompt to Clipboard
-            </button>
-            <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
-                <strong>How to use:</strong> Copy this prompt, paste into ChatGPT/Claude, and follow the questions.
-            </p>
-        </div>
-    `;
-
-    nextStep();
-}
-
-// Copy prompt to clipboard
-function copyPromptToClipboard() {
-    if (!generatedPrompt) {
-        alert("No prompt generated yet. Please complete Steps 1 and 2 first.");
-        return;
-    }
-
-    const textarea = document.createElement('textarea');
-    textarea.value = generatedPrompt;
-    document.body.appendChild(textarea);
-    textarea.select();
-
-    try {
-        document.execCommand('copy');
-        alert("Prompt copied to clipboard!");
-    } catch (err) {
-        navigator.clipboard.writeText(generatedPrompt).then(() => {
-            alert("Prompt copied to clipboard!");
-        }).catch(() => {
-            alert("Please select and copy the text manually.");
+        // Event Listeners for navigation
+        document.getElementById('quickPathBtn').addEventListener('click', function() {
+            currentMode = 'quick';
+            showSection('quickMode');
         });
-    }
 
-    document.body.removeChild(textarea);
-}
+        document.getElementById('patternPathBtn').addEventListener('click', function() {
+            currentMode = 'pattern';
+            showSection('patternLibrary');
+        });
 
-// Start over
-function startOver() {
-    document.getElementById('situation').value = '';
-    document.getElementById('patterns').value = '';
-    document.getElementById('category').selectedIndex = 0;
+        document.getElementById('deepPathBtn').addEventListener('click', function() {
+            currentMode = 'deep';
+            showSection('deepAnalysis');
+        });
 
-    currentStep = 1;
-    updateProgress();
-    generatedPrompt = '';
+        // Back buttons
+        document.getElementById('backFromQuickBtn').addEventListener('click', showChoiceGate);
+        document.getElementById('backFromPatternBtn').addEventListener('click', showChoiceGate);
+        document.getElementById('backFromDeepBtn').addEventListener('click', showChoiceGate);
+        document.getElementById('backFromResultBtn').addEventListener('click', showChoiceGate);
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    document.getElementById('situation').focus();
-}
+        // Pattern category click handlers
+        document.querySelectorAll('.pattern-category').forEach(category => {
+            category.addEventListener('click', function() {
+                const patternId = this.getAttribute('data-pattern');
+                loadPattern(patternId);
+           });        
+        });
 
-// Initialize
-document.addEventListener('DOMContentLoaded', function() {
-    updateProgress();
-    document.getElementById('situation').focus();
-});
-</script>
+        // Generate buttons
+        document.getElementById('generateQuickBtn').addEventListener('click', generateQuickTool);
+        document.getElementById('generateDeepBtn').addEventListener('click', generateDeepTool);
+
+        // Generate quick tool
+        function generateQuickTool() {
+            const situation = document.getElementById('quickSituation').value.trim();
+            const priority = document.getElementById('quickPriority').value;
+
+            if (!situation) {
+                alert("Please describe the urgent situation.");
+                document.getElementById('quickSituation').focus();
+                return;
+            }
+
+            if (!priority) {
+                alert("Please select your immediate priority.");
+                return;
+            }
+
+            const priorityLabels = {
+                resources: "Protect resources",
+                relationships: "Maintain relationships",
+                options: "Preserve future options",
+                alternatives: "Build alternatives",
+                values: "Align with core values"
+            };
+
+            currentTool = `URGENT DECISION ACTION PLAN
+
+Situation: ${situation}
+
+Primary Decision Priority: ${priorityLabels[priority]}
+
+IMMEDIATE ACTIONS (Next 24 hours):
+1. Document all relevant facts (times, people, communications)
+2. Identify what CAN wait vs what CANNOT wait
+3. Reach out to one trusted person for perspective
+4. Secure essential information and documents
+
+CRITICAL QUESTIONS TO ANSWER:
+1. What's the actual deadline? (Not the stated one)
+2. Who has real decision-making authority?
+3. What's the minimum acceptable outcome?
+4. What's my backup plan if this doesn't work?
+
+RECONSIDER IF CONDITIONS:
+• If core values are compromised
+• If future options are being eliminated
+• If pressure exceeds reasonable limits
+• If information is being withheld
+
+NEXT 72 HOURS:
+• Daily decision check-ins
+• Document all relevant interactions
+• Maintain at least 2 alternative options
+• Connect with relevant resources if needed
+
+Remember: Good decisions come from clear thinking under pressure. Keep your options open.`;
+
+            showToolResult("Quick Decision Framework", "60-second decision action plan", currentTool);
+        }
+
+        // Load pattern from library
+        function loadPattern(patternId) {
+            const pattern = patternLibrary[patternId];
+            if (!pattern) return;
+
+            currentTool = pattern.prompt;
+
+            const toolContent = `
+                <div class="tool-result">
+                    <div class="tool-name">${pattern.name}</div>
+                    <p style="margin-bottom: 20px; color: var(--text);">${pattern.description}</p>
+
+                    <div class="prompt-output">
+                        <pre class="prompt-text">${pattern.prompt}</pre>
+                        <p style="margin-top: 15px; font-size: 0.95rem; color: var(--earth);">
+                            <strong>How to use:</strong> Copy this framework, paste into your AI tool, and replace bracketed sections with your specific situation.
+                        </p>
+                    </div>
+
+                    <div style="margin-top: 25px; padding: 20px; background: rgba(74, 124, 89, 0.08); border-radius: 8px; font-size: 0.95rem;">
+                        <strong>Framework Principles:</strong><br>
+                        • Start with facts, not assumptions<br>
+                        • Identify ALL options, not just presented ones<br>
+                        • Include clear "reconsider if" conditions<br>
+                        • Maintain flexibility in every scenario
+                    </div>
+                </div>
+            `;
+
+            showSection('toolResultSection');
+            document.getElementById('toolResultContent').innerHTML = toolContent;
+        }
+
+        // Generate deep analysis tool
+        function generateDeepTool() {
+            const situation = document.getElementById('deepSituation').value.trim();
+            const patterns = document.getElementById('deepPatterns').value.trim();
+            const category = document.getElementById('deepCategory').value;
+
+            if (!situation) {
+                alert("Please describe your situation in detail.");
+                document.getElementById('deepSituation').focus();
+                return;
+            }
+
+            if (!category) {
+                alert("Please select an area.");
+                return;
+            }
+
+            const tool = deepTools[category];
+            if (!tool) {
+                alert("Please select a valid area.");
+                return;
+            }
+
+            currentTool = tool.prompt
+                .replace('[SITUATION]', situation)
+                .replace('[PATTERNS]', patterns || "I'm starting to notice patterns...");
+
+            showToolResult(tool.name, tool.description, currentTool);
+        }
+
+        // Show tool result
+        function showToolResult(name, description, tool) {
+            const toolContent = `
+                <div class="tool-result">
+                    <div class="tool-name">${name}</div>
+                    <p style="margin-bottom: 20px; color: var(--text);">${description}</p>
+
+                    <div class="prompt-output">
+                        <pre class="prompt-text">${tool}</pre>
+                        <p style="margin-top: 15px; font-size: 0.95rem; color: var(--earth);">
+                            <strong>How to use:</strong> Copy this framework, paste into ChatGPT/Claude, and follow the questions step by step.
+                        </p>
+                    </div>
+
+                    <div class="tool-guidance">
+                        <h4>🔧 Framework Principles</h4>
+                        <p style="line-height: 1.5;">
+                            • You're the decision-maker • AI asks questions, doesn't give answers • Include clear reconsider conditions • Maintain future options • Core values come first
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            showSection('toolResultSection');
+            document.getElementById('toolResultContent').innerHTML = toolContent;
+        }
+
+        // Copy current tool to clipboard
+        document.getElementById('copyToolBtn').addEventListener('click', function() {
+            if (!currentTool) {
+                alert("No framework created yet. Please generate a framework first.");
+                return;
+            }
+
+            const copyBtn = this;
+            const textarea = document.createElement('textarea');
+            textarea.value = currentTool;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+
+            try {
+                textarea.select();
+                textarea.setSelectionRange(0, 99999);
+                document.execCommand('copy');
+
+                copyBtn.textContent = 'Copied!';
+                copyBtn.classList.add('copied');
+
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy Framework';
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+
+            } catch (err) {
+                navigator.clipboard.writeText(currentTool).then(() => {
+                    copyBtn.textContent = 'Copied!';
+                    copyBtn.classList.add('copied');
+
+                    setTimeout(() => {
+                        copyBtn.textContent = 'Copy Framework';
+                        copyBtn.classList.remove('copied');
+                    }, 2000);
+                }).catch(() => {
+                    copyBtn.textContent = 'Copy Failed';
+                    setTimeout(() => {
+                        copyBtn.textContent = 'Copy Framework';
+                    }, 2000);
+                    alert("Please select and copy the text manually.");
+                });
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            showChoiceGate();
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && currentMode) {
+                    showChoiceGate();
+                }
+                if (e.key === 'Enter' && e.ctrlKey) {
+                    if (currentMode === 'quick') generateQuickTool();
+                    if (currentMode === 'deep') generateDeepTool();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
 
-
-
-
-
-Sent from Proton Mail for Android.
