@@ -4,372 +4,453 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Decision Tools – Structured Decision Maker</title>
-    <!-- Umami Analytics - ADD YOUR ID -->
+    <!-- Umami Analytics -->
     <!-- <script async defer data-website-id="YOUR_UMAMI_ID" src="https://analytics.umami.is/script.js"></script> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
     <style>
-        /* BASIC RESET */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        /* ROOT COLORS */
-        :root {
-            --earth: #8B7355;
-            --field: #4A7C59;
-            --sky: #8FBC8F;
-            --path: #D4B483;
-            --stone: #A9A9A9;
-            --text: #2F4F4F;
-            --light: #FAF3E0;
-            --shadow: rgba(0, 0, 0, 0.1);
-            --deep-green: #3F5E44;
-            --accent: #2E7D32;
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* BODY AND CONTAINER */
         body {
             font-family: 'Georgia', 'Times New Roman', serif;
-            background: linear-gradient(to bottom, var(--sky) 0%, var(--light) 100%);
-            color: var(--text);
+            background: #f5f7f2;
+            color: #2F4F4F;
             line-height: 1.6;
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
         }
 
+        /* ===== CONTAINER ===== */
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
             background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 8px 20px var(--shadow);
-            border: 2px solid var(--earth);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #ddd;
         }
 
-        /* HEADER */
+        /* ===== HEADER ===== */
         .header {
             text-align: center;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--field);
-            margin-bottom: 30px;
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #4A7C59;
         }
 
-        .header h1 {
-            color: var(--deep-green);
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+        .title {
+            color: #2E7D32;
+            font-size: 2.2rem;
+            margin-bottom: 8px;
             font-weight: normal;
         }
 
-        .header p {
-            color: var(--earth);
+        .subtitle {
+            color: #8B7355;
             font-size: 1.1rem;
             font-style: italic;
         }
 
-        /* CHOICE GATE */
-        .choice-gate {
+        /* ===== MAIN GATE ===== */
+        .gate {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
         }
 
-        .choice-gate h2 {
-            color: var(--deep-green);
-            font-size: 1.8rem;
-            margin-bottom: 15px;
+        .gate-title {
+            color: #1B5E20;
+            font-size: 1.7rem;
+            margin-bottom: 12px;
         }
 
-        .choice-gate p {
-            color: var(--earth);
+        .gate-description {
+            color: #666;
             margin-bottom: 30px;
             font-size: 1.1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        /* PATH CARDS */
-        .path-cards {
+        /* ===== PATH CARDS ===== */
+        .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
+        }
+
+        @media (max-width: 700px) {
+            .cards {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
         }
 
         .card {
             background: white;
-            border: 2px solid var(--path);
+            border: 2px solid #D4B483;
             border-radius: 10px;
             padding: 25px;
             text-align: center;
             transition: all 0.3s ease;
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px var(--shadow);
-            border-color: var(--field);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: #4A7C59;
         }
 
         .card-icon {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .card h3 {
-            color: var(--field);
+        .card-title {
+            color: #4A7C59;
             font-size: 1.4rem;
             margin-bottom: 15px;
-            font-weight: normal;
+            font-weight: 600;
         }
 
-        .card p {
-            color: var(--earth);
+        .card-description {
+            color: #666;
             font-size: 0.95rem;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             line-height: 1.5;
+            flex-grow: 1;
         }
 
         .card-button {
-            background-color: var(--field);
+            background-color: #4A7C59;
             color: white;
             border: none;
             padding: 12px 25px;
             border-radius: 8px;
             font-size: 1rem;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
-            max-width: 200px;
+            max-width: 220px;
         }
 
         .card-button:hover {
-            background-color: var(--deep-green);
+            background-color: #3F5E44;
             transform: translateY(-2px);
         }
 
-        /* SECTIONS (HIDDEN BY DEFAULT) */
+        /* ===== SECTIONS ===== */
         .section {
             display: none;
             background: white;
-            border: 2px solid var(--path);
+            border: 2px solid #D4B483;
             border-radius: 10px;
             padding: 30px;
-            margin-top: 30px;
+            margin-top: 20px;
         }
 
         .section.active {
             display: block;
-            border-color: var(--field);
-            box-shadow: 0 4px 12px var(--shadow);
+            border-color: #4A7C59;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
 
-        .section h2 {
-            color: var(--field);
+        .section-title {
+            color: #4A7C59;
             font-size: 1.6rem;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             padding-bottom: 15px;
-            border-bottom: 2px solid var(--light);
+            border-bottom: 2px solid #f0f0f0;
         }
 
-        /* FORM ELEMENTS */
+        /* ===== FORM ELEMENTS ===== */
         .form-group {
             margin-bottom: 25px;
         }
 
-        .form-group label {
+        label {
             display: block;
             margin-bottom: 10px;
             font-weight: 600;
-            color: var(--text);
+            color: #333;
             font-size: 1.1rem;
         }
 
         textarea, select {
             width: 100%;
-            padding: 15px;
-            border: 2px solid var(--path);
+            padding: 14px;
+            border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 1rem;
             font-family: 'Georgia', serif;
-            background: var(--light);
+            background: #f9f9f9;
+            transition: all 0.3s ease;
         }
 
         textarea:focus, select:focus {
             outline: none;
-            border-color: var(--field);
+            border-color: #4A7C59;
             background: white;
+            box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
         }
 
         textarea {
-            min-height: 120px;
+            min-height: 140px;
             resize: vertical;
+            line-height: 1.5;
         }
 
         .form-tip {
             font-size: 0.9rem;
-            color: var(--earth);
+            color: #777;
             margin-top: 8px;
             font-style: italic;
         }
 
-        /* BUTTONS */
+        /* ===== BUTTONS ===== */
         .button-group {
             display: flex;
             gap: 15px;
             margin-top: 30px;
         }
 
+        @media (max-width: 600px) {
+            .button-group {
+                flex-direction: column;
+            }
+        }
+
         .btn {
-            background-color: var(--field);
+            background-color: #4A7C59;
             color: white;
             border: none;
             padding: 14px 28px;
             border-radius: 8px;
             font-size: 1rem;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-align: center;
         }
 
         .btn:hover {
-            background-color: var(--deep-green);
+            background-color: #3F5E44;
             transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
         }
 
         .btn-secondary {
-            background: var(--light);
-            color: var(--text);
-            border: 2px solid var(--path);
+            background: #f5f5f5;
+            color: #333;
+            border: 2px solid #ddd;
         }
 
-        /* RESULT DISPLAY */
+        .btn-secondary:hover {
+            background: #e9e9e9;
+            border-color: #bbb;
+        }
+
+        /* ===== RESULT DISPLAY ===== */
         .result-box {
-            background: var(--light);
+            background: #f9f9f9;
             padding: 25px;
             border-radius: 8px;
             margin: 25px 0;
-            border: 1px solid var(--path);
+            border: 1px solid #ddd;
         }
 
-        .result-text {
+        .result-content {
             white-space: pre-wrap;
             word-break: break-word;
             font-family: 'Courier New', monospace;
-            font-size: 1rem;
+            font-size: 0.95rem;
             line-height: 1.6;
             padding: 20px;
             background: white;
             border-radius: 6px;
-            border: 1px solid var(--stone);
+            border: 1px solid #ccc;
             max-height: 400px;
             overflow-y: auto;
         }
 
-        /* FOOTER */
+        /* ===== PATTERN GRID ===== */
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        @media (max-width: 600px) {
+            .pattern-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pattern-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pattern-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-color: #4A7C59;
+        }
+
+        .pattern-title {
+            color: #4A7C59;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .pattern-desc {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* ===== FOOTER ===== */
         .footer {
             margin-top: 40px;
             padding-top: 20px;
-            border-top: 1px solid var(--stone);
+            border-top: 1px solid #eee;
             text-align: center;
-            color: var(--stone);
+            color: #777;
             font-size: 0.9rem;
         }
 
-        /* MOBILE RESPONSIVE */
-        @media (max-width: 768px) {
-            body { padding: 10px; }
-            .container { padding: 20px; }
-            .header h1 { font-size: 2rem; }
-            .path-cards { grid-template-columns: 1fr; }
-            .button-group { flex-direction: column; }
-            .btn { width: 100%; }
+        .footer-sponsor {
+            margin-top: 10px;
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        /* ===== UTILITIES ===== */
+        .hidden {
+            display: none;
+        }
+
+        .note {
+            background: #f8f9f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #4A7C59;
+            font-size: 0.95rem;
+            color: #555;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- HEADER -->
         <div class="header">
-            <h1>Decision Tools</h1>
-            <p>Structured Decision Maker • Three Approaches</p>
+            <h1 class="title">Decision Tools</h1>
+            <p class="subtitle">Structured Decision Maker • Three Approaches</p>
         </div>
 
-        <div class="choice-gate" id="choiceGate">
-            <h2>🎯 Choose Your Decision Path</h2>
-            <p>Select the approach that fits your situation and timeline.</p>
+        <!-- MAIN GATE -->
+        <div class="gate" id="mainGate">
+            <h2 class="gate-title">🎯 Choose Your Decision Path</h2>
+            <p class="gate-description">Select the approach that fits your situation and timeline. All paths respect clear thinking and preserve your options.</p>
 
-            <div class="path-cards">
+            <div class="cards">
                 <!-- QUICK PATH -->
                 <div class="card">
                     <div class="card-icon">🚀</div>
-                    <h3>Quick Decision Path</h3>
-                    <p>Urgent situations • 60-second framework • Immediate actions</p>
+                    <h3 class="card-title">Quick Decision Path</h3>
+                    <p class="card-description">Urgent situations • 60-second framework • Immediate actions</p>
                     <button class="card-button" id="quickBtn">Enter Quick Mode</button>
                 </div>
 
                 <!-- PATTERN PATH -->
                 <div class="card">
                     <div class="card-icon">📚</div>
-                    <h3>Decision Pattern Library</h3>
-                    <p>Common scenarios • Pre-built frameworks • Proven approaches</p>
+                    <h3 class="card-title">Decision Pattern Library</h3>
+                    <p class="card-description">Common scenarios • Pre-built frameworks • Proven approaches</p>
                     <button class="card-button" id="patternBtn">Browse Patterns</button>
                 </div>
 
                 <!-- DEEP PATH -->
                 <div class="card">
                     <div class="card-icon">🔍</div>
-                    <h3>Deep Decision Analysis</h3>
-                    <p>Complex situations • Custom mapping • Full scenario audit</p>
+                    <h3 class="card-title">Deep Decision Analysis</h3>
+                    <p class="card-description">Complex situations • Custom mapping • Full scenario audit</p>
                     <button class="card-button" id="deepBtn">Start Deep Analysis</button>
                 </div>
             </div>
 
-            <p style="margin-top: 20px; padding: 15px; background: #f8f9f7; border-radius: 8px; font-size: 0.95rem; color: #666;">
-                <strong>Decision Principle:</strong> You choose the tool that fits your needs. All paths respect clear thinking and preserve your options.
-            </p>
+            <div class="note">
+                <strong>Decision Principle:</strong> You choose the tool that fits your needs. The framework adapts to your situation.
+            </div>
         </div>
 
-        <!-- QUICK MODE SECTION -->
+        <!-- QUICK DECISION SECTION -->
         <div class="section" id="quickSection">
-            <h2>🚀 Quick Decision Path</h2>
+            <h2 class="section-title">🚀 Quick Decision Path</h2>
+
             <div class="form-group">
                 <label for="quickInput">What's the urgent situation?</label>
                 <textarea id="quickInput" placeholder="Example: Need to decide on a job offer by tomorrow..."></textarea>
                 <p class="form-tip">Brief description of what needs immediate attention.</p>
             </div>
+
             <div class="button-group">
                 <button class="btn btn-secondary" id="backQuickBtn">Back to Choices</button>
                 <button class="btn" id="generateQuickBtn">Generate Action Plan</button>
             </div>
         </div>
 
-        <!-- PATTERN SECTION -->
+        <!-- PATTERN LIBRARY SECTION -->
         <div class="section" id="patternSection">
-            <h2>📚 Decision Pattern Library</h2>
+            <h2 class="section-title">📚 Decision Pattern Library</h2>
             <p style="margin-bottom: 20px; color: #666;">Browse common situations with pre-analyzed decision frameworks.</p>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 25px 0;">
-                <div class="card" data-pattern="digital">
-                    <h4>🛡️ Digital Decisions</h4>
-                    <p>Platform choices, privacy, data management</p>
+            <div class="pattern-grid">
+                <div class="pattern-card" data-pattern="digital">
+                    <div class="pattern-title">🛡️ Digital Decisions</div>
+                    <p class="pattern-desc">Platform choices, privacy, data management</p>
                 </div>
-                <div class="card" data-pattern="financial">
-                    <h4>💰 Financial Decisions</h4>
-                    <p>Budget choices, investments, major purchases</p>
+                <div class="pattern-card" data-pattern="financial">
+                    <div class="pattern-title">💰 Financial Decisions</div>
+                    <p class="pattern-desc">Budget choices, investments, major purchases</p>
                 </div>
-                <div class="card" data-pattern="housing">
-                    <h4>🏠 Housing Decisions</h4>
-                    <p>Rent/buy choices, location, housing arrangements</p>
+                <div class="pattern-card" data-pattern="housing">
+                    <div class="pattern-title">🏠 Housing Decisions</div>
+                    <p class="pattern-desc">Rent/buy choices, location, housing arrangements</p>
                 </div>
-                <div class="card" data-pattern="legal">
-                    <h4>⚖️ Legal & Paperwork</h4>
-                    <p>Forms, contracts, compliance decisions</p>
+                <div class="pattern-card" data-pattern="legal">
+                    <div class="pattern-title">⚖️ Legal & Paperwork</div>
+                    <p class="pattern-desc">Forms, contracts, compliance decisions</p>
                 </div>
-                <div class="card" data-pattern="work">
-                    <h4>💼 Work Decisions</h4>
-                    <p>Career moves, job offers, professional boundaries</p>
+                <div class="pattern-card" data-pattern="work">
+                    <div class="pattern-title">💼 Work Decisions</div>
+                    <p class="pattern-desc">Career moves, job offers, professional boundaries</p>
                 </div>
-                <div class="card" data-pattern="relationships">
-                    <h4>👥 Relationship Decisions</h4>
-                    <p>Family matters, boundaries, communication choices</p>
+                <div class="pattern-card" data-pattern="relationships">
+                    <div class="pattern-title">👥 Relationship Decisions</div>
+                    <p class="pattern-desc">Family matters, boundaries, communication choices</p>
                 </div>
             </div>
 
@@ -380,12 +461,29 @@
 
         <!-- DEEP ANALYSIS SECTION -->
         <div class="section" id="deepSection">
-            <h2>🔍 Deep Decision Analysis</h2>
+            <h2 class="section-title">🔍 Deep Decision Analysis</h2>
+
             <div class="form-group">
                 <label for="deepInput">What's the complex situation?</label>
                 <textarea id="deepInput" placeholder="Detailed observation of what's happening..."></textarea>
                 <p class="form-tip">Focus on observable facts: timing, frequency, specific examples.</p>
             </div>
+
+            <div class="form-group">
+                <label for="deepCategory">Which area does this involve?</label>
+                <select id="deepCategory">
+                    <option value="">Choose area...</option>
+                    <option value="health">Health</option>
+                    <option value="work">Work</option>
+                    <option value="financial">Financial</option>
+                    <option value="housing">Housing</option>
+                    <option value="relationships">Relationships</option>
+                    <option value="education">Education</option>
+                    <option value="business">Business</option>
+                    <option value="personal">Personal Development</option>
+                </select>
+            </div>
+
             <div class="button-group">
                 <button class="btn btn-secondary" id="backDeepBtn">Back to Choices</button>
                 <button class="btn" id="generateDeepBtn">Create Custom Framework</button>
@@ -394,35 +492,48 @@
 
         <!-- RESULT SECTION -->
         <div class="section" id="resultSection">
-            <h2>🛠️ Your Decision Framework</h2>
-            <div id="resultContent"></div>
+            <h2 class="section-title">🛠️ Your Decision Framework</h2>
+
+            <div id="resultContent">
+                <!-- Content will be inserted here -->
+            </div>
+
             <div class="button-group">
                 <button class="btn btn-secondary" id="backResultBtn">Back to Choices</button>
                 <button class="btn" id="copyBtn">Copy Framework</button>
             </div>
         </div>
 
+        <!-- FOOTER -->
         <div class="footer">
             <p>Decision Tools • Three Structured Approaches</p>
-            <p style="margin-top: 10px; color: #888; font-size: 0.85rem;">
-                A tool sponsored by the Green Field Project • Clear thinking applied to decision making
-            </p>
+            <p class="footer-sponsor">A tool sponsored by the Green Field Project • Clear thinking applied to decision making</p>
         </div>
     </div>
 
     <script>
-        // SIMPLE VERSION - Just navigation first
-        document.getElementById('quickBtn').addEventListener('click', function() {
-            showSection('quickSection');
-        });
+        // ===== STATE =====
+        let currentTool = '';
 
-        document.getElementById('patternBtn').addEventListener('click', function() {
-            showSection('patternSection');
-        });
+        // ===== NAVIGATION =====
+        function showMain() {
+            document.getElementById('mainGate').classList.remove('hidden');
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        }
 
-        document.getElementById('deepBtn').addEventListener('click', function() {
-            showSection('deepSection');
-        });
+        function showSection(sectionId) {
+            document.getElementById('mainGate').classList.add('hidden');
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            // Scroll to top for mobile
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ===== EVENT LISTENERS =====
+        // Main navigation
+        document.getElementById('quickBtn').addEventListener('click', () => showSection('quickSection'));
+        document.getElementById('patternBtn').addEventListener('click', () => showSection('patternSection'));
+        document.getElementById('deepBtn').addEventListener('click', () => showSection('deepSection'));
 
         // Back buttons
         document.getElementById('backQuickBtn').addEventListener('click', showMain);
@@ -430,87 +541,315 @@
         document.getElementById('backDeepBtn').addEventListener('click', showMain);
         document.getElementById('backResultBtn').addEventListener('click', showMain);
 
-        // Pattern cards
-        document.querySelectorAll('[data-pattern]').forEach(card => {
+        // ===== PATTERN LIBRARY =====
+        const patternLibrary = {
+            digital: `DIGITAL DECISION FRAMEWORK
+
+I need to navigate a digital decision situation.
+
+SITUATION: [Brief description of platform choice, privacy concern, or data management issue]
+
+Please help me:
+1. What specific options or requirements are involved?
+2. What are the stated benefits and drawbacks of each option?
+3. What are my actual choices (not just the ones presented)?
+
+For each option, include:
+• Short-term vs long-term implications
+• Clear "reconsider if" conditions
+• How to maintain flexibility
+• What documentation to keep
+
+Focus on factual analysis, not opinions.`,
+
+            financial: `FINANCIAL DECISION FRAMEWORK
+
+I need to navigate a financial decision situation.
+
+SITUATION: [Brief description of financial choice, investment, or purchase decision]
+
+Please help me:
+1. What are the exact financial terms/requirements?
+2. What's the timeline and consequences of different choices?
+3. What are all possible approaches (including unconventional)?
+
+For each option, include:
+• Immediate vs long-term impact
+• Clear "reconsider if" conditions
+• Documentation needed
+• Alternative resource options
+
+Focus on factual analysis, not opinions.`,
+
+            housing: `HOUSING DECISION FRAMEWORK
+
+I need to navigate a housing decision situation.
+
+SITUATION: [Brief description of housing choice]
+
+Please help me:
+1. What are the exact housing terms/requirements?
+2. What's the legal framework and timeline?
+3. What are all possible approaches (including temporary solutions)?
+
+For each option, include:
+• Stability vs flexibility tradeoffs
+• Clear "reconsider if" conditions
+• Documentation and evidence needed
+• Local resource connections
+
+Focus on factual analysis, not opinions.`,
+
+            legal: `LEGAL & PAPERWORK FRAMEWORK
+
+I need to navigate a legal/paperwork decision situation.
+
+SITUATION: [Brief description of forms, contracts, or compliance issues]
+
+Please help me:
+1. What are the exact requirements/deadlines?
+2. What's the minimum compliance needed?
+3. What are the actual consequences of various approaches?
+
+For each option, include:
+• Compliance vs flexibility balance
+• Clear "reconsider if" conditions
+• Documentation strategy
+• Professional support options
+
+Focus on factual analysis, not opinions.`,
+
+            work: `WORK DECISION FRAMEWORK
+
+I need to navigate a work decision situation.
+
+SITUATION: [Brief description of work choice]
+
+Please help me:
+1. What are the exact requirements/expectations?
+2. What's the professional context and considerations?
+3. What are all possible professional approaches?
+
+For each option, include:
+• Professional impact vs personal priorities
+• Clear "reconsider if" conditions
+• Documentation approach
+• Alternative career considerations
+
+Focus on factual analysis, not opinions.`,
+
+            relationships: `RELATIONSHIP DECISION FRAMEWORK
+
+I need to navigate a relationship decision situation.
+
+SITUATION: [Brief description of relationship choice]
+
+Please help me:
+1. What are the relationship dynamics at play?
+2. What boundaries or values are being considered?
+3. What are all possible relationship-preserving approaches?
+
+For each option, include:
+• Relationship preservation vs personal needs
+• Clear "reconsider if" conditions
+• Communication strategies
+• Support network considerations
+
+Focus on factual analysis, not opinions.`
+        };
+
+        // Pattern card clicks
+        document.querySelectorAll('.pattern-card').forEach(card => {
             card.addEventListener('click', function() {
-                const patterns = {
-                    digital: "Digital Decision Framework\n\nFor platform choices...",
-                    financial: "Financial Decision Framework\n\nFor budget choices...",
-                    housing: "Housing Decision Framework\n\nFor rent/buy choices...",
-                    legal: "Legal & Paperwork Framework\n\nFor forms, contracts...",
-                    work: "Work Decision Framework\n\nFor career moves...",
-                    relationships: "Relationship Decision Framework\n\nFor family matters..."
-                };
-
                 const patternId = this.getAttribute('data-pattern');
-                document.getElementById('resultContent').innerHTML = 
-                    '<div class="result-box"><pre class="result-text">' + 
-                    patterns[patternId] + 
-                    '</pre><p style="margin-top: 15px; color: #666; font-size: 0.9rem;">Copy this framework and paste into your AI tool.</p></div>';
+                const pattern = patternLibrary[patternId];
 
-                showSection('resultSection');
+                if (pattern) {
+                    currentTool = pattern;
+                    showResult(pattern, `Decision Pattern: ${this.querySelector('.pattern-title').textContent}`);
+                }
             });
         });
 
-        // Generate buttons
+        // ===== GENERATE FUNCTIONS =====
         document.getElementById('generateQuickBtn').addEventListener('click', function() {
-            const input = document.getElementById('quickInput').value;
-            if (!input) {
-                alert("Please describe your situation.");
+            const situation = document.getElementById('quickInput').value.trim();
+
+            if (!situation) {
+                alert("Please describe the urgent situation.");
+                document.getElementById('quickInput').focus();
                 return;
             }
 
-            const framework = `URGENT DECISION ACTION PLAN\n\nSituation: ${input}\n\nIMMEDIATE ACTIONS:\n1. Document all facts\n2. Identify what can/cannot wait\n3. Consult trusted person\n4. Secure information\n\nRECONSIDER IF:\n• Core values compromised\n• Future options eliminated\n• Pressure unreasonable`;
+            currentTool = `URGENT DECISION ACTION PLAN
 
-            document.getElementById('resultContent').innerHTML = 
-                '<div class="result-box"><pre class="result-text">' + framework + '</pre></div>';
+Situation: ${situation}
 
-            showSection('resultSection');
+IMMEDIATE ACTIONS (Next 24 hours):
+1. Document all relevant facts (times, people, communications)
+2. Identify what CAN wait vs what CANNOT wait
+3. Reach out to one trusted person for perspective
+4. Secure essential information and documents
+
+CRITICAL QUESTIONS TO ANSWER:
+1. What's the actual deadline? (Not the stated one)
+2. Who has real decision-making authority?
+3. What's the minimum acceptable outcome?
+4. What's my backup plan if this doesn't work?
+
+RECONSIDER IF CONDITIONS:
+• If core values are compromised
+• If future options are being eliminated
+• If pressure exceeds reasonable limits
+• If information is being withheld
+
+NEXT 72 HOURS:
+• Daily decision check-ins
+• Document all relevant interactions
+• Maintain at least 2 alternative options
+• Connect with relevant resources if needed
+
+Remember: Good decisions come from clear thinking under pressure. Keep your options open.`;
+
+            showResult(currentTool, "Quick Decision Framework");
         });
 
         document.getElementById('generateDeepBtn').addEventListener('click', function() {
-            const input = document.getElementById('deepInput').value;
-            if (!input) {
-                alert("Please describe your situation.");
+            const situation = document.getElementById('deepInput').value.trim();
+            const category = document.getElementById('deepCategory').value;
+
+            if (!situation) {
+                alert("Please describe your situation in detail.");
+                document.getElementById('deepInput').focus();
                 return;
             }
 
-            const framework = `DEEP ANALYSIS FRAMEWORK\n\nSituation: ${input}\n\nTRACKING STEPS:\n1. Document observations for 3 days\n2. Note patterns and triggers\n3. Identify what improves/worsens situation\n4. Map all possible options\n\nANALYSIS QUESTIONS:\n• What patterns emerge?\n• What are the underlying factors?\n• What options preserve flexibility?`;
+            const categoryText = category ? `\nArea: ${document.getElementById('deepCategory').options[document.getElementById('deepCategory').selectedIndex].text}` : '';
 
-            document.getElementById('resultContent').innerHTML = 
-                '<div class="result-box"><pre class="result-text">' + framework + '</pre></div>';
+            currentTool = `DEEP DECISION ANALYSIS FRAMEWORK${categoryText}
 
+Situation: ${situation}
+
+STEP 1: OBSERVATION PHASE (3-7 days)
+Track these aspects daily:
+• What exactly happens? (Facts only)
+• When does it happen? (Timing, triggers)
+• Who is involved? (Roles, relationships)
+• What makes it better/worse? (Patterns)
+
+STEP 2: PATTERN IDENTIFICATION
+After tracking, answer:
+1. What patterns emerged?
+2. What were the most significant triggers?
+3. What resources helped or hindered?
+4. What assumptions were confirmed or challenged?
+
+STEP 3: OPTION MAPPING
+For each possible path forward:
+• Short-term impact (next 30 days)
+• Long-term consequences (6-12 months)
+• Resource requirements (time, money, energy)
+• Flexibility preserved or lost
+
+STEP 4: DECISION CRITERIA
+Establish clear "stop/go" conditions:
+• Proceed if: [Specific, measurable conditions]
+• Reconsider if: [Warning signs to watch for]
+• Stop immediately if: [Non-negotiable boundaries]
+
+Remember: Complex decisions benefit from patient observation. Track first, decide second.`;
+
+            showResult(currentTool, "Deep Analysis Framework");
+        });
+
+        // ===== RESULT DISPLAY =====
+        function showResult(content, title = "Your Decision Framework") {
+            const resultHTML = `
+                <div class="result-box">
+                    <h3 style="color: #4A7C59; margin-bottom: 15px;">${title}</h3>
+                    <pre class="result-content">${content}</pre>
+                    <p style="margin-top: 15px; color: #666; font-size: 0.9rem;">
+                        <strong>How to use:</strong> Copy this framework and paste into ChatGPT, Claude, or any AI assistant.
+                        Follow the steps to clarify your thinking and options.
+                    </p>
+                </div>
+                <div class="note">
+                    <strong>Framework Principles:</strong><br>
+                    • You're the decision-maker • AI asks questions, doesn't give answers • Include clear "reconsider if" conditions • Maintain future options • Core values come first
+                </div>
+            `;
+
+            document.getElementById('resultContent').innerHTML = resultHTML;
             showSection('resultSection');
-        });
+        }
 
-        // Copy button
+        // ===== COPY FUNCTION =====
         document.getElementById('copyBtn').addEventListener('click', function() {
-            const text = document.querySelector('.result-text')?.textContent;
-            if (!text) {
-                alert("No framework to copy.");
+            if (!currentTool) {
+                alert("No framework to copy. Please generate a framework first.");
                 return;
             }
 
-            navigator.clipboard.writeText(text).then(() => {
-                this.textContent = 'Copied!';
-                setTimeout(() => this.textContent = 'Copy Framework', 2000);
-            });
+            const copyBtn = this;
+            const textarea = document.createElement('textarea');
+            textarea.value = currentTool;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+
+            try {
+                textarea.select();
+                textarea.setSelectionRange(0, 99999);
+                const success = document.execCommand('copy');
+
+                if (success) {
+                    copyBtn.textContent = 'Copied!';
+                    copyBtn.style.background = '#2E7D32';
+
+                    setTimeout(() => {
+                        copyBtn.textContent = 'Copy Framework';
+                        copyBtn.style.background = '';
+                    }, 2000);
+                } else {
+                    fallbackCopy(currentTool, copyBtn);
+                }
+            } catch (err) {
+                fallbackCopy(currentTool, copyBtn);
+            } finally {
+                document.body.removeChild(textarea);
+            }
         });
 
-        // Navigation functions
-        function showMain() {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('choiceGate').style.display = 'block';
+        function fallbackCopy(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                button.textContent = 'Copied!';
+                button.style.background = '#2E7D32';
+
+                setTimeout(() => {
+                    button.textContent = 'Copy Framework';
+                    button.style.background = '';
+                }, 2000);
+            }).catch(() => {
+                alert("Please select the text above and copy manually (Ctrl+C).");
+            });
         }
 
-        function showSection(sectionId) {
-            document.getElementById('choiceGate').style.display = 'none';
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById(sectionId).classList.add('active');
-        }
+        // ===== INITIALIZE =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    showMain();
+                }
+            });
 
-        // Initialize
-        showMain();
+            // Touch improvements for mobile
+            if ('ontouchstart' in window) {
+                document.querySelectorAll('.card, .pattern-card, button').forEach(el => {
+                    el.style.cursor = 'pointer';
+                });
+            }
+        });
     </script>
 </body>
 </html>
