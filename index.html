@@ -1,105 +1,295 @@
 
-<!DOCTYPE html><html>
+<!DOCTYPE html><html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Decision Tools - Decision Helper</title>
-<style>
-body{font-family:Georgia,serif;margin:20px;background:#f5f7f2;color:#2F4F4F}
-.container{max-width:800px;margin:0 auto;background:white;padding:30px;border-radius:12px;box-shadow:0 5px 15px rgba(0,0,0,0.08)}
-h1{color:#2E7D32;text-align:center;font-size:32px;margin-bottom:10px}
-.subtitle{color:#8B7355;text-align:center;font-style:italic;margin-bottom:30px}
-textarea{width:100%;min-height:150px;padding:20px;margin:20px 0;border:2px solid #D4B483;border-radius:8px;font-size:16px;background:#FAF3E0;font-family:Georgia,serif}
-textarea:focus{outline:none;border-color:#4A7C59;background:white}
-button{background:#4A7C59;color:white;border:none;padding:15px 30px;border-radius:8px;font-size:16px;cursor:pointer;display:block;margin:20px auto}
-button:hover{background:#3F5E44}
-.result{margin-top:30px;padding:25px;background:#f9f9f9;border-radius:8px;border:1px solid #ddd;display:none}
-.result.active{display:block}
-pre{white-space:pre-wrap;font-family:'Courier New',monospace;font-size:14px;padding:20px;background:white;border-radius:6px;border:1px solid #ccc;max-height:400px;overflow-y:auto}
-.copy-btn{background:#4A7C59;color:white;border:none;padding:10px 20px;border-radius:5px;cursor:pointer;margin-top:15px}
-footer{margin-top:40px;text-align:center;color:#777;font-size:14px}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Tools</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(to bottom, #8FBC8F 0%, #FAF3E0 100%);
+            color: #2F4F4F;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border: 2px solid #8B7355;
+        }
+
+        h1 {
+            color: #4A7C59;
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        .tagline {
+            color: #8B7355;
+            text-align: center;
+            font-style: italic;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #2F4F4F;
+            font-size: 1.2rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 180px;
+            padding: 20px;
+            border: 2px solid #D4B483;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            font-family: 'Georgia', serif;
+            background: #FAF3E0;
+            resize: vertical;
+            margin-bottom: 30px;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #4A7C59;
+            background: white;
+        }
+
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        button {
+            background-color: #4A7C59;
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+        }
+
+        button:hover {
+            background-color: #3F5E44;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            display: none;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px dashed #4A7C59;
+        }
+
+        .result.active {
+            display: block;
+        }
+
+        .result h2 {
+            color: #4A7C59;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .prompt-box {
+            background: #FAF3E0;
+            padding: 30px;
+            border-radius: 10px;
+            border: 2px solid #D4B483;
+            margin: 25px 0;
+        }
+
+        .prompt-text {
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #A9A9A9;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .copy-btn {
+            background: #4A7C59;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .copy-btn:hover {
+            background: #3F5E44;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #A9A9A9;
+            text-align: center;
+            color: #A9A9A9;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            textarea {
+                min-height: 150px;
+                padding: 15px;
+            }
+
+            button {
+                padding: 15px 30px;
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-<h1>Decision Tools</h1>
-<p class="subtitle">A structured decision-making helper</p>
+    <div class="container">
+        <h1>Decision Tools</h1>
+        <p class="tagline">A structured decision-making assistant</p>
 
-<textarea id="situation" placeholder="Describe your decision situation...&#10;Example: 'Choosing between job offers', 'Major purchase decision', 'Family situation'"></textarea>
+        <label for="situation">Describe your decision situation...</label>
+        <textarea id="situation" placeholder="Example: 'Need to choose between two job offers...', 'Facing a major purchase decision...', 'Navigating a complex family situation...'"></textarea>
 
-<button onclick="generateFramework()">Generate Decision Helper</button>
+        <div class="button-container">
+            <button id="generateBtn">Generate Decision Framework</button>
+        </div>
 
-<div class="result" id="result">
-<h3>Your Decision Helper Framework:</h3>
-<pre id="output"></pre>
-<button class="copy-btn" onclick="copyFramework()">Copy Helper</button>
-</div>
+        <div class="result" id="resultSection">
+            <h2>Your Decision Framework</h2>
 
-<footer>
-<p>A tool for clear thinking and better decisions</p>
-</footer>
-</div>
+            <div class="prompt-box">
+                <pre class="prompt-text" id="promptOutput"></pre>
+                <button class="copy-btn" id="copyBtn">Copy Framework</button>
+            </div>
+        </div>
 
-<script>
-function generateFramework(){
-var situation=document.getElementById('situation').value.trim();
-if(!situation){alert('Please describe your decision situation.');return;}
+        <footer>
+            <p>A tool sponsored by the Green Field Project.</p>
+        </footer>
+    </div>
 
-var framework=`I need help making a clear decision.
+    <script>
+        document.getElementById('generateBtn').addEventListener('click', function() {
+            const situation = document.getElementById('situation').value.trim();
 
-SITUATION: ${situation}
+            if (!situation) {
+                alert('Please describe your decision situation.');
+                document.getElementById('situation').focus();
+                return;
+            }
 
-Please help me work through this decision step by step:
+            this.textContent = 'Generating...';
+            this.disabled = true;
 
-1. FIRST, help me clarify what exactly needs to be decided:
-   • What's the core question?
-   • What's the timeline?
-   • Who is affected?
+            setTimeout(() => {
+                const framework = `DECISION FRAMEWORK
 
-2. THEN, help me identify what matters most:
-   • What are my 3-5 key priorities?
-   • What does success look like?
-   • What are my non-negotiables?
+Situation: ${situation}
 
-3. NEXT, help me map ALL possible options (not just the obvious ones):
-   • Option A: [First approach]
-   • Option B: [Second approach]  
-   • Option C: [Third approach or status quo]
-   • Are there unconventional options I haven't considered?
+Step 1: Clarify the Core Decision
+• What exactly needs to be decided?
+• What's the timeline for this decision?
+• Who else is affected by this decision?
 
-4. FOR EACH OPTION, help me evaluate:
-   • How well does it meet my priorities?
-   • What are the risks and trade-offs?
-   • What resources are required?
-   • How reversible is this choice?
+Step 2: Identify Your Criteria
+• What matters most in this situation? (List 3-5 priorities)
+• What would a "good outcome" look like?
+• What would a "bad outcome" look like?
 
-5. FINALLY, help me identify next steps:
-   • What information do I still need?
-   • Who should I consult?
-   • What small test could I run?
+Step 3: Map Your Options
+• Option A: [Describe first possible path]
+• Option B: [Describe second possible path]
+• Option C: [Describe third possible path or "status quo"]
 
-IMPORTANT: Don't tell me what to decide. Ask me questions to clarify my own thinking. Help me see blind spots and consider options I might have missed.`;
+Step 4: Evaluate Each Option
+For each option above, consider:
+• How well does it meet your criteria?
+• What are the potential risks?
+• What resources would it require?
+• How reversible is this choice?
 
-document.getElementById('output').textContent=framework;
-document.getElementById('result').classList.add('active');
-document.getElementById('result').scrollIntoView({behavior:'smooth'});
-}
+Step 5: Next Actions
+• What information do you still need?
+• Who could you consult for perspective?
+• What small step could you take today to test an option?
 
-function copyFramework(){
-var text=document.getElementById('output').textContent;
-navigator.clipboard.writeText(text).then(function(){
-var btn=document.querySelector('.copy-btn');
-btn.textContent='Copied!';
-setTimeout(function(){btn.textContent='Copy Helper';},2000);
-});
-}
+Remember: Good decisions come from clear thinking, not perfect information.`;
 
-document.getElementById('situation').addEventListener('keydown',function(e){
-if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){
-e.preventDefault();
-generateFramework();
-}
-});
-</script>
+                document.getElementById('promptOutput').textContent = framework;
+                document.getElementById('resultSection').classList.add('active');
+
+                this.textContent = 'Generate Decision Framework';
+                this.disabled = false;
+
+                document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+            }, 800);
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const frameworkText = document.getElementById('promptOutput').textContent;
+            const copyBtn = this;
+
+            if (!frameworkText || frameworkText === '') {
+                alert('No framework generated yet.');
+                return;
+            }
+
+            navigator.clipboard.writeText(frameworkText).then(() => {
+                copyBtn.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy Framework';
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy failed:', err);
+                alert('Copy failed. Please select and copy the text manually.');
+            });
+        });
+
+        document.getElementById('situation').addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                document.getElementById('generateBtn').click();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('situation').focus();
+        });
+    </script>
 </body>
 </html>
