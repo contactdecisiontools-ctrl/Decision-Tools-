@@ -5,49 +5,123 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Decision Tools</title>
 <style>
-body{font-family:Arial,sans-serif;margin:20px;background:#f0f0f0}
-.container{max-width:1000px;margin:0 auto;background:#fff;padding:30px;border-radius:10px;box-shadow:0 2px 10px #ccc}
-.header{text-align:center;margin-bottom:30px}
-h1{color:#2c3e50;font-size:28px;margin-bottom:10px}
-.subtitle{color:#7f8c8d;font-size:16px}
-.cards{display:flex;flex-wrap:wrap;gap:20px;justify-content:center;margin-bottom:30px}
-.card{background:#fff;border:2px solid #3498db;border-radius:8px;padding:25px;width:300px;text-align:center}
-.card h3{color:#2980b9;margin-bottom:15px}
-.card p{color:#666;margin-bottom:20px;line-height:1.5}
-.card button{background:#3498db;color:#fff;border:none;padding:12px 24px;border-radius:6px;font-size:16px;cursor:pointer}
-.card button:hover{background:#2980b9}
-@media(max-width:768px){.card{width:100%}}
+body{font-family:Georgia,serif;margin:20px;background:#f5f7f2;color:#2F4F4F}
+.container{max-width:1100px;margin:0 auto;background:#fff;padding:30px;border-radius:12px;box-shadow:0 5px 15px rgba(0,0,0,0.08);border:1px solid #ddd}
+.header{text-align:center;padding-bottom:25px;margin-bottom:25px;border-bottom:2px solid #4A7C59}
+.title{color:#2E7D32;font-size:32px;margin-bottom:8px}
+.subtitle{color:#8B7355;font-size:18px;font-style:italic}
+.gate-title{color:#1B5E20;font-size:24px;margin-bottom:12px;text-align:center}
+.gate-description{color:#666;margin-bottom:30px;text-align:center}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px;margin-bottom:35px}
+@media(max-width:700px){.cards{grid-template-columns:1fr;gap:20px}}
+.card{background:#fff;border:2px solid #D4B483;border-radius:10px;padding:25px;text-align:center;transition:all 0.3s}
+.card:hover{transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,0.1);border-color:#4A7C59}
+.card-icon{font-size:40px;margin-bottom:20px}
+.card-title{color:#4A7C59;font-size:22px;margin-bottom:15px}
+.card-description{color:#666;font-size:16px;margin-bottom:25px;line-height:1.5}
+.card-button{background:#4A7C59;color:#fff;border:none;padding:12px 25px;border-radius:8px;font-size:16px;cursor:pointer;width:100%;max-width:220px}
+.card-button:hover{background:#3F5E44;transform:translateY(-2px)}
+.section{display:none;background:#fff;border:2px solid #D4B483;border-radius:10px;padding:30px;margin-top:20px}
+.section.active{display:block;border-color:#4A7C59;box-shadow:0 5px 15px rgba(0,0,0,0.08)}
+.section-title{color:#4A7C59;font-size:24px;margin-bottom:25px}
+.form-group{margin-bottom:25px}
+label{display:block;margin-bottom:10px;font-weight:bold;color:#333;font-size:18px}
+textarea,select{width:100%;padding:14px;border:2px solid #ddd;border-radius:8px;font-size:16px;background:#f9f9f9}
+textarea:focus,select:focus{outline:none;border-color:#4A7C59;background:#fff}
+textarea{min-height:140px;resize:vertical}
+.button-group{display:flex;gap:15px;margin-top:30px}
+@media(max-width:600px){.button-group{flex-direction:column}}
+.btn{background:#4A7C59;color:#fff;border:none;padding:14px 28px;border-radius:8px;font-size:16px;cursor:pointer}
+.btn:hover{background:#3F5E44;transform:translateY(-2px)}
+.btn-secondary{background:#f5f5f5;color:#333;border:2px solid #ddd}
+.result-box{background:#f9f9f9;padding:25px;border-radius:8px;margin:25px 0;border:1px solid #ddd}
+.result-content{white-space:pre-wrap;font-family:'Courier New',monospace;font-size:16px;padding:20px;background:#fff;border-radius:6px;border:1px solid #ccc}
+.footer{margin-top:40px;padding-top:20px;border-top:1px solid #eee;text-align:center;color:#777}
 </style>
 </head>
 <body>
 <div class="container">
 <div class="header">
-<h1>Decision Tools</h1>
-<p class="subtitle">Three Decision Approaches</p>
+<h1 class="title">Decision Tools</h1>
+<p class="subtitle">Structured Decision Maker • Three Approaches</p>
 </div>
+
+<div id="mainGate">
+<h2 class="gate-title">🎯 Choose Your Decision Path</h2>
+<p class="gate-description">Select the approach that fits your situation and timeline.</p>
 <div class="cards">
 <div class="card">
-<h3>🚀 Quick Decisions</h3>
-<p>Urgent situations needing fast action</p>
-<button onclick="alert('Quick path selected')">Select Path</button>
+<div class="card-icon">🚀</div>
+<h3 class="card-title">Quick Decision Path</h3>
+<p class="card-description">Urgent situations • 60-second framework • Immediate actions</p>
+<button class="card-button" id="quickBtn">Enter Quick Mode</button>
 </div>
 <div class="card">
-<h3>📚 Pattern Library</h3>
-<p>Common scenarios with proven frameworks</p>
-<button onclick="alert('Pattern library selected')">Select Path</button>
+<div class="card-icon">📚</div>
+<h3 class="card-title">Decision Pattern Library</h3>
+<p class="card-description">Common scenarios • Pre-built frameworks • Proven approaches</p>
+<button class="card-button" id="patternBtn">Browse Patterns</button>
 </div>
 <div class="card">
-<h3>🔍 Deep Analysis</h3>
-<p>Complex situations requiring detailed mapping</p>
-<button onclick="alert('Deep analysis selected')">Select Path</button>
+<div class="card-icon">🔍</div>
+<h3 class="card-title">Deep Decision Analysis</h3>
+<p class="card-description">Complex situations • Custom mapping • Full scenario audit</p>
+<button class="card-button" id="deepBtn">Start Deep Analysis</button>
 </div>
 </div>
-<p style="text-align:center;color:#888;margin-top:30px">A tool sponsored by the Green Field Project</p>
 </div>
+
+<div class="section" id="quickSection">
+<h2 class="section-title">🚀 Quick Decision Path</h2>
+<div class="form-group">
+<label>What's the urgent situation?</label>
+<textarea id="quickInput" placeholder="Example: Need to decide on a job offer by tomorrow..."></textarea>
+</div>
+<div class="button-group">
+<button class="btn btn-secondary" id="backQuickBtn">Back to Choices</button>
+<button class="btn" id="generateQuickBtn">Generate Action Plan</button>
+</div>
+</div>
+
+<div class="section" id="resultSection">
+<h2 class="section-title">🛠️ Your Decision Framework</h2>
+<div id="resultContent"></div>
+<div class="button-group">
+<button class="btn btn-secondary" id="backResultBtn">Back to Choices</button>
+<button class="btn" id="copyBtn">Copy Framework</button>
+</div>
+</div>
+
+<div class="footer">
+<p>Decision Tools • Three Structured Approaches</p>
+<p style="margin-top:10px;color:#888">A tool sponsored by the Green Field Project</p>
+</div>
+</div>
+
+<script>
+function showMain(){
+document.getElementById('mainGate').style.display='block';
+document.querySelectorAll('.section').forEach(s=>s.style.display='none');
+}
+function showSection(sectionId){
+document.getElementById('mainGate').style.display='none';
+document.querySelectorAll('.section').forEach(s=>s.style.display='none');
+document.getElementById(sectionId).style.display='block';
+}
+document.getElementById('quickBtn').onclick=function(){showSection('quickSection')};
+document.getElementById('backQuickBtn').onclick=showMain;
+document.getElementById('backResultBtn').onclick=showMain;
+document.getElementById('generateQuickBtn').onclick=function(){
+var input=document.getElementById('quickInput').value;
+if(!input){alert("Please describe the situation.");return;}
+document.getElementById('resultContent').innerHTML='<div class="result-box"><pre class="result-content">QUICK DECISION PLAN\n\nSituation: '+input+'\n\n1. Immediate actions\n2. Key questions\n3. Stop conditions</pre></div>';
+showSection('resultSection');
+};
+document.getElementById('copyBtn').onclick=function(){
+var text=document.querySelector('.result-content')?.textContent;
+if(text){navigator.clipboard.writeText(text).then(function(){alert("Copied!")});}
+};
+showMain();
+</script>
 </body>
 </html>
-
-
-
-
-Sent from Proton Mail for Android.
