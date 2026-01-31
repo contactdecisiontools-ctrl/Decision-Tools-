@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decision Tools – Structured Decision Maker</title>
+    <title>Decision Tools – Simple Decision Prompts</title>
     <style>
-        /* COLOR SYSTEM */
+        /* COLOR SYSTEM - Kept consistent with your brand */
         :root {
             --primary: #2c5530;
             --secondary: #4a7c59;
@@ -18,7 +18,7 @@
             --shadow: 0 3px 10px rgba(0,0,0,0.08);
             --border: #d1d9e6;
             --page-bg: #f5f7fa;
-            --input-border: #c8d1e0;
+            --success: #28a745;
         }
 
         /* BASE STYLES */
@@ -33,7 +33,6 @@
             background: var(--page-bg);
             color: var(--dark);
             line-height: 1.6;
-            min-height: 100vh;
             padding: 20px;
         }
 
@@ -48,7 +47,6 @@
             border-radius: 10px;
             padding: 30px;
             margin-bottom: 30px;
-            box-shadow: var(--shadow);
             text-align: center;
             border: 1px solid var(--border);
         }
@@ -57,16 +55,14 @@
             color: var(--primary);
             font-size: 2rem;
             margin-bottom: 10px;
-            font-weight: 400;
         }
 
         .subtitle {
             color: var(--gray);
-            font-size: 1rem;
             margin-bottom: 15px;
         }
 
-        .method-badge {
+        .badge {
             display: inline-block;
             background: var(--accent);
             color: white;
@@ -76,168 +72,67 @@
             margin-top: 10px;
         }
 
-        /* PATH SELECTION CARDS */
-        .path-grid {
+        /* PROMPTS */
+        .prompts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
-            margin-bottom: 40px;
+            margin: 30px 0;
         }
 
-        .path-card {
+        .prompt-card {
             background: white;
             border-radius: 10px;
             padding: 25px;
-            text-align: center;
-            box-shadow: var(--shadow);
             border: 1px solid var(--border);
-            transition: all 0.3s ease;
             cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100%;
+            transition: transform 0.2s;
         }
 
-        .path-card:hover {
+        .prompt-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
             border-color: var(--accent);
         }
 
-        .card-icon {
-            font-size: 2.5rem;
+        .prompt-icon {
+            font-size: 2rem;
             margin-bottom: 15px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        .card-title {
+        .prompt-title {
+            color: var(--primary);
             font-size: 1.3rem;
-            color: var(--primary);
             margin-bottom: 10px;
-            font-weight: 600;
         }
 
-        .card-description {
+        .prompt-desc {
             color: var(--gray);
-            font-size: 0.9rem;
-            line-height: 1.4;
-            margin-bottom: 20px;
-            flex-grow: 1;
-        }
-
-        .card-button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
             font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-            width: 100%;
-            max-width: 180px;
-            font-family: inherit;
+            margin-bottom: 15px;
         }
 
-        .card-button:hover {
-            background: var(--secondary);
-        }
-
-        /* SECTIONS */
-        .section {
+        /* PROMPT DISPLAY */
+        .prompt-display {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid var(--border);
             display: none;
-            background: white;
-            border-radius: 10px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
         }
 
-        .section.active {
+        .prompt-display.active {
             display: block;
-            animation: fadeIn 0.3s ease;
         }
 
-        .section-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--accent);
-        }
-
-        .back-button {
-            background: var(--light-gray);
-            color: var(--dark);
-            border: 1px solid var(--border);
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            margin-right: 15px;
-            transition: all 0.2s;
-        }
-
-        .back-button:hover {
-            background: var(--border);
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            color: var(--primary);
-            flex-grow: 1;
-        }
-
-        /* FORM STYLES */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .form-input,
-        .form-select,
-        .form-textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--input-border);
-            border-radius: 6px;
-            font-size: 1rem;
-            font-family: inherit;
+        .prompt-text {
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
             background: white;
-            transition: border-color 0.2s;
-        }
-
-        .form-input:focus,
-        .form-select:focus,
-        .form-textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(143, 188, 143, 0.1);
-        }
-
-        .form-textarea {
-            min-height: 120px;
-            resize: vertical;
-            line-height: 1.5;
-        }
-
-        .form-hint {
-            font-size: 0.85rem;
-            color: var(--gray);
-            margin-top: 5px;
-            font-style: italic;
+            border-radius: 4px;
+            border: 1px solid #e9ecef;
+            margin: 15px 0;
         }
 
         /* BUTTONS */
@@ -245,12 +140,11 @@
             background: var(--primary);
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 10px 20px;
             border-radius: 6px;
-            font-size: 1rem;
             cursor: pointer;
-            transition: background 0.2s;
             font-weight: 600;
+            margin-top: 10px;
         }
 
         .btn:hover {
@@ -258,196 +152,28 @@
         }
 
         .btn-secondary {
-            background: var(--light-gray);
-            color: var(--dark);
+            background: var(--gray);
+            margin-left: 10px;
         }
 
-        .btn-secondary:hover {
-            background: #dee2e6;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 25px;
-        }
-
-        /* PATTERN GRID */
-        .pattern-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .pattern-card {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .pattern-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .pattern-title {
-            font-size: 1.1rem;
-            color: var(--primary);
-            margin-bottom: 8px;
-        }
-
-        .pattern-desc {
-            color: var(--gray);
-            font-size: 0.85rem;
-            line-height: 1.4;
-        }
-
-        /* PROMPT OUTPUT */
-        .prompt-output {
-            background: white;
-            padding: 20px;
-            border-radius: 6px;
-            margin: 20px 0;
-            border: 1px solid var(--border);
-        }
-
-        .prompt-text {
-            white-space: pre-wrap;
-            word-break: break-word;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-            line-height: 1.5;
-            margin: 15px 0;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 4px;
-            border: 1px solid #e9ecef;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        /* WARNING BOX */
-        .warning-box {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            border-radius: 4px;
-            margin: 15px 0;
-            border: 1px solid #ffeaa7;
-            font-size: 0.9em;
-        }
-
-        .warning-title {
-            color: #856404;
-            font-weight: 600;
-            margin-bottom: 5px;
-            font-size: 0.95em;
-        }
-
-        /* COPY BUTTON */
-        .copy-btn {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.95em;
-            font-weight: 600;
-            margin-top: 10px;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .copy-btn:hover {
-            background: var(--secondary);
-            transform: translateY(-1px);
-        }
-
-        .copy-btn.copied {
-            background: #28a745;
-        }
-
-        /* SHARE SECTION */
-        .share-section {
-            background: white;
-            border-radius: 10px;
-            padding: 30px;
-            margin: 40px 0;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-        }
-
-        .share-section .section-title {
-            text-align: center;
-            border-bottom: none;
-            margin-bottom: 10px;
-        }
-
-        #qrCodeDisplay {
-            min-height: 220px;
-            min-width: 220px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin: 20px auto;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-
-        /* SUPPORT SECTION */
-        .support-section {
-            background: white;
-            border-radius: 10px;
-            padding: 30px;
-            margin: 40px 0;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-        }
-
-        .availability-notice {
+        /* UPGRADE CARD - GENERIC */
+        .upgrade-card {
             background: #f0f7f0;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
             border: 1px solid var(--border);
         }
 
-        .principles-list {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 25px 0;
-            border: 1px solid var(--border);
-        }
-
-        .principles-list ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .principles-list li {
-            margin-bottom: 10px;
-            padding-left: 20px;
-            position: relative;
-        }
-
-        .principles-list li:before {
-            content: "•";
-            color: var(--accent);
-            font-weight: bold;
-            position: absolute;
-            left: 0;
+        /* CONTRIBUTION CARD */
+        .contribution-card {
+            background: #fff9e6;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+            border: 1px solid #ffeaa7;
         }
 
         /* DISCLAIMER */
@@ -458,7 +184,7 @@
             margin: 20px 0;
             border-left: 4px solid #ffc107;
             font-size: 0.9rem;
-            border: 1px solid #ffeaa7;
+            text-align: center;
         }
 
         /* FOOTER */
@@ -466,995 +192,274 @@
             text-align: center;
             padding: 30px 0;
             color: var(--gray);
-            font-size: 0.9rem;
             border-top: 1px solid var(--border);
             margin-top: 40px;
         }
 
-        /* SHARE BUTTON */
-        .share-btn {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9em;
-            font-weight: 600;
-            margin: 5px;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+        .contact-info {
+            margin: 15px 0;
+            font-size: 0.95rem;
         }
 
-        .share-btn:hover {
-            background: var(--secondary);
-            transform: translateY(-1px);
-        }
-
-        .share-btn.copied {
-            background: #28a745;
-        }
-
-        /* ANIMATIONS */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* RESPONSIVE */
         @media (max-width: 768px) {
-            body {
-                padding: 15px;
-            }
-            
-            .title {
-                font-size: 1.8rem;
-            }
-            
-            .header {
-                padding: 20px;
-            }
-            
-            .path-grid {
+            .prompts-grid {
                 grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .path-card {
-                padding: 20px;
-            }
-            
-            .card-icon {
-                font-size: 2rem;
-                height: 50px;
-            }
-            
-            .card-title {
-                font-size: 1.2rem;
-            }
-            
-            .section {
-                padding: 20px;
-            }
-            
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            
-            .back-button {
-                margin-right: 0;
-                align-self: stretch;
-                text-align: center;
-            }
-            
-            .button-group {
-                flex-direction: column;
-            }
-            
-            .pattern-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .share-section {
-                padding: 20px;
-            }
-            
-            #qrCodeDisplay {
-                min-height: 180px;
-                min-width: 180px;
             }
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <!-- HEADER -->
-    <div class="header">
-        <h1 class="title">Decision Tools</h1>
-        <p class="subtitle">Structured approaches for clear decision making</p>
-        <div class="method-badge">AI Prompt Generator</div>
-    </div>
-
-    <!-- MAIN PATH SELECTION - THREE PATH SYSTEM -->
-    <div class="path-grid" id="mainSelection">
-        <!-- QUICK PATH -->
-        <div class="path-card" data-path="quick">
-            <div class="card-icon">🚀</div>
-            <h2 class="card-title">Quick Decision Path</h2>
-            <p class="card-description">
-                For urgent situations. Get an AI prompt that helps with immediate decisions while preserving future options.
-            </p>
-            <button class="card-button" data-action="quick">Start Quick Path</button>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1 class="title">Decision Tools</h1>
+            <p class="subtitle">Simple prompts for clearer decisions</p>
+            <div class="badge">5 Free Pre-written Prompts</div>
         </div>
 
-        <!-- PATTERN PATH -->
-        <div class="path-card" data-path="pattern">
-            <div class="card-icon">📚</div>
-            <h2 class="card-title">Pattern Library</h2>
-            <p class="card-description">
-                Browse common scenarios. Get AI prompts for specific situations with built-in STOP conditions.
-            </p>
-            <button class="card-button" data-action="pattern">Browse Patterns</button>
-        </div>
-
-        <!-- DEEP PATH -->
-        <div class="path-card" data-path="deep">
-            <div class="card-icon">🔍</div>
-            <h2 class="card-title">Deep Analysis Path</h2>
-            <p class="card-description">
-                For complex situations. Get an AI prompt for systematic observation and pattern identification.
-            </p>
-            <button class="card-button" data-action="deep">Start Deep Analysis</button>
-        </div>
-    </div>
-
-    <!-- QUICK DECISION SECTION -->
-    <section id="quickSection" class="section">
-        <div class="section-header">
-            <button class="back-button" data-back="main">← Back to Options</button>
-            <h2 class="section-title">Quick Decision Path</h2>
-        </div>
-
-        <div class="warning-box">
-            <div class="warning-title">⚠️ URGENT SITUATIONS ONLY</div>
-            Use this when you need to make a decision quickly while preserving your ability to choose differently later.
-        </div>
-
-        <div class="form-group">
-            <label class="form-label" for="quickSituation">What's the urgent situation?</label>
-            <textarea class="form-textarea" id="quickSituation" placeholder="Describe what needs immediate attention..."></textarea>
-            <p class="form-hint">Be specific about timing, pressure, and what happens if you don't act now.</p>
-        </div>
-
-        <div class="form-group">
-            <label class="form-label" for="quickFocus">What must be preserved above all?</label>
-            <select class="form-select" id="quickFocus">
-                <option value="">Select what's most critical...</option>
-                <option value="options">Future options and flexibility</option>
-                <option value="safety">Physical/emotional safety</option>
-                <option value="integrity">Personal/professional integrity</option>
-                <option value="resources">Essential resources</option>
-                <option value="relationships">Key relationships</option>
-            </select>
-        </div>
-
-        <div class="button-group">
-            <button class="btn-secondary" data-back="main">Back to Options</button>
-            <button class="btn" id="generateQuick">Generate AI Prompt</button>
-        </div>
-    </section>
-
-    <!-- PATTERN LIBRARY SECTION -->
-    <section id="patternSection" class="section">
-        <div class="section-header">
-            <button class="back-button" data-back="main">← Back to Options</button>
-            <h2 class="section-title">Pattern Library</h2>
-        </div>
-
-        <p style="margin-bottom: 20px; color: var(--gray);">
-            Select a common scenario to get a specific AI prompt with built-in STOP conditions:
-        </p>
-
-        <div class="pattern-grid" id="patternGrid">
-            <!-- Patterns loaded by JavaScript -->
-        </div>
-
-        <div class="button-group">
-            <button class="btn-secondary" data-back="main">Back to Options</button>
-        </div>
-    </section>
-
-    <!-- DEEP ANALYSIS SECTION -->
-    <section id="deepSection" class="section">
-        <div class="section-header">
-            <button class="back-button" data-back="main">← Back to Options</button>
-            <h2 class="section-title">Deep Analysis Path</h2>
-        </div>
-
-        <div class="warning-box">
-            <div class="warning-title">🔍 OBSERVATION FIRST</div>
-            This approach helps you observe systematically before deciding. The AI will guide you through pattern identification.
-        </div>
-
-        <div class="form-group">
-            <label class="form-label" for="deepSituation">Describe the situation neutrally</label>
-            <textarea class="form-textarea" id="deepSituation" placeholder="Just the facts: who, what, when, where... Avoid interpretations."></textarea>
-            <p class="form-hint">Start with observable facts only. We'll add interpretations in the AI conversation.</p>
-        </div>
-
-        <div class="form-group">
-            <label class="form-label" for="deepPatterns">What patterns have you noticed?</label>
-            <textarea class="form-textarea" id="deepPatterns" placeholder="Look for: Timing (when), Triggers (what starts it), Responses (what happens), Improvements/Worsening..."></textarea>
-        </div>
-
-        <div class="form-group">
-            <label class="form-label" for="deepDomain">Primary area of life affected</label>
-            <select class="form-select" id="deepDomain">
-                <option value="">Select the main area...</option>
-                <option value="health">Health & Wellbeing</option>
-                <option value="work">Work & Career</option>
-                <option value="financial">Financial Decisions</option>
-                <option value="personal">Personal Development</option>
-                <option value="relationships">Relationships & Family</option>
-                <option value="community">Community & Social</option>
-            </select>
-        </div>
-
-        <div class="button-group">
-            <button class="btn-secondary" data-back="main">Back to Options</button>
-            <button class="btn" id="generateDeep">Generate AI Prompt</button>
-        </div>
-    </section>
-
-    <!-- RESULT SECTION -->
-    <section id="resultSection" class="section">
-        <div class="section-header">
-            <button class="back-button" data-back="previous">← Back</button>
-            <h2 class="section-title">Your AI Prompt</h2>
-        </div>
-
-        <div class="warning-box">
-            <div class="warning-title">⚠️ STOP CONDITIONS INCLUDED</div>
-            Every option in this prompt includes "Stop if" conditions. If any stop condition occurs, pause and reconsider.
-        </div>
-
-        <div class="prompt-output">
-            <div class="prompt-text" id="promptTextDisplay">
-                <!-- Prompt will appear here -->
+        <!-- PROMPTS GRID -->
+        <div class="prompts-grid">
+            <!-- Prompt 1 -->
+            <div class="prompt-card" onclick="loadPrompt('simpleChoice')">
+                <div class="prompt-icon">🤔</div>
+                <h3 class="prompt-title">Simple A vs B Choice</h3>
+                <p class="prompt-desc">Stuck between two options? This prompt helps you compare them clearly.</p>
             </div>
-            <button class="copy-btn" id="copyPromptBtn">
-                <span>Copy Prompt to Clipboard</span>
+
+            <!-- Prompt 2 -->
+            <div class="prompt-card" onclick="loadPrompt('procon')">
+                <div class="prompt-icon">⚖️</div>
+                <h3 class="prompt-title">Pros & Cons List</h3>
+                <p class="prompt-desc">A structured way to weigh positives and negatives of any decision.</p>
+            </div>
+
+            <!-- Prompt 3 -->
+            <div class="prompt-card" onclick="loadPrompt('goal')">
+                <div class="prompt-icon">🎯</div>
+                <h3 class="prompt-title">Goal Clarifier</h3>
+                <p class="prompt-desc">Figure out what you actually want before making a decision.</p>
+            </div>
+
+            <!-- Prompt 4 -->
+            <div class="prompt-card" onclick="loadPrompt('routine')">
+                <div class="prompt-icon">🔄</div>
+                <h3 class="prompt-title">Routine Change</h3>
+                <p class="prompt-desc">For decisions about habits, schedules, or daily routines.</p>
+            </div>
+
+            <!-- Prompt 5 -->
+            <div class="prompt-card" onclick="loadPrompt('boundary')">
+                <div class="prompt-icon">🤝</div>
+                <h3 class="prompt-title">Relationship Helper</h3>
+                <p class="prompt-desc">Navigate personal or professional relationship decisions.</p>
+            </div>
+        </div>
+
+        <!-- PROMPT DISPLAY -->
+        <div id="promptDisplay" class="prompt-display">
+            <h3 style="color: var(--primary); margin-bottom: 15px;" id="promptTitle">Your Prompt</h3>
+            <div class="prompt-text" id="promptContent"></div>
+            <button class="btn" onclick="copyPrompt()">
+                📋 Copy Prompt to Clipboard
             </button>
-            <p style="margin-top: 15px; font-size: 0.9em; color: #666;">
-                <strong>How to use this prompt:</strong><br>
-                1. Click "Copy Prompt to Clipboard" above<br>
-                2. Open ChatGPT, Claude, or any AI assistant<br>
-                3. Paste the prompt and follow the AI's questions<br>
-                4. After 3-5 exchanges, the AI will provide options with STOP conditions<br>
-                5. You choose which option fits your situation
+            <button class="btn btn-secondary" onclick="closePrompt()">
+                Close
+            </button>
+            <p style="margin-top: 15px; font-size: 0.9rem; color: var(--gray);">
+                <strong>How to use:</strong> Copy this prompt, paste into ChatGPT/Claude, and answer the questions as they come.
             </p>
         </div>
 
-        <div class="button-group">
-            <button class="btn-secondary" data-back="previous">Back</button>
-            <button class="btn" onclick="startOver()">Start New Decision</button>
-        </div>
-    </section>
-
-    <!-- DISCLAIMER -->
-    <div class="disclaimer">
-        <strong>Note:</strong> These AI prompts help you organize your own observations. They are not professional advice. For medical, legal, or financial matters, consult appropriate professionals. Your judgment guides all decisions.
-    </div>
-
-    <!-- SHARE SECTION -->
-    <div class="share-section">
-        <h2 class="section-title">Share This Tool</h2>
-        
-        <div style="text-align: center; margin: 25px 0;">
-            <p style="margin-bottom: 20px; font-size: 1.1em;">
-                <strong>Show the QR code below to someone in person:</strong><br>
-                They can scan it with their phone camera
+        <!-- GENERIC UPGRADE CARD -->
+        <div class="upgrade-card">
+            <h3 style="color: var(--primary); margin-bottom: 15px;">🚧 New Platform in Development</h3>
+            <p style="color: var(--gray); margin-bottom: 20px; line-height: 1.6;">
+                A new, expanded decision-making platform is currently under construction. It will feature unlimited patterns, custom templates, and advanced tools.
             </p>
-            
-            <!-- QR Code Placeholder -->
-            <div id="qrCodeDisplay">
-                <img src="chrome_qrcode_1767124099414.png" alt="Scan QR code for Decision Helper - decisiontools.ca" 
-                     style="width: 200px; height: 200px; border-radius: 8px; border: 1px solid var(--border);">
-                <p style="margin-top: 10px; font-size: 0.9em; color: var(--secondary);">
-                    📱 Scan with phone camera<br>
-                    <strong>https://decisiontools.ca</strong>
+            <div style="background: white; padding: 15px; border-radius: 8px; margin: 20px 0; border: 1px solid var(--border);">
+                <p style="font-weight: 600; color: var(--primary); margin-bottom: 10px;">Coming Soon:</p>
+                <ul style="text-align: left; display: inline-block; color: var(--gray);">
+                    <li>Expanded pattern library</li>
+                    <li>Custom pattern builder</li>
+                    <li>Save & export functionality</li>
+                    <li>Clean, professional interface</li>
+                </ul>
+            </div>
+            <p style="font-style: italic; color: var(--gray);">
+                Check back later or contact us for updates.
+            </p>
+        </div>
+
+        <!-- CONTRIBUTION CARD -->
+        <div class="contribution-card">
+            <h3 style="color: #856404; margin-bottom: 10px;">❤️ Found This Useful?</h3>
+            <p style="color: #856404; margin-bottom: 20px;">
+                This free tool is supported by users like you. If a prompt helped you make a clearer choice, consider making a small contribution.
+            </p>
+            <div style="background: white; padding: 15px; border-radius: 6px; margin: 20px 0; border: 1px solid #ffeaa7;">
+                <p style="margin-bottom: 10px; font-weight: 600; color: var(--primary);">
+                    💳 Canadian Email Money Transfer:
+                </p>
+                <p style="font-family: 'Courier New', monospace; background: #f8f9fa; padding: 10px; border-radius: 4px;">
+                    contact@decisiontools.ca
+                </p>
+                <p style="margin-top: 10px; font-size: 0.9rem; color: #856404;">
+                    Send to this email via your bank's Interac e-Transfer
                 </p>
             </div>
-            
-            <div style="margin-top: 20px;">
-                <p><strong>Direct link to share:</strong></p>
-                <div style="background: var(--light-gray); padding: 12px; border-radius: 6px; margin: 15px 0; word-break: break-all;">
-                    https://decisiontools.ca
-                </div>
-                
-                <div class="button-group" style="justify-content: center;">
-                    <button class="share-btn" onclick="shareSite()" style="padding: 12px 25px; font-size: 1em;">
-                        <span>📱 Share via Message/Email</span>
-                    </button>
-                </div>
+            <p style="font-size: 0.9rem; color: #856404; font-style: italic;">
+                Contributions help keep this tool free and available to everyone.
+            </p>
+        </div>
+
+        <!-- DISCLAIMER -->
+        <div class="disclaimer">
+            <strong>Note:</strong> These prompts help organize your own thinking. They are not professional advice. For important matters, consult appropriate professionals.
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p>Decision Tools | decisiontools.ca</p>
+            <div class="contact-info">
+                <p>📧 Contact: <a href="mailto:contact@decisiontools.ca" style="color: var(--accent);">contact@decisiontools.ca</a></p>
             </div>
-        </div>
-        
-        <div style="margin-top: 25px; padding: 20px; background: #f0f7f0; border-radius: 8px;">
-            <h4 style="color: var(--primary); margin-bottom: 10px;">How to Share:</h4>
-            <ol style="padding-left: 20px;">
-                <li><strong>In person:</strong> Show QR code on your screen for others to scan</li>
-                <li><strong>Digitally:</strong> Share the link above via message or email</li>
-                <li><strong>No accounts needed:</strong> Anyone can use it immediately</li>
-                <li><strong>Works globally:</strong> Browser translation available</li>
-            </ol>
-            <p style="margin-top: 15px; font-style: italic; color: var(--secondary);">
-                Share with someone facing a decision who could use clearer thinking methods.
+            <p style="margin-top: 10px; font-size: 0.9rem;">
+                Simple prompts for clearer decisions
             </p>
         </div>
     </div>
 
-    <!-- SUPPORT SECTION -->
-    <div class="support-section">
-        <h2 class="section-title">How This Stays Available</h2>
-        
-        <div class="availability-notice">
-            <h4>Current Status:</h4>
-            <p><strong>✓ Free to use</strong> • <strong>✓ No accounts needed</strong> • <strong>✓ Your copy to keep</strong></p>
-            <p><strong>✓ Official domain:</strong> decisiontools.ca</p>
-            <p><strong>✓ Contact:</strong> contact@decisiontools.ca</p>
-            
-            <p style="margin-top: 15px;">
-                <em>Tool development in progress.<br>
-                Optional support options coming in future updates.</em>
-            </p>
-        </div>
-        
-        <div class="principles-list">
-            <h4>How This Tool Works:</h4>
-            <ul>
-                <li>Builds on what you can actually observe and track</li>
-                <li>Respects your specific situation and choices</li>
-                <li>Includes clear "stop if" safety conditions</li>
-                <li>You maintain control and can adjust anytime</li>
-                <li>No one excluded by inability to contribute</li>
-                <li><strong>Privacy-first:</strong> Use your browser or preferred tool for translation</li>
-            </ul>
-        </div>
-        
-        <p style="margin-top: 20px; font-size: 0.9em; color: var(--gray);">
-            <em>For now: Use it. Adapt it. Share it. That's support enough.</em>
-        </p>
-    </div>
+    <script>
+        // SIMPLE PROMPTS
+        const prompts = {
+            simpleChoice: {
+                title: "Simple A vs B Choice",
+                content: `I need to decide between two options. Please help me think this through step by step.
 
-    <!-- FOOTER -->
-    <div class="footer">
-        <p>Decision Tools | decisiontools.ca</p>
-        <p style="margin-top: 8px; font-size: 0.9em;">Your observations • Your patterns • Your decisions</p>
-        
-        <!-- SHARE BUTTON -->
-        <div style="margin: 20px 0;">
-            <button class="share-btn" onclick="shareSite()">
-                <span>🔗 Share This Tool</span>
-            </button>
-            <p style="margin-top: 8px; font-size: 0.8em; color: var(--gray);">
-                <em>Share with someone who could use clearer decision methods</em>
-            </p>
-        </div>
-        
-        <p style="margin-top: 15px; font-style: italic; color: var(--secondary);">
-            Clear notes create clear choices. Track what matters.
-        </p>
-        
-        <!-- VISITOR COUNTER -->
-        <p style="margin-top: 10px; font-size: 0.8em; color: var(--gray);">
-            Version 1.0 • Decision Tools • contact@decisiontools.ca
-        </p>
-        <p style="font-size: 0.7em; color: var(--gray); margin-top: 5px;">
-            Page loaded <span id="viewCount">0</span> times on this device
-        </p>
-    </div>
-</div>
+Here are my two options:
+Option A: [Briefly describe your first option]
+Option B: [Briefly describe your second option]
 
-<script>
-// Initialize view counter
-try {
-    let views = localStorage.getItem('decisionToolsViews') || 0;
-    views = parseInt(views) + 1;
-    localStorage.setItem('decisionToolsViews', views);
-    setTimeout(() => {
-        const counterElement = document.getElementById('viewCount');
-        if (counterElement) {
-            counterElement.textContent = views.toLocaleString();
-        }
-    }, 100);
-} catch(e) {
-    setTimeout(() => {
-        const counterElement = document.getElementById('viewCount');
-        if (counterElement) {
-            counterElement.textContent = 'many';
-        }
-    }, 100);
-}
+Please ask me these questions ONE AT A TIME. Wait for my answer before asking the next question.
 
-// PATTERN LIBRARY DATA with AI prompts and STOP conditions
-const patterns = [
-    {
-        id: 'medical',
-        title: 'Health & Symptoms',
-        icon: '💊',
-        description: 'Track symptoms, identify patterns, make informed healthcare choices',
-        prompt: `I need help tracking and understanding my symptoms. Here's my situation: [USER_SITUATION]
+1. What is the most important single factor in this decision for you?
+2. On a scale of 1-10, how does Option A score on that factor?
+3. On a scale of 1-10, how does Option B score on that factor?
+4. Is there any "deal-breaker" – something that would immediately eliminate one option?
+5. What does your gut feeling say, and why do you think that is?
 
-I've noticed these patterns: [USER_PATTERNS]
+After I answer all 5 questions, please summarize my answers and suggest which option seems to fit my priorities better.`
+            },
 
-Please guide me through this process:
+            procon: {
+                title: "Pros & Cons List",
+                content: `I need to make a decision by listing pros and cons. Please guide me through this.
 
-PHASE 1: OBSERVATION QUESTIONS
-Ask me specific questions to gather these facts:
-• What exactly happens? (observable symptoms only)
-• When does it happen? (timing, frequency, duration)
-• What were you doing before it started?
-• What have you tried that helped or didn't help?
-• How do you measure the intensity? (1-10 scale)
+The decision I'm considering is: [Describe what you're deciding about]
 
-PHASE 2: PATTERN IDENTIFICATION
-After I answer your questions, help me identify:
-• What patterns emerge from my answers
-• What seems connected to what
-• What's predictable vs random
-• Any timing or trigger patterns
+Please ask me these questions ONE AT A TIME:
 
-PHASE 3: OPTION GENERATION
-Based on my patterns, suggest 2-3 specific options. For each option include:
-• What it involves (specific actions)
-• What resources/time it requires
-• Expected timeline for seeing results
-• "Stop if [specific condition] occurs"
-• When to review and reconsider (suggest specific timeframe)
+1. List 3-5 potential POSITIVE outcomes or benefits (pros).
+2. For each pro you listed, how likely is it (High/Medium/Low)?
+3. List 3-5 potential NEGATIVE outcomes or costs (cons).
+4. For each con you listed, how likely is it (High/Medium/Low)?
+5. Looking at your lists, is there one pro or con that outweighs all the others?
 
-STOP IF ANY OF THESE OCCUR:
-• Symptoms require immediate medical attention
-• Pain becomes severe or unmanageable
-• New concerning symptoms appear
-• Healthcare professional says to stop current approach
+After I answer, help me categorize: Which pros are high-likelihood? Which cons are high-likelihood? Based on that, what seems like the wiser choice?`
+            },
 
-Important: Ask questions for 3-5 exchanges to gather enough information, then provide options with clear stop conditions. I will choose which option fits my situation best.`
-    },
-    {
-        id: 'work',
-        title: 'Work & Professional',
-        icon: '💼',
-        description: 'Document workplace facts, recognize patterns, choose professional responses',
-        prompt: `I need help navigating a work situation. Here's what's happening: [USER_SITUATION]
+            goal: {
+                title: "Goal Clarifier",
+                content: `I'm feeling unclear about what I really want in a situation. Please help me clarify my goals.
 
-Patterns I've noticed: [USER_PATTERNS]
+The area I'm thinking about is: [Describe the area – career, purchase, relationship, etc.]
 
-Please guide me through this process:
+Please ask me these questions ONE AT A TIME:
 
-PHASE 1: OBSERVATION QUESTIONS
-Ask me specific questions to gather these facts:
-• What exactly happened? (dates, who involved, what was said/done)
-• What work processes or policies apply?
-• What has been tried already and what were the outcomes?
-• What are the actual work requirements vs expectations?
-• What documentation exists?
+1. What would a PERFECT outcome look like in this situation? (Dream big)
+2. What would a GOOD ENOUGH outcome look like? (Be realistic)
+3. What are you trying to AVOID or prevent?
+4. What's your time frame? (Urgent, next few months, next year?)
+5. Who else is affected by this decision, and what matters to them?
 
-PHASE 2: PATTERN IDENTIFICATION
-After I answer your questions, help me identify:
-• Patterns in workplace interactions
-• What responses get what results
-• Timing or trigger patterns
-• Systemic vs individual issues
+After I answer, summarize what seems most important to me. Then suggest 1-2 next steps I could take to move toward that goal.`
+            },
 
-PHASE 3: OPTION GENERATION
-Based on my patterns, suggest 2-3 specific professional options. For each option include:
-• What professional steps it involves
-• Required preparation or documentation
-• Expected outcomes and timelines
-• "Stop if [specific condition] occurs"
-• Review points for reconsideration
+            routine: {
+                title: "Routine Change",
+                content: `I'm considering changing a daily habit or routine. Please help me think it through.
 
-STOP IF ANY OF THESE OCCUR:
-• Workplace safety is compromised
-• Legal or ethical boundaries are crossed
-• Professional reputation is at serious risk
-• Health is being negatively affected
+The change I'm considering is: [Describe the routine change]
 
-Important: Ask questions for 3-5 exchanges to understand the situation, then provide options with clear stop conditions. I will choose the professional approach that fits my situation.`
-    },
-    {
-        id: 'financial',
-        title: 'Financial Decisions',
-        icon: '💰',
-        description: 'Track spending, identify patterns, make choices aligned with priorities',
-        prompt: `I need help understanding my financial patterns. Here's my situation: [USER_SITUATION]
+Please ask me these questions ONE AT A TIME:
 
-Patterns I've noticed: [USER_PATTERNS]
+1. What specifically is NOT working with my current routine?
+2. What do I hope the new routine will fix or improve?
+3. What's the EASIEST first step I could take to try this change?
+4. What's the biggest obstacle I might face?
+5. How will I know if the new routine is working? (What will I see/feel?)
 
-Please guide me through this process:
+After I answer, help me create a simple 3-day trial plan. What exactly will I do for the next 3 days to test this change?`
+            },
 
-PHASE 1: OBSERVATION QUESTIONS
-Ask me specific questions to gather these facts:
-• What specific financial situation concerns you? (amounts, frequency)
-• What are your fixed expenses vs discretionary spending?
-• What financial goals are most important right now?
-• What tracking have you already tried?
-• What income sources and timing exist?
+            boundary: {
+                title: "Relationship Helper",
+                content: `I need to set a boundary or make a decision in a relationship. Please help me navigate this carefully.
 
-PHASE 2: PATTERN IDENTIFICATION
-After I answer your questions, help me identify:
-• Where money actually goes vs where you want it to go
-• Timing patterns in spending (weekly, monthly, seasonal)
-• Emotional vs necessity spending patterns
-• Opportunity costs of current spending
+The situation involves: [Briefly describe the relationship and issue]
 
-PHASE 3: OPTION GENERATION
-Based on my patterns, suggest 2-3 specific financial options. For each option include:
-• What specific changes it involves
-• Required tracking or documentation
-• Expected financial impact and timeline
-• "Stop if [specific condition] occurs"
-• Review points (suggest weekly or monthly)
+Please ask me these questions ONE AT A TIME:
 
-STOP IF ANY OF THESE OCCUR:
-• Essential needs aren't being met
-• Debt is increasing uncontrollably
-• Emergency fund drops below minimum
-• Better financial opportunity emerges
+1. What specific behavior or situation needs to change?
+2. What have you already tried, and what happened?
+3. What's the IDEAL outcome you hope for?
+4. What's the MINIMUM acceptable outcome for you?
+5. What's your plan if the other person doesn't respond well?
 
-Important: Ask questions for 3-5 exchanges to understand the financial picture, then provide options with clear stop conditions. I will choose the financial approach that aligns with my priorities.`
-    },
-    {
-        id: 'relationships',
-        title: 'Relationships & Boundaries',
-        icon: '👥',
-        description: 'Define roles, track interactions, maintain healthy boundaries',
-        prompt: `I need help with a relationship or boundary situation. Here's my situation: [USER_SITUATION]
-
-Patterns I've noticed: [USER_PATTERNS]
-
-Please guide me through this process:
-
-PHASE 1: OBSERVATION QUESTIONS
-Ask me specific questions to gather these facts:
-• What specific relationship situation exists?
-• What has been tried and what were the outcomes?
-• What are the actual needs vs wants?
-• What resources are available?
-• What are healthy boundaries for this situation?
-
-PHASE 2: PATTERN IDENTIFICATION
-After I answer your questions, help me identify:
-• What interactions are effective vs draining
-• Timing patterns in relationship dynamics
-• What boundaries work vs don't work
-• Where support systems could be strengthened
-
-PHASE 3: OPTION GENERATION
-Based on my patterns, suggest 2-3 specific boundary options. For each option include:
-• Specific boundary definitions
-• Communication approach
-• Required support limits
-• "Stop if [specific condition] occurs"
-• Regular self-check schedule
-
-STOP IF ANY OF THESE OCCUR:
-• Your health is compromised
-• Interactions become one-sided
-• Better support system becomes available
-• Boundaries are consistently violated
-
-Important: Ask questions for 3-5 exchanges to understand the relationship dynamics, then provide options with clear stop conditions. I will choose the boundaries that maintain healthy relationships.`
-    },
-    {
-        id: 'routine',
-        title: 'Daily Routines',
-        icon: '⏰',
-        description: 'Observe natural patterns, build sustainable daily stability',
-        prompt: `I need help with daily routines or habits. Here's my situation: [USER_SITUATION]
-
-Patterns I've noticed: [USER_PATTERNS]
-
-Please guide me through this process:
-
-PHASE 1: OBSERVATION QUESTIONS
-Ask me specific questions to gather these facts:
-• What specific routine concerns you?
-• What daily patterns actually exist now?
-• What has been tried and what were the results?
-• What energy levels exist at different times?
-• What are the most important daily priorities?
-
-PHASE 2: PATTERN IDENTIFICATION
-After I answer your questions, help me identify:
-• Natural productive times vs low energy times
-• What routines work sustainably
-• Timing patterns in daily life
-• Where interruptions typically occur
-
-PHASE 3: OPTION GENERATION
-Based on my patterns, suggest 2-3 specific routine options. For each option include:
-• Specific daily structure
-• Built-in flexibility points
-• Expected adjustments needed
-• "Stop if [specific condition] occurs"
-• Weekly review schedule
-
-STOP IF ANY OF THESE OCCUR:
-• Health is negatively affected
-• Essential needs aren't met
-• Better routine approach emerges
-• Life circumstances change significantly
-
-Important: Ask questions for 3-5 exchanges to understand daily patterns, then provide options with clear stop conditions. I will choose the routine that creates sustainable daily stability.`
-    }
-];
-
-// DOM Elements
-const mainSelection = document.getElementById('mainSelection');
-const quickSection = document.getElementById('quickSection');
-const patternSection = document.getElementById('patternSection');
-const deepSection = document.getElementById('deepSection');
-const resultSection = document.getElementById('resultSection');
-const patternGrid = document.getElementById('patternGrid');
-const copyButton = document.getElementById('copyPromptBtn');
-const promptTextDisplay = document.getElementById('promptTextDisplay');
-
-// State Management
-let currentPath = 'main';
-let currentPrompt = '';
-let previousSection = '';
-
-// Initialize
-function init() {
-    loadPatterns();
-    setupEventListeners();
-    showSection('main');
-}
-
-// Load patterns into grid
-function loadPatterns() {
-    patternGrid.innerHTML = patterns.map(pattern => `
-        <div class="pattern-card" data-pattern="${pattern.id}">
-            <div style="font-size: 1.8rem; margin-bottom: 10px;">${pattern.icon}</div>
-            <h3 class="pattern-title">${pattern.title}</h3>
-            <p class="pattern-desc">${pattern.description}</p>
-            <div style="margin-top: 10px; font-size: 0.8rem; color: var(--gray);">
-                Includes: STOP conditions • Pattern identification • Clear options
-            </div>
-        </div>
-    `).join('');
-}
-
-// Setup event listeners
-function setupEventListeners() {
-    // Main card buttons
-    document.querySelectorAll('.card-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const path = this.getAttribute('data-action');
-            navigateToPath(path);
-        });
-    });
-
-    // Back buttons
-    document.querySelectorAll('[data-back]').forEach(button => {
-        button.addEventListener('click', function() {
-            const target = this.getAttribute('data-back');
-            if (target === 'previous') {
-                showSection(previousSection);
-            } else {
-                showSection(target);
+After I answer, help me draft a simple, clear, respectful statement I could use to communicate my boundary. Use my words from the answers above.`
             }
-        });
-    });
+        };
 
-    // Pattern cards
-    patternGrid.addEventListener('click', function(e) {
-        const patternCard = e.target.closest('.pattern-card');
-        if (patternCard) {
-            const patternId = patternCard.getAttribute('data-pattern');
-            loadPattern(patternId);
-        }
-    });
-
-    // Generate buttons
-    document.getElementById('generateQuick').addEventListener('click', generateQuickPrompt);
-    document.getElementById('generateDeep').addEventListener('click', generateDeepPrompt);
-
-    // Copy button
-    copyButton.addEventListener('click', copyPromptToClipboard);
-
-    // Keyboard shortcuts
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && currentPath !== 'main') {
-            showSection('main');
-        }
-        if (e.ctrlKey && e.key === 'Enter') {
-            if (currentPath === 'quick') generateQuickPrompt();
-            if (currentPath === 'deep') generateDeepPrompt();
-        }
-    });
-}
-
-// Navigation - FIXED VERSION
-function navigateToPath(path) {
-    previousSection = currentPath;
-    currentPath = path;
-    showSection(path);
-}
-
-function showSection(section) {
-    // Hide all sections
-    [quickSection, patternSection, deepSection, resultSection].forEach(s => {
-        s.classList.remove('active');
-    });
-    
-    // Show main cards OR content section
-    if (section === 'main') {
-        mainSelection.style.display = 'grid';
-    } else {
-        mainSelection.style.display = 'none';
-        const targetSection = document.getElementById(section + 'Section');
-        if (targetSection) {
-            targetSection.classList.add('active');
-        }
-    }
-    
-    currentPath = section;
-    
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// Load pattern
-function loadPattern(patternId) {
-    const pattern = patterns.find(p => p.id === patternId);
-    if (!pattern) return;
-
-    currentPrompt = pattern.prompt.replace('[USER_SITUATION]', 'Describe your specific situation to the AI.')
-                                  .replace('[USER_PATTERNS]', 'Share any patterns you\'ve noticed with the AI.');
-    
-    promptTextDisplay.textContent = currentPrompt;
-    previousSection = 'pattern';
-    showSection('result');
-}
-
-// Generate quick prompt
-function generateQuickPrompt() {
-    const situation = document.getElementById('quickSituation').value.trim();
-    const focus = document.getElementById('quickFocus').value;
-
-    if (!situation) {
-        alert('Please describe the urgent situation.');
-        document.getElementById('quickSituation').focus();
-        return;
-    }
-
-    if (!focus) {
-        alert('Please select what must be preserved.');
-        return;
-    }
-
-    const focusLabels = {
-        'options': 'future options and flexibility',
-        'safety': 'physical/emotional safety',
-        'integrity': 'personal/professional integrity',
-        'resources': 'essential resources',
-        'relationships': 'key relationships'
-    };
-
-    currentPrompt = `I need help with an urgent decision. Here's the situation: ${situation}
-
-The most critical thing to preserve is: ${focusLabels[focus]}
-
-Please guide me through this URGENT decision process:
-
-PHASE 1: IMMEDIATE OBSERVATION (Next 60 minutes)
-Ask me specific questions to gather these urgent facts:
-• What's the REAL deadline? (Not the stated one)
-• What's the minimum acceptable outcome?
-• What absolutely cannot be lost?
-• What information is essential vs nice-to-have?
-
-PHASE 2: OPTION IDENTIFICATION
-After I answer your questions, help me identify:
-• All possible options (even "unacceptable" ones)
-• What preserves my ability to choose differently later
-• What can be reversed or adjusted
-• What must be decided now vs can wait
-
-PHASE 3: URGENT ACTION PLAN
-Based on my answers, suggest 2-3 specific urgent options. For each option include:
-• Immediate next steps (next 1-24 hours)
-• What it preserves vs risks
-• "Stop if [specific condition] occurs"
-• Review point within 24 hours
-
-STOP IF ANY OF THESE OCCUR:
-• Core safety is compromised
-• Essential information is unavailable
-• Pressure exceeds reasonable limits
-• Exit paths are being blocked
-• Better option emerges immediately
-
-Important: Ask questions for 2-3 exchanges to understand the urgency, then provide options with clear stop conditions. I will choose which urgent approach fits my situation.`;
-
-    promptTextDisplay.textContent = currentPrompt;
-    previousSection = 'quick';
-    showSection('result');
-}
-
-// Generate deep prompt
-function generateDeepPrompt() {
-    const situation = document.getElementById('deepSituation').value.trim();
-    const patternsText = document.getElementById('deepPatterns').value.trim();
-    const domain = document.getElementById('deepDomain').value;
-
-    if (!situation) {
-        alert('Please describe the situation.');
-        document.getElementById('deepSituation').focus();
-        return;
-    }
-
-    if (!domain) {
-        alert('Please select the primary area affected.');
-        return;
-    }
-
-    const domainLabels = {
-        'health': 'Health & Wellbeing',
-        'work': 'Work & Career',
-        'financial': 'Financial Decisions',
-        'personal': 'Personal Development',
-        'relationships': 'Relationships & Family',
-        'community': 'Community & Social'
-    };
-
-    currentPrompt = `I need help with systematic observation and analysis. Here's my situation: ${situation}
-
-Patterns I've started to notice: ${patternsText || 'I need help identifying patterns through observation.'}
-
-Primary area affected: ${domainLabels[domain]}
-
-Please guide me through this DEEP ANALYSIS process:
-
-PHASE 1: SYSTEMATIC OBSERVATION (Week 1)
-Ask me specific questions to establish what to observe:
-• What specific facts should I document daily?
-• What timing patterns should I track?
-• What triggers or context should I note?
-• What improvement/worsening indicators should I watch for?
-
-PHASE 2: PATTERN ANALYSIS (Week 2)
-After I provide my observations, help me identify:
-• What patterns emerge from the data
-• What connections exist between different elements
-• What's predictable vs random
-• Where leverage points might exist
-
-PHASE 3: INFORMED OPTION DEVELOPMENT (Week 3)
-Based on my observed patterns, suggest 2-3 specific options. For each option include:
-• What it's based on (which patterns)
-• Required steps and resources
-• Expected outcomes and adjustments
-• "Stop if [specific condition] occurs"
-• Review schedule based on observation
-
-STOP IF ANY OF THESE OCCUR:
-• Observation reveals safety concerns
-• Patterns change fundamentally
-• Better information source becomes available
-• Circumstances change requiring different approach
-
-Important: Start by asking questions about what to observe. After I provide observations, help identify patterns, then suggest options with stop conditions. I will choose based on the evidence.`;
-
-    promptTextDisplay.textContent = currentPrompt;
-    previousSection = 'deep';
-    showSection('result');
-}
-
-// Copy prompt to clipboard
-function copyPromptToClipboard() {
-    if (!currentPrompt) {
-        alert('No prompt generated yet. Please complete a path first.');
-        return;
-    }
-
-    const btnText = copyButton.querySelector('span');
-    
-    navigator.clipboard.writeText(currentPrompt)
-        .then(() => {
-            btnText.textContent = 'Copied! ✓';
-            copyButton.classList.add('copied');
-            setTimeout(() => {
-                btnText.textContent = 'Copy Prompt to Clipboard';
-                copyButton.classList.remove('copied');
-            }, 2000);
-        })
-        .catch(err => {
-            // Fallback
-            const textarea = document.createElement('textarea');
-            textarea.value = currentPrompt;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-
-            btnText.textContent = 'Copied! ✓';
-            copyButton.classList.add('copied');
-            setTimeout(() => {
-                btnText.textContent = 'Copy Prompt to Clipboard';
-                copyButton.classList.remove('copied');
-            }, 2000);
-        });
-}
-
-// SHARE SITE FUNCTION (from current version)
-function shareSite() {
-    const url = 'https://decisiontools.ca';
-    const title = 'Decision Tools';
-    const text = 'AI prompt generator for structured decision making. No accounts needed.';
-    
-    const shareBtn = document.querySelector('.share-btn span');
-    
-    const fullText = `${title}\n\n${text}\n\n${url}`;
-    
-    if (navigator.share) {
-        navigator.share({
-            title: title,
-            text: text,
-            url: url,
-        })
-        .then(() => {
-            shareBtn.textContent = 'Shared! ✓';
-            setTimeout(() => {
-                shareBtn.textContent = '🔗 Share This Tool';
-            }, 2000);
-        })
-        .catch(() => {
-            copyToClipboard(fullText, shareBtn);
-        });
-    } else {
-        copyToClipboard(fullText, shareBtn);
-    }
-}
-
-function copyToClipboard(text, buttonElement) {
-    navigator.clipboard.writeText(text)
-        .then(() => {
-            buttonElement.textContent = 'Link Copied! ✓';
-            buttonElement.parentElement.classList.add('copied');
+        function loadPrompt(promptId) {
+            const prompt = prompts[promptId];
+            if (!prompt) return;
             
-            setTimeout(() => {
-                buttonElement.textContent = '🔗 Share This Tool';
-                buttonElement.parentElement.classList.remove('copied');
-            }, 2000);
-        })
-        .catch(err => {
-            prompt('Copy this link to share:', text);
-        });
-}
+            document.getElementById('promptTitle').textContent = prompt.title;
+            document.getElementById('promptContent').textContent = prompt.content;
+            document.getElementById('promptDisplay').classList.add('active');
+            
+            // Scroll to display
+            document.getElementById('promptDisplay').scrollIntoView({ behavior: 'smooth' });
+        }
 
-// Start over
-function startOver() {
-    document.getElementById('quickSituation').value = '';
-    document.getElementById('quickFocus').selectedIndex = 0;
-    document.getElementById('deepSituation').value = '';
-    document.getElementById('deepPatterns').value = '';
-    document.getElementById('deepDomain').selectedIndex = 0;
-    
-    showSection('main');
-    currentPrompt = '';
-}
+        function closePrompt() {
+            document.getElementById('promptDisplay').classList.remove('active');
+        }
 
-// Initialize
-document.addEventListener('DOMContentLoaded', init);
-</script>
+        function copyPrompt() {
+            const promptText = document.getElementById('promptContent').textContent;
+            
+            // FIXED: Better check for valid prompt
+            if (!promptText || promptText.trim().length < 20) {
+                alert('Please select a prompt first by clicking on one of the prompt cards above.');
+                return;
+            }
+            
+            navigator.clipboard.writeText(promptText)
+                .then(() => {
+                    alert('✓ Prompt copied to clipboard!');
+                })
+                .catch(() => {
+                    // Fallback
+                    const textarea = document.createElement('textarea');
+                    textarea.value = promptText;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    alert('✓ Prompt copied to clipboard!');
+                });
+        }
+    </script>
 </body>
 </html>
