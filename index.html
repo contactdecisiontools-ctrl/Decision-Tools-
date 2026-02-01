@@ -212,6 +212,10 @@
             border-radius: 4px;
             border: 1px solid #e9ecef;
             margin: 15px 0;
+            max-height: 500px;
+            overflow-y: auto;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
 
         /* BUTTONS */
@@ -433,7 +437,7 @@
             <div class="prompt-card" onclick="loadPrompt('simpleChoice')">
                 <div class="prompt-icon">🤔</div>
                 <h3 class="prompt-title">Simple A vs B Choice</h3>
-                <p class="prompt-desc">Stuck between two options? This prompt helps you compare them clearly.</p>
+                <p class="prompt-desc">Thoughtful comparison of two options without pressure or bias.</p>
                 <div class="prompt-free-badge">Free Template</div>
             </div>
 
@@ -441,7 +445,7 @@
             <div class="prompt-card" onclick="loadPrompt('procon')">
                 <div class="prompt-icon">⚖️</div>
                 <h3 class="prompt-title">Pros & Cons List</h3>
-                <p class="prompt-desc">A structured way to weigh positives and negatives of any decision.</p>
+                <p class="prompt-desc">Comprehensive exploration of benefits and risks with practical assessment.</p>
                 <div class="prompt-free-badge">Free Template</div>
             </div>
 
@@ -449,7 +453,7 @@
             <div class="prompt-card" onclick="loadPrompt('goal')">
                 <div class="prompt-icon">🎯</div>
                 <h3 class="prompt-title">Goal Clarifier</h3>
-                <p class="prompt-desc">Figure out what you actually want before making a decision.</p>
+                <p class="prompt-desc">Discover what truly matters before committing to a direction.</p>
                 <div class="prompt-free-badge">Free Template</div>
             </div>
 
@@ -457,7 +461,7 @@
             <div class="prompt-card" onclick="loadPrompt('routine')">
                 <div class="prompt-icon">🔄</div>
                 <h3 class="prompt-title">Routine Change</h3>
-                <p class="prompt-desc">For decisions about habits, schedules, or daily routines.</p>
+                <p class="prompt-desc">Sustainable approach to habit change with realistic expectations.</p>
                 <div class="prompt-free-badge">Free Template</div>
             </div>
 
@@ -465,7 +469,7 @@
             <div class="prompt-card" onclick="loadPrompt('boundary')">
                 <div class="prompt-icon">🤝</div>
                 <h3 class="prompt-title">Relationship Helper</h3>
-                <p class="prompt-desc">Navigate personal or professional relationship decisions.</p>
+                <p class="prompt-desc">Balanced consideration of relationship situations respecting all perspectives.</p>
                 <div class="prompt-free-badge">Free Template</div>
             </div>
         </div>
@@ -531,93 +535,184 @@
     </div>
 
     <script>
-        // SIMPLE PROMPTS
+        // IMPLICITLY CONSTITUTIONAL PROMPTS (Principles hidden, operation safe)
         const prompts = {
             simpleChoice: {
                 title: "Simple A vs B Choice",
-                content: `I need to decide between two options. Please help me think this through step by step.
+                content: `Let's thoughtfully compare your two options. I'll help you analyze them based on what matters to you, without pushing any particular choice.
 
-Here are my two options:
-Option A: [Briefly describe your first option]
-Option B: [Briefly describe your second option]
+1. First, describe your two options.
+[Wait for your response]
 
-Please ask me these questions ONE AT A TIME. Wait for my answer before asking the next question.
+2. What are the most important factors in your decision?
+[Wait for your response]
 
-1. What is the most important single factor in this decision for you?
-2. On a scale of 1-10, how does Option A score on that factor?
-3. On a scale of 1-10, how does Option B score on that factor?
-4. Is there any "deal-breaker" – something that would immediately eliminate one option?
-5. What does your gut feeling say, and why do you think that is?
+3. Let's examine each option:
+   - How Option A aligns with your factors
+   - What trade-offs or concerns Option A involves
+   - How Option B aligns with your factors  
+   - What trade-offs or concerns Option B involves
 
-After I answer all 5 questions, please summarize my answers and suggest which option seems to fit my priorities better.`
+4. I can ask a few clarifying questions if helpful.
+[Optional: Ask about specific uncertainties you notice]
+
+5. Summary:
+   Option A tends to work well when [your factor X] is priority
+   Option B tends to work well when [your factor Y] is priority
+
+The decision rests on which factors matter most to you. There's no rush to decide.`
             },
 
             procon: {
                 title: "Pros & Cons List",
-                content: `I need to make a decision by listing pros and cons. Please guide me through this.
+                content: `Let's create a balanced view of your decision by exploring potential outcomes thoughtfully.
 
-The decision I'm considering is: [Describe what you're deciding about]
+1. What decision are you considering? Please describe it briefly.
+[Wait for your response]
 
-Please ask me these questions ONE AT A TIME:
+2. What would make an outcome "good" or "successful" for you?
+[Wait for your response]
 
-1. List 3-5 potential POSITIVE outcomes or benefits (pros).
-2. For each pro you listed, how likely is it (High/Medium/Low)?
-3. List 3-5 potential NEGATIVE outcomes or costs (cons).
-4. For each con you listed, how likely is it (High/Medium/Low)?
-5. Looking at your lists, is there one pro or con that outweighs all the others?
+3. Let's explore possibilities together:
 
-After I answer, help me categorize: Which pros are high-likelihood? Which cons are high-likelihood? Based on that, what seems like the wiser choice?`
+Potential benefits to consider:
+- What positive outcomes might occur?
+- What problems could this solve?
+- What opportunities might it create?
+
+Potential costs or risks to consider:
+- What negative outcomes are possible?
+- What might become more difficult?
+- What would you need to give up or change?
+
+4. For the most significant items, let's consider:
+   - How likely is this outcome?
+   - If it happened, how much would it matter?
+   - Are there ways to increase good outcomes or reduce risks?
+
+5. Structured view:
+   Benefits that seem most relevant: [list 2-3]
+   Risks that warrant consideration: [list 2-3]
+   Factors that might tip the balance: [your key considerations]
+
+Use this as a framework to weigh what matters most in your situation.`
             },
 
             goal: {
                 title: "Goal Clarifier",
-                content: `I'm feeling unclear about what I really want in a situation. Please help me clarify my goals.
+                content: `Let's clarify what you're really aiming for before making decisions.
 
-The area I'm thinking about is: [Describe the area – career, purchase, relationship, etc.]
+1. What area of life or specific situation are you thinking about?
+[Wait for your response]
 
-Please ask me these questions ONE AT A TIME:
+2. Imagine everything goes well:
+   - What would success look like in a few months?
+   - What would you be doing differently?
+   - How would you feel about the situation?
 
-1. What would a PERFECT outcome look like in this situation? (Dream big)
-2. What would a GOOD ENOUGH outcome look like? (Be realistic)
-3. What are you trying to AVOID or prevent?
-4. What's your time frame? (Urgent, next few months, next year?)
-5. Who else is affected by this decision, and what matters to them?
+3. Considering practical realities:
+   - What would be a good enough outcome?
+   - What minimum improvements would make this worthwhile?
+   - What constraints or limitations exist?
 
-After I answer, summarize what seems most important to me. Then suggest 1-2 next steps I could take to move toward that goal.`
+4. What are you hoping to avoid or prevent?
+   - What current problems need addressing?
+   - What concerns do you have about the future?
+   - What lessons from past experiences inform this?
+
+5. Based on our conversation, your priorities appear to be:
+   [Their main priority]
+   [Secondary consideration]
+   [Additional factor that matters]
+
+This clarity can help guide your specific decisions in this area.`
             },
 
             routine: {
                 title: "Routine Change",
-                content: `I'm considering changing a daily habit or routine. Please help me think it through.
+                content: `Let's think through changing a habit or routine in a sustainable way.
 
-The change I'm considering is: [Describe the routine change]
+1. What routine or habit are you considering changing? What's not working currently?
+[Wait for your response]
 
-Please ask me these questions ONE AT A TIME:
+2. What improvements are you hoping for?
+   - What specific outcomes would make this change worthwhile?
+   - How would daily life improve?
+   - What problems would this solve?
 
-1. What specifically is NOT working with my current routine?
-2. What do I hope the new routine will fix or improve?
-3. What's the EASIEST first step I could take to try this change?
-4. What's the biggest obstacle I might face?
-5. How will I know if the new routine is working? (What will I see/feel?)
+3. Practical considerations:
 
-After I answer, help me create a simple 3-day trial plan. What exactly will I do for the next 3 days to test this change?`
+Potential benefits of changing:
+- [How things might improve]
+- [Problems that might be solved]
+- [New possibilities created]
+
+Challenges to anticipate:
+- [What makes change difficult]
+- [Previous experiences with similar changes]
+- [Current constraints]
+
+4. A sustainable approach:
+   - What's the smallest first step you could take?
+   - What existing habits could support this change?
+   - How would you know if the new routine is working?
+
+5. A practical test approach:
+   Try [small first step] for 3-7 days and observe:
+   1. What happens when you try it
+   2. When it's easiest and hardest
+   3. What adjustments might help
+
+All lasting change involves some experimentation. What matters is finding what works for your life.`
             },
 
             boundary: {
                 title: "Relationship Helper",
-                content: `I need to set a boundary or make a decision in a relationship. Please help me navigate this carefully.
+                content: `Let's think through this relationship situation carefully and respectfully.
 
-The situation involves: [Briefly describe the relationship and issue]
+1. Please describe the situation you're considering. What's happening that needs attention?
+[Wait for your response]
 
-Please ask me these questions ONE AT A TIME:
+2. To understand this thoroughly:
 
-1. What specific behavior or situation needs to change?
-2. What have you already tried, and what happened?
-3. What's the IDEAL outcome you hope for?
-4. What's the MINIMUM acceptable outcome for you?
-5. What's your plan if the other person doesn't respond well?
+From your perspective:
+- What matters most to you here?
+- What have you tried so far?
+- What outcomes are you hoping for?
 
-After I answer, help me draft a simple, clear, respectful statement I could use to communicate my boundary. Use my words from the answers above.`
+Considering the other person/people:
+- What might matter to them?
+- How might they see the situation?
+- What might they be hoping for?
+
+3. If you choose to address this, consider:
+   - What needs to be communicated clearly?
+   - What timing and setting would work best?
+   - How can you express your needs while respecting theirs?
+
+4. Different approaches to consider:
+
+Direct conversation:
+- How to share your perspective clearly
+- How to invite their perspective
+- Finding mutually acceptable solutions
+
+Action-based approach:
+- What changes in your actions might influence things
+- What boundaries you could establish through behavior
+- Creating space for natural resolution
+
+Observation and patience:
+- What might happen if you allow more time
+- What you might learn by waiting
+- When might be a better time to address this
+
+5. Key considerations:
+   What's clear: [the main dynamics]
+   What needs decision: [whether/how to proceed]
+   What's within your influence: [your actions and communications]
+
+Remember: You control your actions. Others control their responses. Focus on what you can influence.`
             }
         };
 
@@ -640,7 +735,6 @@ After I answer, help me draft a simple, clear, respectful statement I could use 
         function copyPrompt() {
             const promptText = document.getElementById('promptContent').textContent;
             
-            // FIXED: Better check for valid prompt
             if (!promptText || promptText.trim().length < 20) {
                 alert('Please select a prompt first by clicking on one of the prompt cards above.');
                 return;
@@ -651,7 +745,6 @@ After I answer, help me draft a simple, clear, respectful statement I could use 
                     alert('✓ Prompt copied to clipboard!');
                 })
                 .catch(() => {
-                    // Fallback
                     const textarea = document.createElement('textarea');
                     textarea.value = promptText;
                     document.body.appendChild(textarea);
