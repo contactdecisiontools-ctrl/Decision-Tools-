@@ -7,11 +7,11 @@
     <meta name="description" content="5 free AI decision prompt templates. Copy and paste into ChatGPT, Claude, or any AI assistant. No signup required.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤔</text></svg>">
     <style>
-        /* ===== APOFORA STYLING (EXACT MATCH) ===== */
+        /* ===== VIBRANT COLOR UPDATE ===== */
         :root {
-            --primary: #2c5530;
-            --secondary: #4a7c59;
-            --accent: #8fbc8f;
+            --primary: #2c5530;      /* Dark Green (main brand) */
+            --secondary: #4a7c59;    /* Medium Green */
+            --accent: #6ea880;       /* Brighter green for accents */
             --light: #f8f9fa;
             --dark: #343a40;
             --gray: #6c757d;
@@ -19,6 +19,8 @@
             --card-bg: #ffffff;
             --border: #e1e8ed;
             --card-width: 300px;
+            --border-highlight: #2c5530; /* DARK GREEN for borders */
+            --prompt-bg: #ffffff;        /* WHITE for prompt field */
         }
         
         * {
@@ -42,7 +44,7 @@
             padding: 0 15px;
         }
         
-        /* ===== HERO - MATCH APOFORA ===== */
+        /* ===== HERO - VIBRANT ===== */
         .hero {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
@@ -50,7 +52,7 @@
             text-align: center;
             border-radius: 0 0 10px 10px;
             margin-bottom: 30px;
-            border-bottom: 3px solid var(--primary);
+            border-bottom: 3px solid var(--border-highlight);
         }
         
         .hero h1 {
@@ -76,7 +78,7 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
         
-        /* ===== BUTTONS - MATCH APOFORA ===== */
+        /* ===== BUTTONS - VIBRANT ===== */
         .btn {
             background: white;
             color: var(--primary);
@@ -113,7 +115,7 @@
             color: white;
         }
         
-        /* ===== SECTIONS - MATCH APOFORA ===== */
+        /* ===== SECTIONS ===== */
         .section {
             margin: 30px 0;
             text-align: center;
@@ -124,11 +126,11 @@
             font-size: 1.4rem;
             margin-bottom: 20px;
             padding-bottom: 8px;
-            border-bottom: 2px solid var(--accent);
+            border-bottom: 2px solid var(--border-highlight);
             display: inline-block;
         }
         
-        /* ===== CARD SYSTEM - MATCH APOFORA ===== */
+        /* ===== CARD SYSTEM - DARK GREEN BORDERS ===== */
         .cards-container {
             display: flex;
             flex-wrap: wrap;
@@ -138,14 +140,14 @@
             max-width: 1000px;
         }
         
-        /* ALL CARDS: 300px WIDTH, NATURAL HEIGHT */
+        /* ALL CARDS: DARK GREEN BORDERS */
         .card {
             background: var(--card-bg);
             padding: 20px;
             border-radius: 8px;
             border: 1px solid var(--border);
             font-size: 0.9rem;
-            border-left: 4px solid var(--accent);
+            border-left: 4px solid var(--border-highlight); /* DARK GREEN */
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             transition: all 0.2s;
             width: var(--card-width);
@@ -157,14 +159,15 @@
         .card:hover {
             transform: translateY(-4px);
             box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+            border-left-color: var(--primary);
         }
         
         .card-free {
-            border-left-color: var(--gray);
+            border-left-color: var(--border-highlight); /* DARK GREEN for all */
         }
         
         .card-upgrade {
-            border-left-color: var(--secondary);
+            border-left-color: var(--border-highlight);
             background: #f0f7f0;
         }
         
@@ -176,10 +179,10 @@
             text-align: center;
         }
         
-        /* Card badges - match Apofora */
+        /* Card badges */
         .card-badge {
             display: inline-block;
-            background: var(--secondary);
+            background: var(--border-highlight); /* DARK GREEN */
             color: white;
             padding: 4px 12px;
             border-radius: 12px;
@@ -190,7 +193,7 @@
         }
         
         .card-badge.free {
-            background: var(--gray);
+            background: var(--border-highlight); /* DARK GREEN */
         }
         
         .card-badge.upgrade {
@@ -215,24 +218,25 @@
             content: "✓";
             position: absolute;
             left: 0;
-            color: var(--secondary);
+            color: var(--border-highlight); /* DARK GREEN */
             font-weight: bold;
             font-size: 0.9rem;
         }
         
         .feature-list li.free:before {
-            color: var(--gray);
+            color: var(--border-highlight); /* DARK GREEN */
         }
         
-        /* Prompt display */
+        /* ===== PROMPT DISPLAY - WHITE BACKGROUND ===== */
         .prompt-display {
-            background: var(--card-bg);
+            background: var(--prompt-bg); /* WHITE */
             border-radius: 8px;
             padding: 25px;
             margin: 30px auto;
-            border: 2px dashed var(--accent);
+            border: 2px solid var(--border-highlight); /* DARK GREEN */
             display: none;
             max-width: 800px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
         
         .prompt-display.active {
@@ -243,23 +247,24 @@
             white-space: pre-wrap;
             font-family: 'Courier New', monospace;
             padding: 15px;
-            background: #f8f9fa;
+            background: var(--prompt-bg); /* WHITE */
             border-radius: 4px;
-            border: 1px solid #e9ecef;
+            border: 1px solid var(--border);
             margin: 15px 0;
             max-height: 500px;
             overflow-y: auto;
             font-size: 0.85rem;
             line-height: 1.5;
+            color: var(--dark);
         }
         
-        /* ===== DONATION SECTION - MATCH STYLE ===== */
+        /* ===== DONATION SECTION ===== */
         .donation-section {
             background: #fff9e6;
             padding: 25px;
             border-radius: 8px;
             margin: 30px auto;
-            border: 2px solid var(--accent);
+            border: 2px solid var(--border-highlight); /* DARK GREEN */
             max-width: 800px;
             text-align: center;
         }
@@ -282,18 +287,18 @@
             padding: 15px;
             border-radius: 6px;
             margin: 15px 0;
-            border-left: 3px solid var(--accent);
+            border-left: 3px solid var(--border-highlight); /* DARK GREEN */
             font-size: 0.85rem;
             color: var(--gray);
         }
         
-        /* ===== INTERAC PAYMENT SECTION - IMPROVED ===== */
+        /* ===== INTERAC PAYMENT SECTION ===== */
         .interac-section {
             background: #f0f7f0;
             padding: 25px;
             border-radius: 8px;
             margin: 25px auto;
-            border: 2px solid var(--accent);
+            border: 2px solid var(--border-highlight); /* DARK GREEN */
             max-width: 600px;
             text-align: center;
         }
@@ -317,7 +322,7 @@
             color: var(--dark);
             font-weight: 600;
             text-align: center;
-            border: 2px solid var(--accent);
+            border: 2px solid var(--border-highlight); /* DARK GREEN */
             font-size: 1rem;
             word-break: break-all;
         }
@@ -327,7 +332,7 @@
             padding: 15px;
             border-radius: 6px;
             margin: 15px 0;
-            border-left: 3px solid var(--secondary);
+            border-left: 3px solid var(--border-highlight); /* DARK GREEN */
             text-align: left;
         }
         
@@ -339,7 +344,7 @@
         }
         
         .step-number {
-            background: var(--accent);
+            background: var(--border-highlight); /* DARK GREEN */
             color: white;
             width: 22px;
             height: 22px;
@@ -362,6 +367,7 @@
             margin: 40px auto;
             max-width: 800px;
             text-align: center;
+            border: 2px solid var(--border-highlight); /* DARK GREEN */
         }
         
         .upgrade-title {
@@ -391,7 +397,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        /* ===== MOBILE - MATCH APOFORA ===== */
+        /* ===== MOBILE ===== */
         @media (max-width: 768px) {
             body {
                 padding-top: 50px;
@@ -413,15 +419,15 @@
                 width: 100%;
                 max-width: 350px;
                 border-left: none;
-                border-top: 4px solid var(--accent);
+                border-top: 4px solid var(--border-highlight); /* DARK GREEN */
             }
             
             .card-free {
-                border-top-color: var(--gray);
+                border-top-color: var(--border-highlight);
             }
             
             .card-upgrade {
-                border-top-color: var(--secondary);
+                border-top-color: var(--border-highlight);
             }
             
             .upgrade-features {
@@ -568,7 +574,7 @@
                 </button>
             </form>
             
-            <!-- Improved Interac Section -->
+            <!-- Interac Section -->
             <div class="interac-section">
                 <h3 class="interac-title">🇨🇦 Canadian Interac e-Transfer</h3>
                 <div class="interac-address">
@@ -642,9 +648,7 @@
     </div>
 
     <script>
-        // ===== COMPLETELY REWRITTEN PROMPTS =====
-        // Each prompt now has CLEAR role definition and works correctly
-        
+        // ===== PROMPTS (Unchanged from working version) =====
         const prompts = {
             simpleChoice: {
                 title: "Simple A vs B Choice Template",
