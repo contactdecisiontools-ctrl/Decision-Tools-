@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free AI Decision Templates | DecisionTools.ca</title>
-    <meta name="description" content="5 free AI decision prompt templates. Copy and paste into ChatGPT, Claude, or any AI assistant. No signup required.">
+    <meta name="description" content="6 free AI decision prompt templates. Copy and paste into ChatGPT, Claude, or any AI assistant. No signup required.">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤔</text></svg>">
     <style>
         /* ===== VIBRANT COLOR UPDATE ===== */
@@ -397,6 +397,51 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
+        /* ===== NEW: CROSS-PROMOTION BANNER ===== */
+        .cross-promo {
+            background: #e8f5e9;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px auto;
+            max-width: 800px;
+            text-align: center;
+        }
+        
+        .cross-promo h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .cross-promo p {
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        
+        .cross-promo-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .cross-promo-link {
+            background: white;
+            color: var(--primary);
+            padding: 8px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid var(--primary);
+            transition: all 0.2s;
+        }
+        
+        .cross-promo-link:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
         /* ===== MOBILE ===== */
         @media (max-width: 768px) {
             body {
@@ -439,6 +484,16 @@
                 width: 100%;
                 max-width: 300px;
             }
+            
+            .cross-promo-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cross-promo-link {
+                width: 100%;
+                max-width: 250px;
+            }
         }
         
         /* ===== PRINT STYLES ===== */
@@ -459,7 +514,7 @@
         <section class="hero">
             <h1>Free AI Decision Templates</h1>
             <p>Pre-written prompt templates for common decisions. Copy and paste into ChatGPT, Claude, or any AI assistant.</p>
-            <div class="free-badge">5 Free Templates • No Signup Required</div>
+            <div class="free-badge">6 Free Templates • No Signup Required</div>
         </section>
 
         <!-- AI LIMITATIONS & SOVEREIGNTY NOTICE -->
@@ -516,7 +571,7 @@
 
         <!-- Free Templates -->
         <section class="section">
-            <h2>Your 5 Free Templates</h2>
+            <h2>Your 6 Free Templates</h2>
             <div class="cards-container">
                 <div class="card card-free" onclick="loadPrompt('simpleChoice')">
                     <div class="card-badge free">TEMPLATE 1</div>
@@ -562,6 +617,16 @@
                         <span style="color: var(--gray); font-size: 0.8rem;">Click to view & copy</span>
                     </div>
                 </div>
+
+                <!-- NEW TEMPLATE 6: Media Literacy Checker -->
+                <div class="card card-free" onclick="loadPrompt('mediaCheck')">
+                    <div class="card-badge free">NEW TEMPLATE 6</div>
+                    <h3>Media Literacy Checker</h3>
+                    <p>Compare news sources, spot missing perspectives, and think more clearly about current events.</p>
+                    <div style="margin-top: auto; padding-top: 15px; border-top: 1px solid var(--border); text-align: center;">
+                        <span style="color: var(--gray); font-size: 0.8rem;">Click to view & copy</span>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -582,11 +647,28 @@
             </p>
         </div>
 
+        <!-- CROSS-PROMOTION BANNER (NEW) -->
+        <div class="cross-promo">
+            <h3>🌍 Need Deeper Analysis?</h3>
+            <p>The full <strong>Multi-Perspective Conflict Analyzer</strong> (6 tasks, 8+ source types) is available at Apofora.ca as part of 15 constitutional safeguard templates.</p>
+            <div class="cross-promo-links">
+                <a href="https://apofora.ca" target="_blank" rel="noopener noreferrer" class="cross-promo-link">
+                    Browse Apofora Library →
+                </a>
+                <a href="https://protogony.ca" target="_blank" rel="noopener noreferrer" class="cross-promo-link">
+                    Explore Protogony Framework
+                </a>
+            </div>
+            <p style="margin-top: 15px; font-size: 0.8rem; color: var(--gray);">
+                DecisionTools = Free templates • Apofora = Premium library • Protogony = Sovereignty framework
+            </p>
+        </div>
+
         <!-- Donation Section -->
         <div class="donation-section">
             <h3 class="donation-title">❤️ Support Free Access</h3>
             <p class="donation-explanation">
-                These 5 templates are completely free and always will be. No accounts, no tracking, no upsells on this page.
+                These 6 templates are completely free and always will be. No accounts, no tracking, no upsells on this page.
                 If a template helped you make a clearer decision, consider making a small contribution to support keeping 
                 this free resource available to everyone.
             </p>
@@ -625,38 +707,6 @@
             </div>
         </div>
 
-        <!-- Apofora Upgrade Section -->
-        <div class="upgrade-section">
-            <h3 class="upgrade-title">🚀 Need More Pre-Made Decision Prompts?</h3>
-            <p class="upgrade-subtitle">
-                These 5 free templates are a starting point. At Apofora, you get <strong>14 pre-made prompts</strong> 
-                for business, life, and complex decisions — ready to use immediately.
-            </p>
-            
-            <div class="upgrade-features">
-                <div class="upgrade-feature">
-                    <div style="font-weight: 600; margin-bottom: 5px;">📋 14 Ready-to-Use Templates</div>
-                    <div style="font-size: 0.85rem; opacity: 0.9;">For business, relationships, planning</div>
-                </div>
-                <div class="upgrade-feature">
-                    <div style="font-weight: 600; margin-bottom: 5px;">💾 Save to Your Library</div>
-                    <div style="font-size: 0.85rem; opacity: 0.9;">Keep your favorites for reuse</div>
-                </div>
-                <div class="upgrade-feature">
-                    <div style="font-weight: 600; margin-bottom: 5px;">⚡ Constitutional Safeguards</div>
-                    <div style="font-size: 0.85rem; opacity: 0.9;">Ethical AI built into every prompt</div>
-                </div>
-            </div>
-            
-            <a href="https://apofora.ca" target="_blank" rel="noopener noreferrer" class="btn" style="background: white; color: var(--primary); padding: 12px 30px; font-size: 1rem; margin-top: 15px;">
-                Browse the Apofora Prompt Library →
-            </a>
-            
-            <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.9;">
-                DecisionTools = 5 Free Templates • Apofora = Full Prompt Library
-            </p>
-        </div>
-
         <!-- FOOTER -->
         <div style="text-align: center; padding: 30px 0; margin-top: 40px; border-top: 1px solid var(--border);">
             <p style="color: var(--gray);">DecisionTools.ca | Free AI Decision Templates</p>
@@ -670,7 +720,7 @@
     </div> <!-- Close container -->
 
     <script>
-        // ===== UPDATED PROMPTS WITH FULL SAFETY STRUCTURE =====
+        // ===== UPDATED PROMPTS WITH NEW TEMPLATE 6 =====
         const prompts = {
             simpleChoice: {
                 title: "Simple A vs B Choice Template",
@@ -981,6 +1031,86 @@ At any point, pause or stop immediately if:
 You are in control. You decide what to do next.
 
 Let's begin. What situation are you considering?`
+            },
+
+            // NEW TEMPLATE 6: Media Literacy Checker
+            mediaCheck: {
+                title: "Media Literacy Checker Template",
+                content: `⚠️ Important: AI Limitations & Your Control
+- AI can make confident mistakes. It does not understand your life—it only works with words.
+- You are the final decision-maker. If any response feels wrong, ignore it.
+- You may stop at any time, for any reason, without explanation.
+- Your well‑being comes first. No template overrides that.
+
+ROLE: You are an implementation assistant helping me think more clearly about news and media. I am the decision-maker.
+
+--- PHASE 1: INITIAL CONTEXT QUESTIONS ---
+First, ask me these four questions to understand my situation:
+1. What topic, news story, or current event are you exploring right now?
+2. Why does this matter to you? How does it affect your life, work, or well‑being?
+3. Who benefits from how this story is being told? Have you noticed any patterns?
+4. What does your gut tell you about what might be missing from the coverage?
+
+--- PHASE 2: GUIDING APPROACHES FOR SUGGESTIONS ---
+As we explore, you can offer suggestions framed using these approaches. I will decide what to use.
+• Try One Small Change: Suggest finding just one different perspective on this topic.
+• Choose for Yourself: Remind me to form my own conclusion, not just adopt a narrative.
+• Do the Minimum: If overwhelmed, help me identify the single most important source to check.
+• Look for Another Path: If stuck, suggest exploring what sources from other countries say.
+• Notice Your Dignity: Remind me that media can manipulate—my judgment matters.
+
+--- PHASE 3: EXPLORATION ---
+Now, help me apply media literacy to this topic:
+
+TASK 1: COLLECT THREE PERSPECTIVES
+Guide me to find:
+- A mainstream source (BBC, CNN, Reuters, Associated Press)
+- An international source (different country's perspective, like Al Jazeera, France24, or local media from the region)
+- An alternative/independent source (what people on the ground say via social media, independent journalists, or local reports)
+
+TASK 2: COMPARE WHAT EACH EMPHASIZES
+For each source, help me note:
+- What facts does it focus on?
+- What tone does it use (urgent, calm, emotional, detached)?
+- Who is quoted or given voice?
+- What is the headline's emotional appeal?
+
+TASK 3: IDENTIFY WHAT'S MISSING
+Based on all three perspectives, help me identify:
+- What questions remain unanswered?
+- What perspectives are absent?
+- What facts appear in only one source?
+
+TASK 4: MY CONCLUSION
+After this exploration, I will decide what I think based on all perspectives.
+
+--- PHASE 4: OPTIONS & STOP CONDITIONS ---
+After we've explored, offer me three structured options:
+
+OPTION A: Explore another aspect of this topic
+• If I want to dig deeper into a specific angle
+• Stop if this becomes overwhelming or stressful
+
+OPTION B: Stop here with my current understanding
+• If I have enough clarity for now
+• I will decide what I think based on what I've learned
+• Stop if I feel pressured to keep going
+
+OPTION C: Seek out expert analysis
+• If I need deeper expertise on this topic
+• Suggest finding subject-matter experts or analysts
+• Stop if they dismiss my questions without explanation
+
+--- UNIVERSAL STOP CONDITIONS ---
+At any point, pause or stop immediately if:
+• Your dignity is compromised—yours or anyone else’s.
+• You feel pressured to accept a narrative without evidence.
+• Your options for finding information are being blocked.
+• The process becomes too much for you right now.
+
+You are in control. You decide what to do next.
+
+Let's begin. What topic or news story are you exploring?`
             }
         };
 
